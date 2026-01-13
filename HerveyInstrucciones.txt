@@ -1,0 +1,15 @@
+1. Mejorar las visuales y visibilidad de la app
+2. Implementar un sistema que permita generar horarios en base al archivo "sample_schedule.json"
+3. Generar un nuevo apartado llamado "Pit Scouting"
+3.1. Este apartado debe de tener secciones "Mech, Progra, Team"
+3.2. Dentro de cada sección debe de haber un questionario. (por el momento pon preguntas random, luego las pondremos bien.)
+
+
+
+NOTAS IMPORTANTES:
+npm run dev          -> Comando para correr el servidor en un navegador
+npm build            -> Comando para poder constuir la aplicación
+
+git add -A
+git commit -m "Una nota importante de los cambios que hiciste"
+git push
