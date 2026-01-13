@@ -1,0 +1,195 @@
+{
+  "PREMATCH": [
+    {
+      "label": "Scouter Name",
+      "key": "scouter_name",
+      "type": "text"
+    },
+    {
+      "label": "Match Number",
+      "key": "match_number",
+      "type": "number"
+    },
+    {
+      "label": "Robot Position",
+      "key": "robot_position",
+      "type": "dropdown",
+      "options": ["Blue 1", "Blue 2", "Blue 3", "Red 1", "Red 2", "Red 3"]
+    },
+    {
+      "label": "Future Alliance in Quals",
+      "key": "future_alliance",
+      "type": "switch"
+    },
+    {
+      "label": "Team Number",
+      "key": "team_number",
+      "type": "number"
+    },
+    {
+      "label": "Starting Position",
+      "key": "starting_position",
+      "type": "dropdown",
+      "options": ["Outpost Side", "Middle", "Depot Side"]
+    },
+    {
+      "label": "No Show",
+      "key": "no_show",
+      "type": "switch"
+    }
+  ],
+  "AUTONOMOUS": [
+    {
+      "label": "Moved",
+      "key": "auto_moved",
+      "type": "switch"
+    },
+    {
+      "label": "8 Fuel Auto",
+      "key": "auto_8_fuel",
+      "type": "switch"
+    },
+    {
+      "label": "Missed Counter",
+      "key": "auto_missed",
+      "type": "counter"
+    },
+    {
+      "label": "Crossed into Neutral Zone",
+      "key": "auto_neutral_zone",
+      "type": "switch"
+    },
+    {
+      "label": "Cycle Type",
+      "key": "auto_cycle_type",
+      "type": "dropdown",
+      "options": ["Outpost", "Depot", "Neutral", "All", "None"]
+    },
+    {
+      "label": "HP Scored",
+      "key": "auto_hp_scored",
+      "type": "counter"
+    },
+    {
+      "label": "Climbs",
+      "key": "auto_climbs",
+      "type": "switch"
+    },
+    {
+      "label": "Climb Position",
+      "key": "auto_climb_position",
+      "type": "dropdown",
+      "options": ["Left", "Middle", "Right", "N/A"]
+    },
+    {
+      "label": "Descends",
+      "key": "auto_descends",
+      "type": "switch"
+    },
+    {
+      "label": "Crosses Bump",
+      "key": "auto_crosses_bump",
+      "type": "switch"
+    },
+    {
+      "label": "Crosses Trench",
+      "key": "auto_crosses_trench",
+      "type": "switch"
+    }
+  ],
+  "TELEOP": [
+    {
+      "label": "Storage Capability",
+      "key": "teleop_storage",
+      "type": "dropdown",
+      "options": ["Tons", "Many", "Some", "Few", "One"]
+    },
+    {
+      "label": "Shoot Capability",
+      "key": "teleop_shoot",
+      "type": "dropdown",
+      "options": ["All", "Many", "Some", "Few", "None"]
+    },
+    {
+      "label": "Missed Counter",
+      "key": "teleop_missed",
+      "type": "counter"
+    },
+    {
+      "label": "Crossed into Neutral Zone",
+      "key": "teleop_neutral_zone",
+      "type": "switch"
+    },
+    {
+      "label": "Cycle Type",
+      "key": "teleop_cycle_type",
+      "type": "dropdown",
+      "options": ["Outpost", "Depot", "Neutral", "All", "None"]
+    },
+    {
+      "label": "Field Movement Type",
+      "key": "teleop_field_movement",
+      "type": "dropdown",
+      "options": ["Bump", "Trench", "All", "None"]
+    },
+    {
+      "label": "Played Defense Own Field",
+      "key": "teleop_defense_own",
+      "type": "switch"
+    },
+    {
+      "label": "Played Attack Opposing Field",
+      "key": "teleop_attack_opposing",
+      "type": "switch"
+    },
+    {
+      "label": "HP Scored",
+      "key": "teleop_hp_scored",
+      "type": "counter"
+    },
+    {
+      "label": "Touched Opposing Tower",
+      "key": "teleop_touched_tower",
+      "type": "counter"
+    },
+    {
+      "label": "Touched Opposing Hub",
+      "key": "teleop_touched_hub",
+      "type": "counter"
+    },
+    {
+      "label": "Died",
+      "key": "teleop_died",
+      "type": "switch"
+    }
+  ],
+  "ENDGAME": [
+    {
+      "label": "Climb",
+      "key": "endgame_climb",
+      "type": "dropdown",
+      "options": ["Didn't Climb", "L1", "L2", "L3", "Failed Climb Attempt"]
+    },
+    {
+      "label": "Broke",
+      "key": "endgame_broke",
+      "type": "switch"
+    },
+    {
+      "label": "Tipped/Fell Over",
+      "key": "endgame_tipped",
+      "type": "switch"
+    },
+    {
+      "label": "Card",
+      "key": "endgame_card",
+      "type": "dropdown",
+      "options": ["None", "Yellow Card", "Red Card"]
+    },
+    {
+      "label": "Drove over balls",
+      "key": "endgame_drove_over_balls",
+      "type": "switch"
+    }
+  ]
+}

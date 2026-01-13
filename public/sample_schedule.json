@@ -1,0 +1,63 @@
+{
+    "Event": [
+        {
+            "local_label": "Regional MTY 2026",
+            "TBA_label": "2025mxmo"
+        }
+    ],
+
+    "Format": [
+        {
+            "MatchNumber": "MatchNumber", 
+            "LeadScouter": "LeadScouter", 
+            "ScouterName": "ScouterName", 
+            "RobotPosition": "RobotPosition",
+            "Roles": ["Camara", "Scouter", "Lead Scouter"]
+        }
+    ], 
+
+    "EventConfiguration": [
+        {
+            "AmountOfTeams": 60,
+            "MatchesPerTeam": 8,
+            "TotalMatches": 72,
+            "TeamsPerMatch": 6,
+            "AllianceBlue": "Blue",
+            "AllianceRed": "Red"
+        }
+    ],
+
+    "LeadScouters": [
+        {
+            "LS_1_Name": "Marco Lopez",
+            "LS_2_Name": "Ana Garcia", 
+            "LS_3_Name": "Luis Hernandez"
+        }
+    ],
+
+    "Scouters": [
+        {
+            "S_1_Name": "Juan Lopez",
+            "S_2_Name": "Juana Garcia", 
+            "S_3_Name": "Hermeregildo Hernandez",
+            "S_4_Name": "Ignacio Lopez",
+            "S_5_Name": "Lupillo Garcia", 
+            "S_6_Name": "Tenorio Hernandez",
+            "S_7_Name": "Hilda Lopez",
+            "S_8_Name": "Lorenzo Garcia", 
+            "S_9_Name": "Torombolo Hernandez",
+            "S_10_Name": "Hilda Lopez",
+            "S_11_Name": "Lorenzo Garcia", 
+            "S_12_Name": "Torombolo Hernandez"
+        }
+    ],
+
+    "Camara": [
+        {
+            "Camara_1_Name": "Pedro Jimenez",
+            "Camara_2_Name": "Claudia Sheinbaum", 
+            "Camara_3_Name": "Mark Carney"
+        }
+    ]
+
+}

@@ -1,0 +1,569 @@
+================================================================================
+                  OVERTURE REBUILTQR SCOUTING APP - MVP SPECIFICATION
+================================================================================
+
+PROJECT TYPE: FIRST Robotics Competition (FRC) Scouting Application
+TARGET USERS: FRC teams collecting match performance data during competitions
+CORE PURPOSE: Record robot performance data, generate QR codes for data transfer
+
+================================================================================
+1. APPLICATION OVERVIEW
+================================================================================
+
+This is a data collection tool designed for FRC competitions that enables scouts
+to quickly record robot performance metrics during matches and output the data
+as scannable QR codes. The app streamlines the scouting workflow by providing:
+
+- Structured data entry forms matching FRC match phases
+- Schedule management with auto-fill capabilities
+- QR code generation for offline data transfer
+- Optional Firebase integration for centralized data storage
+- YouTube video integration for accurate data review
+- Customizable forms via JSON configuration
+
+================================================================================
+2. CORE FEATURES
+================================================================================
+
+2.1 CROSS-PLATFORM SUPPORT
+---------------------------
+- Runs on: Web
+- Dark theme optimized for low-light competition environments
+- Responsive layout (single column on mobile, dual column on wide screens)
+- Purple accent color (#deepPurpleAccent) for brand identity
+
+2.2 STRUCTURED MATCH DATA ENTRY
+--------------------------------
+Four-phase data collection matching FRC match structure:
+
+PHASE 1: PREMATCH (Pre-match setup and identification)
+  - Scouter Name
+  - Match Number
+  - Robot Position (Blue 1/2/3 or Red 1/2/3)
+  - Future Alliance in Quals (yes/no)
+  - Team Number
+  - Starting Position (Outpost Side/Middle/Depot Side)
+  - No Show (yes/no)
+
+PHASE 2: AUTONOMOUS (15-second autonomous period)
+  - Moved (yes/no)
+  - 8 Fuel Auto (yes/no)
+  - Missed Counter (numeric counter)
+  - Crossed into Neutral Zone (yes/no)
+  - Cycle Type (Outpost/Depot/Neutral/All/None)
+  - HP Scored (counter)
+  - Climbs (yes/no)
+  - Climb Position (Left/Middle/Right)
+  - Descends (yes/no)
+  - Crosses Bump (yes/no)
+  - Crosses Trench (yes/no)
+
+PHASE 3: TELEOP (Teleoperated period)
+  - Storage Capability (Tons/Many/Some/Few/One)
+  - Shoot Capability (All/Many/Some/Few/None)
+  - Missed Counter (numeric counter)
+  - Crossed into Neutral Zone (yes/no)
+  - Cycle Type (dropdown)
+  - Field Movement Type (Bump/Trench/All/None)
+  - Played Defense Own Field (yes/no)
+  - Played Attack Opposing Field (yes/no)
+  - HP Scored (counter)
+  - Touched Opposing Tower (counter)
+  - Touched Opposing Hub (counter)
+  - Died (yes/no)
+
+PHASE 4: ENDGAME (End-game and match conclusion)
+  - Climb (Didn't Climb/L1/L2/L3/Failed Climb Attempt)
+  - Broke (yes/no)
+  - Tipped/Fell Over (yes/no)
+  - Card (None/Yellow Card/Red Card)
+  - Drove over balls (yes/no)
+
+2.3 FIELD TYPES AND INTERACTIONS
+---------------------------------
+TEXT FIELDS:
+  - Large gradient-styled input boxes
+  - Direct keyboard input
+  - Purple accent when focused
+
+NUMBER FIELDS:
+  - Numeric keyboard input
+  - Bold labels for visibility
+  - Input validation
+
+DROPDOWN FIELDS:
+  - Predefined option selection
+  - Purple arrow icon indicator
+  - Prominent current selection display
+
+SWITCH FIELDS:
+  - Toggle on/off with visual feedback
+  - Purple accent when active
+  - Clear label descriptions
+
+COUNTER FIELDS:
+  - Large numeric display
+  - Red (-) button to decrement
+  - Green (+) button to increment
+  - Gradient effects on buttons
+  - Decrement disabled at zero
+
+2.4 SCHEDULE MANAGEMENT SYSTEM
+-------------------------------
+Features:
+  - Load team schedules from .txt files
+  - Auto-populate: scouter name, match number, position, team number
+  - Default schedule loads automatically on startup
+  - Switch between assigned matches via dropdown
+  - Event name display with icon
+  - Selected scouter ID display
+
+Schedule File Format:
+  Event: [Event Name]
+  [ScouterID], [Match Number], [Position], [Team Number]
+
+  Example:
+  Event: Overture Open 2025
+  ANA, 1, Blue 1, 1234
+  LEO, 1, Blue 2, 4321
+
+  - Supports commas, tabs, or multiple spaces as separators
+  - Comment lines with # prefix
+  - Case-insensitive position names
+
+2.5 DATA OUTPUT OPTIONS
+------------------------
+PRIMARY: QR CODE GENERATION
+  - Generates scannable QR with tab-separated values
+  - Medium error correction level for reliability
+  - Displays in modal dialog after data commit
+  - Offline-compatible data transfer method
+
+SECONDARY: COPY INFO
+  - Copies raw tab-separated data string to clipboard
+  - Direct paste into spreadsheets
+  - Fallback if QR scanning unavailable
+
+TERTIARY: COPY COLUMNS
+  - Copies CSV column headers
+  - Sets up spreadsheet structure
+  - One-time setup aid
+
+
+2.7 YOUTUBE VIDEO INTEGRATION
+------------------------------
+Features:
+  - Load match videos via YouTube URL
+  - Embedded 16:9 video player
+  - Remains visible while scrolling through tabs
+  - Controls: load new video, close video
+  - Video ID display
+  - Responsive height (max 40% of screen height)
+
+Purpose: Review close calls for accurate data entry
+
+2.8 CUSTOM CONFIGURATION
+-------------------------
+Features:
+  - Load custom JSON config files
+  - Changes form fields dynamically
+  - No code modifications needed
+  - Adapts to different FRC games
+
+Supported field types in config:
+  - text (text input)
+  - number (numeric input)
+  - dropdown (predefined options)
+  - switch (boolean toggle)
+  - counter (increment/decrement)
+
+================================================================================
+3. USER INTERFACE STRUCTURE
+================================================================================
+
+3.1 MAIN SCREEN LAYOUT
+-----------------------
+TOP APP BAR:
+  - Title: "Overture RebuiltQR" with gradient styling
+  - Action Icons (right side):
+    * YouTube Video Icon (load match video)
+    * Upload Schedule Icon (load scouting schedule)
+    * Badge Icon (select scouter ID)
+    * Folder Icon (load custom config)
+
+TAB NAVIGATION:
+  - Four tabs: PREMATCH, AUTONOMOUS, TELEOP, ENDGAME
+  - Swipe or tap to switch
+  - Purple indicator for active tab
+
+FORM CONTENT AREA:
+  - Single column on mobile (<800px width)
+  - Two columns on wide screens (>800px width)
+  - Generous spacing to prevent mis-taps
+  - Large, bold text for readability
+
+SCHEDULE HEADER CARD (PREMATCH only):
+  - Event name with icon
+  - Selected scouter ID
+  - Match selection dropdown
+  - Auto-fill info badge
+
+YOUTUBE VIDEO CARD (when loaded):
+  - Appears at top of screen
+  - Video player with controls
+  - Persistent across tab navigation
+  - Close button
+
+NAVIGATION BUTTONS (bottom of each tab):
+  - "NEXT PERIOD" button (PREMATCH, AUTONOMOUS, TELEOP)
+    * Large purple gradient button
+    * Forward arrow icon
+    * Advances to next tab
+
+  - "COMMIT DATA" button (ENDGAME)
+    * Primary action button (larger, gradient)
+    * Generates QR code
+    * Sends to Firebase if enabled
+
+  - "RESET FORM" button (ENDGAME)
+    * Secondary action button (outlined)
+    * Clears all fields except scouter info
+    * Increments match number
+    * Ready for next match
+
+3.2 VISUAL DESIGN PRINCIPLES
+-----------------------------
+- Dark theme (reduces eye strain in competition venues)
+- Purple accent color (brand identity)
+- Gradient effects (modern appearance)
+- Large, bold text (quick readability during matches)
+- Generous spacing (prevents mis-taps on mobile devices)
+
+================================================================================
+4. USER WORKFLOWS
+================================================================================
+
+4.1 FIRST-TIME SETUP FLOW
+--------------------------
+1. App launches → Loading screen with purple QR icon
+2. Auto-loads default schedule from sample_schedule.txt
+3. Prompts user to enter/select Scouter ID
+4. Shows assigned matches for that scouter
+5. Auto-fills PREMATCH fields
+6. User ready to start scouting
+
+4.2 BASIC SCOUTING WORKFLOW
+----------------------------
+Step 1: PREMATCH TAB
+  - Verify/enter pre-match information
+  - Fields auto-populated if using schedule
+  - Manually enter if no schedule loaded
+  - Tap "NEXT PERIOD"
+
+Step 2: AUTONOMOUS TAB
+  - Record autonomous period actions
+  - Toggle switches for yes/no actions
+  - Use counters for scoring
+  - Select from dropdowns for positions/types
+  - Tap "NEXT PERIOD"
+
+Step 3: TELEOP TAB
+  - Record teleoperated period
+  - Use capability dropdowns for qualitative assessments
+  - Track scoring with counters
+  - Note defense/attack behavior
+  - Track penalties and failures
+  - Tap "NEXT PERIOD"
+
+Step 4: ENDGAME TAB
+  - Record end-game results
+  - Select climb level
+  - Note any breakdowns or penalties
+  - Tap "COMMIT DATA"
+
+Step 5: QR CODE DIALOG
+  Options:
+  - Scan QR Code (use QR scanner app)
+  - Copy Info (copy tab-separated data)
+  - Copy Columns (copy CSV headers)
+  - Close (exit dialog)
+
+Step 6: RESET FOR NEXT MATCH
+  - Tap "RESET FORM"
+  - Match number auto-increments
+  - Scouter info preserved
+  - All other fields cleared
+
+4.3 SCHEDULE-BASED WORKFLOW
+----------------------------
+1. Tap upload icon → Select .txt schedule file
+2. Enter Scouter ID (or select from dropdown)
+3. View assigned matches in dropdown
+4. Select match from dropdown
+5. Form auto-fills: scouter, match, position, team
+6. Scout the match as normal
+7. After commit, select next match from dropdown
+8. Repeat
+
+4.4 VIDEO REVIEW WORKFLOW
+--------------------------
+1. Tap video icon in app bar
+2. Enter YouTube URL in dialog
+3. Video loads at top of screen
+4. Video remains visible while scrolling through tabs
+5. Pause, replay, or load different video as needed
+6. Close video with X icon when done
+
+4.5 CUSTOM CONFIGURATION WORKFLOW
+----------------------------------
+1. Tap folder icon → Select custom .json config file
+2. App reloads with new field definitions
+3. Form structure changes based on config
+4. Scout using new fields
+5. QR code/data output matches new structure
+
+================================================================================
+5. DATA STRUCTURES
+================================================================================
+
+5.1 CONFIG.JSON STRUCTURE
+--------------------------
+Top-level sections: PREMATCH, AUTONOMOUS, TELEOP, ENDGAME
+
+Each section contains array of field objects:
+{
+  "PREMATCH": [
+    {
+      "label": "[Field Label]",
+      "key": "[data_key]",
+      "type": "[text|number|dropdown|switch|counter]",
+      "options": ["option1", "option2"] // for dropdowns only
+    }
+  ]
+}
+
+Field types and their properties:
+  - text: Free text input
+  - number: Numeric input with number keyboard
+  - dropdown: Selection from predefined options array
+  - switch: Boolean toggle (yes/no)
+  - counter: Numeric with increment/decrement buttons
+
+5.2 SCHEDULE FILE STRUCTURE
+----------------------------
+Format:
+  Event: [Event Name]
+  [ScouterID], [Match Number], [Position], [Team Number]
+  [ScouterID], [Match Number], [Position], [Team Number]
+  ...
+
+Flexible parsing:
+  - Separators: commas, tabs, or multiple spaces
+  - Comments: lines starting with #
+  - Case-insensitive positions
+
+5.3 DATA OUTPUT FORMAT
+----------------------
+QR Code / Copy Info format: Tab-separated values
+
+Order matches config.json field order:
+  [Scouter]\t[Match]\t[Position]\t[Team]\t[Field1]\t[Field2]...\t[FieldN]
+
+Example:
+  Ana\t15\tBlue 1\t1234\tYes\t3\tOutpost\tL2\tNo\t...
+
+Copy Columns format: CSV headers
+  Scouter,Match,Position,Team,Field1,Field2,...,FieldN
+
+================================================================================
+6. KEY USABILITY FEATURES
+================================================================================
+
+6.1 AUTO-FILL FROM SCHEDULES
+-----------------------------
+- Reduces manual entry errors
+- Speeds up workflow between matches
+- Ensures consistent scouter identification
+- Pre-loads team numbers for accuracy
+
+6.2 TAB-BASED PHASES
+---------------------
+- Matches natural flow of FRC matches
+- Prevents overwhelming single-screen forms
+- Allows focus on current match phase
+- Clear progression through workflow
+
+6.3 COUNTER BUTTONS
+-------------------
+- Faster than typing numbers
+- Reduces errors during fast-paced matches
+- Large touch targets for mobile use
+- Visual feedback on each press
+
+6.4 PERSISTENT SCOUTER INFO
+----------------------------
+- Don't re-enter between matches
+- Maintains scout accountability
+- Preserves after form reset
+- Only entered once per session
+
+6.5 MATCH NUMBER INCREMENT
+---------------------------
+- Automatic progression through matches
+- Can be overridden if needed
+- Reduces manual tracking
+- Follows sequential match order
+
+6.6 RESPONSIVE LAYOUT
+---------------------
+- Works on phones (single column)
+- Works on tablets (dual column)
+- Works on desktops (dual column)
+- Adapts to any screen size
+
+6.7 DATA INTEGRITY FEATURES
+----------------------------
+- Structured entry prevents formatting errors
+- Dropdown constraints ensure valid values
+- QR medium-error correction for scan reliability
+- Firebase backup prevents data loss
+- Tab-separated format for easy parsing
+
+================================================================================
+7. PRACTICAL USE CASE
+================================================================================
+
+TOURNAMENT DAY SCENARIO:
+
+SETUP (Before Competition):
+  - Team creates schedule with scouter assignments
+  - Scouts install app on their devices
+  - Team loads custom config if needed for specific game
+  - Firebase database configured for centralized data collection
+
+DURING MATCHES:
+  - Scout receives assignment: "Blue 1, Match 15, Team 1234"
+  - Opens app, selects match from schedule
+  - Watches robot during autonomous period
+  - Quickly taps switches and counters to record actions
+  - Advances through tabs following match flow
+  - Uses YouTube integration to review close calls if needed
+  - Commits data → QR code appears
+  - Team member scans QR into main database
+
+BETWEEN MATCHES:
+  - Resets form (preserves scouter ID)
+  - Selects next assigned match from dropdown
+  - Form auto-fills with new match data
+  - Repeats scouting process
+
+DATA ANALYSIS (After Competition):
+  - All QR codes scanned into spreadsheet
+  - Or Firebase database aggregates all scout data automatically
+  - Team analyzes robot performance across matches
+  - Makes strategic decisions for alliance selection
+  - Identifies top-performing robots
+  - Avoids unreliable robots
+
+================================================================================
+8. APP STRENGTHS
+================================================================================
+
+SPEED:
+  - Optimized for fast data entry during short (2.5 minute) matches
+  - Counter buttons faster than typing
+  - Tab navigation keeps focus
+  - Auto-fill reduces manual entry
+  - Large touch targets prevent mis-taps
+
+FLEXIBILITY:
+  - JSON-driven configuration adapts to any FRC game
+  - Custom fields without code changes
+  - Works with or without schedules
+  - Optional Firebase integration
+  - Cross-platform compatibility
+
+RELIABILITY:
+  - QR codes work completely offline
+  - Firebase provides automatic backup
+  - Medium error correction on QR codes
+  - Structured data prevents format errors
+  - Dark theme reduces eye strain over long days
+
+USABILITY:
+  - Dark theme for competition environments
+  - Large controls for mobile use
+  - Logical flow matching FRC match structure
+  - Clear visual feedback on all interactions
+  - Responsive design for any device
+
+OFFLINE-FIRST:
+  - Works without internet connection
+  - QR codes can be scanned later
+  - Firebase sync is optional enhancement
+  - No dependency on network availability
+
+================================================================================
+9. TARGET USERS
+================================================================================
+
+PRIMARY: FRC Teams (FIRST Robotics Competition)
+  - High school robotics teams (ages 14-18)
+  - Mentors and adult volunteers
+  - Teams competing in regional/district/championship events
+  - Teams wanting data-driven competitive strategy
+
+SECONDARY: Competition Scouts
+  - Students assigned to watch specific robots
+  - Need fast, structured data entry
+  - Working in noisy, crowded competition venues
+  - Often working on mobile devices
+
+TERTIARY: Data Analysts
+  - Team members analyzing scouting data
+  - Need consistent, parseable data format
+  - Use QR codes or Firebase to collect data
+  - Make strategic decisions based on data
+
+================================================================================
+10. MVP SUMMARY
+================================================================================
+
+WHAT THIS APP DOES:
+  A specialized data collection tool for FIRST Robotics Competition teams that
+  provides a structured, user-friendly interface for recording detailed robot
+  performance data during matches, then outputs that data in QR code format
+  (or to Firebase) for analysis.
+
+CORE VALUE PROPOSITION:
+  Streamlines the scouting process with schedule management, auto-fill, YouTube
+  video integration, and customizable forms - enabling teams to make data-driven
+  strategic decisions during competitions.
+
+ESSENTIAL FEATURES FOR MVP:
+  1. Four-phase structured data entry (PREMATCH, AUTO, TELEOP, ENDGAME)
+  2. Multiple field types (text, number, dropdown, switch, counter)
+  3. QR code generation with tab-separated data output
+  4. Schedule file loading with auto-fill capability
+  5. Form reset with scouter info persistence
+  6. Dark theme with purple accents
+  7. Responsive layout (mobile and desktop)
+  8. JSON-based configuration for field customization
+
+OPTIONAL ENHANCEMENTS:
+  - Firebase Realtime Database integration
+  - YouTube video integration
+  - Custom config file loading
+  - Copy to clipboard functions
+  - Match number auto-increment
+
+COMPETITIVE ADVANTAGE:
+  - Configuration-driven (adapts to any FRC game without code changes)
+  - Offline-first (QR codes work anywhere)
+  - Cross-platform (works on any device)
+  - User-friendly (optimized for speed and ease of use)
+  - Flexible (works with or without schedules/Firebase/videos)
+
+================================================================================
+END OF MVP SPECIFICATION
+================================================================================
