@@ -1,0 +1,151 @@
+{
+  "PREMATCH": [
+    {
+      "label": "Scouter Name",
+      "key": "scouter_name",
+      "type": "text"
+    },
+    {
+      "label": "Match Number",
+      "key": "match_number",
+      "type": "number"
+    },
+    {
+      "label": "Robot Position",
+      "key": "robot_position",
+      "type": "dropdown",
+      "options": ["Blue 1", "Blue 2", "Red 1", "Red 2"]
+    },
+    {
+      "label": "Team Number",
+      "key": "team_number",
+      "type": "number"
+    },
+    {
+      "label": "Starting Side (Relative)",
+      "key": "starting_side",
+      "type": "dropdown",
+      "options": ["Goal Side", "Obelisk Side", "Center", "Unknown"]
+    },
+    {
+      "label": "No Show",
+      "key": "no_show",
+      "type": "switch"
+    }
+  ],
+  "AUTONOMOUS": [
+    {
+      "label": "Left Launch Line (LEAVE)",
+      "key": "auto_leave",
+      "type": "switch"
+    },
+    {
+      "label": "Artifacts Scored (CLASSIFIED)",
+      "key": "auto_artifact_classified",
+      "type": "counter"
+    },
+    {
+      "label": "Artifacts Scored (OVERFLOW)",
+      "key": "auto_artifact_overflow",
+      "type": "counter"
+    },
+    {
+      "label": "Artifacts Placed in Depot (your estimate)",
+      "key": "auto_depot_placed",
+      "type": "counter"
+    },
+    {
+      "label": "Pattern Matches at End of Auto (0-9)",
+      "key": "auto_pattern_matches",
+      "type": "counter"
+    },
+    {
+      "label": "Auto Strategy",
+      "key": "auto_strategy",
+      "type": "dropdown",
+      "options": ["Score Goal", "Build Pattern", "Depot Focus", "Mixed", "None/Dead"]
+    },
+    {
+      "label": "Died/Stopped Moving in Auto",
+      "key": "auto_died",
+      "type": "switch"
+    }
+  ],
+  "TELEOP": [
+    {
+      "label": "Artifacts Scored (CLASSIFIED)",
+      "key": "teleop_artifact_classified",
+      "type": "counter"
+    },
+    {
+      "label": "Artifacts Scored (OVERFLOW)",
+      "key": "teleop_artifact_overflow",
+      "type": "counter"
+    },
+    {
+      "label": "Artifacts Placed in Depot (your estimate)",
+      "key": "teleop_depot_placed",
+      "type": "counter"
+    },
+    {
+      "label": "Pattern Matches at End of Match (0-9)",
+      "key": "teleop_pattern_matches",
+      "type": "counter"
+    },
+    {
+      "label": "Cycle Focus",
+      "key": "teleop_cycle_focus",
+      "type": "dropdown",
+      "options": ["Goal Scoring", "Pattern Building", "Depot", "Mixed", "None"]
+    },
+    {
+      "label": "Played Defense",
+      "key": "teleop_defense",
+      "type": "switch"
+    },
+    {
+      "label": "Was Defended Heavily",
+      "key": "teleop_got_defended",
+      "type": "switch"
+    },
+    {
+      "label": "Died/Stopped Moving in Teleop",
+      "key": "teleop_died",
+      "type": "switch"
+    }
+  ],
+  "ENDGAME": [
+    {
+      "label": "Returned to Base",
+      "key": "endgame_base_return",
+      "type": "dropdown",
+      "options": ["Not Returned", "Partially Returned", "Fully Returned"]
+    },
+    {
+      "label": "Attempted Base Return (even if failed)",
+      "key": "endgame_attempted_return",
+      "type": "switch"
+    },
+    {
+      "label": "Tipped/Fell Over",
+      "key": "endgame_tipped",
+      "type": "switch"
+    },
+    {
+      "label": "Broke / Major Failure",
+      "key": "endgame_broke",
+      "type": "switch"
+    },
+    {
+      "label": "Card",
+      "key": "endgame_card",
+      "type": "dropdown",
+      "options": ["None", "Yellow Card", "Red Card"]
+    },
+    {
+      "label": "Notes",
+      "key": "endgame_notes",
+      "type": "text"
+    }
+  ]
+}

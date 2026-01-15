@@ -14,12 +14,17 @@ import {
 
 type TabType = Phase;
 
+type RoboticsProgram = 'FTC' | 'FRC' | 'custom';
+
 function App() {
   const [config, setConfig] = useState<Config | null>(null);
   const [formData, setFormData] = useState<FormData>({});
   const [activeTab, setActiveTab] = useState<TabType>('PREMATCH');
   const [qrModalOpen, setQrModalOpen] = useState(false);
   const [selectedScouterId, setSelectedScouterId] = useState<string>('');
+  const [selectedProgram, setSelectedProgram] = useState<RoboticsProgram>('FTC');
+  const [availablePrograms, setAvailablePrograms] = useState<RoboticsProgram[]>(['FTC']);
+  const [isLoadingConfig, setIsLoadingConfig] = useState(true);
 
   // Schedule configuration state
   const [scheduleConfigModalOpen, setScheduleConfigModalOpen] = useState(false);
@@ -32,10 +37,17 @@ function App() {
     turn.assignments.map(a => ({ ...a, turn: turn.turn }))
   );
 
-  // Load config on startup
+  // Check available programs and load config on startup
   useEffect(() => {
-    loadConfig();
+    initializeApp();
   }, []);
+
+  // Load config when program changes (only after initial load)
+  useEffect(() => {
+    if (!isLoadingConfig && selectedProgram) {
+      loadConfigForProgram(selectedProgram);
+    }
+  }, [selectedProgram, isLoadingConfig]);
 
   // Update turn assignments when generated schedule or scouter changes
   useEffect(() => {
@@ -54,14 +66,51 @@ function App() {
     }
   }, [generatedSchedule, selectedScouterId]);
 
-  const loadConfig = async () => {
+  const initializeApp = async () => {
     try {
-      const response = await fetch('/config.json');
+      const programs: RoboticsProgram[] = [];
+      
+      // Check which config files are available
+      const ftcResponse = await fetch('/configFTC.json');
+      const frcResponse = await fetch('/configFRC.json');
+      
+      if (ftcResponse.ok) programs.push('FTC');
+      if (frcResponse.ok) programs.push('FRC');
+      
+      setAvailablePrograms(programs);
+      
+      // Load the first available program (prefer FTC if available)
+      const programToLoad = programs.includes('FTC') ? 'FTC' : programs[0];
+      
+      if (programToLoad) {
+        // Load config directly without updating selectedProgram yet
+        await loadConfigForProgram(programToLoad);
+        setSelectedProgram(programToLoad);
+      }
+    } catch (error) {
+      console.error('Error initializing app:', error);
+    } finally {
+      setIsLoadingConfig(false);
+    }
+  };
+
+  const loadConfigForProgram = async (program: RoboticsProgram) => {
+    try {
+      let url = '/configFTC.json';
+      
+      if (program === 'FRC') {
+        url = '/configFRC.json';
+      }
+      
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`Failed to load ${program} config`);
+      
       const configData: Config = await response.json();
       setConfig(configData);
       initializeFormData(configData);
     } catch (error) {
-      console.error('Error loading config:', error);
+      console.error(`Error loading ${program} config:`, error);
+      alert(`Failed to load ${program} config. Please ensure the config file exists.`);
     }
   };
 
@@ -407,6 +456,21 @@ function App() {
       <header className="app-header">
         <h1 className="app-title">Overture RebuiltQR</h1>
         <div className="header-actions">
+          {availablePrograms.length > 1 && (
+            <select
+              className="program-selector"
+              value={selectedProgram}
+              onChange={(e) => setSelectedProgram(e.target.value as RoboticsProgram)}
+              title="Select Robotics Program"
+            >
+              {availablePrograms.map(program => (
+                <option key={program} value={program}>
+                  {program}
+                </option>
+              ))}
+            </select>
+          )}
+
           <button
             className="icon-button"
             onClick={() => setScheduleConfigModalOpen(true)}

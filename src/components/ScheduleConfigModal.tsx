@@ -227,71 +227,81 @@ export const ScheduleConfigModal: React.FC<ScheduleConfigModalProps> = ({
           {/* Event Configuration Tab */}
           {activeTab === 'event' && (
             <div className="config-section">
-              <h3>Event Configuration</h3>
-              <div className="config-grid">
-                <div className="config-field">
-                  <label>Event Name</label>
-                  <input
-                    type="text"
-                    value={eventConfig.localLabel}
-                    onChange={(e) => handleEventChange('localLabel', e.target.value)}
-                  />
-                </div>
-                <div className="config-field">
-                  <label>TBA Label</label>
-                  <input
-                    type="text"
-                    value={eventConfig.tbaLabel}
-                    onChange={(e) => handleEventChange('tbaLabel', e.target.value)}
-                  />
-                </div>
-                <div className="config-field">
-                  <label>Amount of Teams</label>
-                  <input
-                    type="number"
-                    value={eventConfig.amountOfTeams}
-                    onChange={(e) => handleEventChange('amountOfTeams', parseInt(e.target.value) || 0)}
-                  />
-                </div>
-                <div className="config-field">
-                  <label>Matches Per Team</label>
-                  <input
-                    type="number"
-                    value={eventConfig.matchesPerTeam}
-                    onChange={(e) => handleEventChange('matchesPerTeam', parseInt(e.target.value) || 0)}
-                  />
-                </div>
-                <div className="config-field">
-                  <label>Total Matches</label>
-                  <input
-                    type="number"
-                    value={eventConfig.totalMatches}
-                    onChange={(e) => handleEventChange('totalMatches', parseInt(e.target.value) || 0)}
-                  />
-                </div>
-                <div className="config-field">
-                  <label>Teams Per Match</label>
-                  <input
-                    type="number"
-                    value={eventConfig.teamsPerMatch}
-                    onChange={(e) => handleEventChange('teamsPerMatch', parseInt(e.target.value) || 0)}
-                  />
-                </div>
-                <div className="config-field">
-                  <label>Blue Alliance Name</label>
-                  <input
-                    type="text"
-                    value={eventConfig.allianceBlue}
-                    onChange={(e) => handleEventChange('allianceBlue', e.target.value)}
-                  />
-                </div>
-                <div className="config-field">
-                  <label>Red Alliance Name</label>
-                  <input
-                    type="text"
-                    value={eventConfig.allianceRed}
-                    onChange={(e) => handleEventChange('allianceRed', e.target.value)}
-                  />
+              <div className="config-inner">
+                <h3>Event Configuration</h3>
+
+                <div className="config-grid">
+                  <div className="config-field">
+                    <label>Event Name</label>
+                    <input
+                      type="text"
+                      value={eventConfig.localLabel}
+                      onChange={(e) => handleEventChange('localLabel', e.target.value)}
+                    />
+                  </div>
+
+                  <div className="config-field">
+                    <label>TBA Label</label>
+                    <input
+                      type="text"
+                      value={eventConfig.tbaLabel}
+                      onChange={(e) => handleEventChange('tbaLabel', e.target.value)}
+                    />
+                  </div>
+
+                  <div className="config-field">
+                    <label>Amount of Teams</label>
+                    <input
+                      type="number"
+                      value={eventConfig.amountOfTeams}
+                      onChange={(e) => handleEventChange('amountOfTeams', parseInt(e.target.value) || 0)}
+                    />
+                  </div>
+
+                  <div className="config-field">
+                    <label>Matches Per Team</label>
+                    <input
+                      type="number"
+                      value={eventConfig.matchesPerTeam}
+                      onChange={(e) => handleEventChange('matchesPerTeam', parseInt(e.target.value) || 0)}
+                    />
+                  </div>
+
+                  <div className="config-field">
+                    <label>Total Matches</label>
+                    <input
+                      type="number"
+                      value={eventConfig.totalMatches}
+                      onChange={(e) => handleEventChange('totalMatches', parseInt(e.target.value) || 0)}
+                    />
+                  </div>
+
+                  <div className="config-field">
+                    <label>Teams Per Match</label>
+                    <input
+                      type="number"
+                      value={eventConfig.teamsPerMatch}
+                      onChange={(e) => handleEventChange('teamsPerMatch', parseInt(e.target.value) || 0)}
+                    />
+                  </div>
+
+                  <div className="config-field">
+                    <label>Blue Alliance Name</label>
+                    <input
+                      type="text"
+                      value={eventConfig.allianceBlue}
+                      onChange={(e) => handleEventChange('allianceBlue', e.target.value)}
+                    />
+                  </div>
+
+                  <div className="config-field">
+                    <label>Red Alliance Name</label>
+                    <input
+                      type="text"
+                      value={eventConfig.allianceRed}
+                      onChange={(e) => handleEventChange('allianceRed', e.target.value)}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -300,80 +310,82 @@ export const ScheduleConfigModal: React.FC<ScheduleConfigModalProps> = ({
           {/* Personnel Tab */}
           {activeTab === 'personnel' && (
             <div className="config-section">
-              <h3>Lead Scouters</h3>
-              <div className="personnel-list">
-                {personnel.leadScouters.map((name, index) => (
-                  <div key={index} className="personnel-item">
-                    <input
-                      type="text"
-                      value={name}
-                      onChange={(e) => handlePersonNameChange('leadScouters', index, e.target.value)}
-                      placeholder={`Lead Scouter ${index + 1}`}
-                    />
-                    <button
-                      className="remove-btn"
-                      onClick={() => handleRemovePerson('leadScouters', index)}
-                      disabled={personnel.leadScouters.length <= 1}
-                    >
-                      &times;
-                    </button>
-                  </div>
-                ))}
-                <button className="add-btn" onClick={() => handleAddPerson('leadScouters')}>
-                  + Add Lead Scouter
-                </button>
-              </div>
+              <div className="config-inner">
+                <h3>Lead Scouters</h3>
+                <div className="personnel-list">
+                  {personnel.leadScouters.map((name, index) => (
+                    <div key={index} className="personnel-item">
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => handlePersonNameChange('leadScouters', index, e.target.value)}
+                        placeholder={`Lead Scouter ${index + 1}`}
+                      />
+                      <button
+                        className="remove-btn"
+                        onClick={() => handleRemovePerson('leadScouters', index)}
+                        disabled={personnel.leadScouters.length <= 1}
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  ))}
+                  <button className="add-btn" onClick={() => handleAddPerson('leadScouters')}>
+                    + Add Lead Scouter
+                  </button>
+                </div>
 
-              <h3>Scouters</h3>
-              <p className="section-description">
-                Minimum 6 scouters required (one per robot position).
-                Currently: {personnel.scouters.length} scouters
-              </p>
-              <div className="personnel-list">
-                {personnel.scouters.map((name, index) => (
-                  <div key={index} className="personnel-item">
-                    <input
-                      type="text"
-                      value={name}
-                      onChange={(e) => handlePersonNameChange('scouters', index, e.target.value)}
-                      placeholder={`Scouter ${index + 1}`}
-                    />
-                    <button
-                      className="remove-btn"
-                      onClick={() => handleRemovePerson('scouters', index)}
-                      disabled={personnel.scouters.length <= 6}
-                    >
-                      &times;
-                    </button>
-                  </div>
-                ))}
-                <button className="add-btn" onClick={() => handleAddPerson('scouters')}>
-                  + Add Scouter
-                </button>
-              </div>
+                <h3>Scouters</h3>
+                <p className="section-description">
+                  Minimum 6 scouters required (one per robot position).
+                  Currently: {personnel.scouters.length} scouters
+                </p>
+                <div className="personnel-list">
+                  {personnel.scouters.map((name, index) => (
+                    <div key={index} className="personnel-item">
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => handlePersonNameChange('scouters', index, e.target.value)}
+                        placeholder={`Scouter ${index + 1}`}
+                      />
+                      <button
+                        className="remove-btn"
+                        onClick={() => handleRemovePerson('scouters', index)}
+                        disabled={personnel.scouters.length <= 6}
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  ))}
+                  <button className="add-btn" onClick={() => handleAddPerson('scouters')}>
+                    + Add Scouter
+                  </button>
+                </div>
 
-              <h3>Camera Operators</h3>
-              <div className="personnel-list">
-                {personnel.cameras.map((name, index) => (
-                  <div key={index} className="personnel-item">
-                    <input
-                      type="text"
-                      value={name}
-                      onChange={(e) => handlePersonNameChange('cameras', index, e.target.value)}
-                      placeholder={`Camera ${index + 1}`}
-                    />
-                    <button
-                      className="remove-btn"
-                      onClick={() => handleRemovePerson('cameras', index)}
-                      disabled={personnel.cameras.length <= 1}
-                    >
-                      &times;
-                    </button>
-                  </div>
-                ))}
-                <button className="add-btn" onClick={() => handleAddPerson('cameras')}>
-                  + Add Camera Operator
-                </button>
+                <h3>Camera Operators</h3>
+                <div className="personnel-list">
+                  {personnel.cameras.map((name, index) => (
+                    <div key={index} className="personnel-item">
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => handlePersonNameChange('cameras', index, e.target.value)}
+                        placeholder={`Camera ${index + 1}`}
+                      />
+                      <button
+                        className="remove-btn"
+                        onClick={() => handleRemovePerson('cameras', index)}
+                        disabled={personnel.cameras.length <= 1}
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  ))}
+                  <button className="add-btn" onClick={() => handleAddPerson('cameras')}>
+                    + Add Camera Operator
+                  </button>
+                </div>
               </div>
             </div>
           )}
@@ -381,222 +393,225 @@ export const ScheduleConfigModal: React.FC<ScheduleConfigModalProps> = ({
           {/* Shifts Tab */}
           {activeTab === 'shifts' && (
             <div className="config-section">
-              <h3>Break Points</h3>
-              <p className="section-description">
-                Define break points to divide matches into turns. Each break creates a new shift.
-              </p>
-              <div className="breakpoints-list">
-                {breakPoints.map((bp, index) => (
-                  <div key={index} className="breakpoint-item">
-                    <label>After Match:</label>
-                    <input
-                      type="number"
-                      value={bp}
-                      onChange={(e) => handleBreakPointChange(index, parseInt(e.target.value) || 0)}
-                      min={1}
-                      max={eventConfig.totalMatches - 1}
-                    />
-                    <button
-                      className="remove-btn"
-                      onClick={() => handleRemoveBreakPoint(index)}
-                    >
-                      &times;
-                    </button>
-                  </div>
-                ))}
-                <button className="add-btn" onClick={handleAddBreakPoint}>
-                  + Add Break Point
-                </button>
-              </div>
-
-              <h3>Turn Preview</h3>
-              <div className="turns-preview">
-                {turns.map(turn => (
-                  <div key={turn.turn} className="turn-preview-item">
-                    <strong>Turn {turn.turn}:</strong> Matches {turn.startMatch} - {turn.endMatch}
-                    <span className="turn-count">({turn.endMatch - turn.startMatch + 1} matches)</span>
-                  </div>
-                ))}
-              </div>
-
-              <h3>Constraints</h3>
-              <div className="constraints-section">
-                <div className="constraint-toggle">
-                  <label className="toggle-label">
-                    <input
-                      type="checkbox"
-                      checked={useMaxMatchesLimit}
-                      onChange={(e) => setUseMaxMatchesLimit(e.target.checked)}
-                    />
-                    <span>Limit max matches per scouter</span>
-                  </label>
+              <div className="config-inner">
+                <h3>Break Points</h3>
+                <p className="section-description">
+                  Define break points to divide matches into turns. Each break creates a new shift.
+                </p>
+                <div className="breakpoints-list">
+                  {breakPoints.map((bp, index) => (
+                    <div key={index} className="breakpoint-item">
+                      <label>After Match:</label>
+                      <input
+                        type="number"
+                        value={bp}
+                        onChange={(e) => handleBreakPointChange(index, parseInt(e.target.value) || 0)}
+                        min={1}
+                        max={eventConfig.totalMatches - 1}
+                      />
+                      <button
+                        className="remove-btn"
+                        onClick={() => handleRemoveBreakPoint(index)}
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  ))}
+                  <button className="add-btn" onClick={handleAddBreakPoint}>
+                    + Add Break Point
+                  </button>
                 </div>
 
-                {useMaxMatchesLimit && (
-                  <div className="constraint-input">
-                    <label>Max matches per scouter:</label>
-                    <input
-                      type="number"
-                      value={maxMatchesPerScouter || suggestedMaxMatches}
-                      onChange={(e) => setMaxMatchesPerScouter(parseInt(e.target.value) || null)}
-                      min={1}
-                    />
-                    <span className="constraint-hint">
-                      Suggested minimum: {suggestedMaxMatches} (based on {totalAssignments} total assignments / {personnel.scouters.length} scouters)
-                    </span>
+                <h3>Turn Preview</h3>
+                <div className="turns-preview">
+                  {turns.map(turn => (
+                    <div key={turn.turn} className="turn-preview-item">
+                      <strong>Turn {turn.turn}:</strong> Matches {turn.startMatch} - {turn.endMatch}
+                      <span className="turn-count">({turn.endMatch - turn.startMatch + 1} matches)</span>
+                    </div>
+                  ))}
+                </div>
+
+                <h3>Constraints</h3>
+                <div className="constraints-section">
+                  <div className="constraint-toggle">
+                    <label className="toggle-label">
+                      <input
+                        type="checkbox"
+                        checked={useMaxMatchesLimit}
+                        onChange={(e) => setUseMaxMatchesLimit(e.target.checked)}
+                      />
+                      <span>Limit max matches per scouter</span>
+                    </label>
+                  </div>
+
+                  {useMaxMatchesLimit && (
+                    <div className="constraint-input">
+                      <label>Max matches per scouter:</label>
+                      <input
+                        type="number"
+                        value={maxMatchesPerScouter || suggestedMaxMatches}
+                        onChange={(e) => setMaxMatchesPerScouter(parseInt(e.target.value) || null)}
+                        min={1}
+                      />
+                      <span className="constraint-hint">
+                        Suggested minimum: {suggestedMaxMatches} (based on {totalAssignments} total assignments / {personnel.scouters.length} scouters)
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Error display */}
+                {generationErrors.length > 0 && (
+                  <div className="generation-errors">
+                    <h4>Errors</h4>
+                    {generationErrors.map((error, index) => (
+                      <div key={index} className="error-item">
+                        <strong>{error.message}</strong>
+                        {error.details && <p>{error.details}</p>}
+                      </div>
+                    ))}
                   </div>
                 )}
+
+                {/* Warning display */}
+                {generationWarnings.length > 0 && generationErrors.length === 0 && (
+                  <div className="generation-warnings">
+                    <h4>Warnings</h4>
+                    {generationWarnings.map((warning, index) => (
+                      <div key={index} className="warning-item">
+                        <strong>{warning.message}</strong>
+                        {warning.details && <p>{warning.details}</p>}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <button className="generate-btn" onClick={handleGenerateSchedule}>
+                  Generate Schedule
+                </button>
               </div>
-
-              {/* Error display */}
-              {generationErrors.length > 0 && (
-                <div className="generation-errors">
-                  <h4>Errors</h4>
-                  {generationErrors.map((error, index) => (
-                    <div key={index} className="error-item">
-                      <strong>{error.message}</strong>
-                      {error.details && <p>{error.details}</p>}
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Warning display */}
-              {generationWarnings.length > 0 && generationErrors.length === 0 && (
-                <div className="generation-warnings">
-                  <h4>Warnings</h4>
-                  {generationWarnings.map((warning, index) => (
-                    <div key={index} className="warning-item">
-                      <strong>{warning.message}</strong>
-                      {warning.details && <p>{warning.details}</p>}
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              <button className="generate-btn" onClick={handleGenerateSchedule}>
-                Generate Schedule
-              </button>
             </div>
           )}
 
           {/* Timetable Tab */}
           {activeTab === 'timetable' && (
             <div className="config-section">
-              {!generatedSchedule ? (
-                <div className="no-schedule">
-                  <p>No schedule generated yet. Go to the Shifts tab and click "Generate Schedule".</p>
-                </div>
-              ) : (
-                <>
-                  <h3>Generated Timetable</h3>
-
-                  {/* Warnings in timetable view */}
-                  {generationWarnings.length > 0 && (
-                    <div className="generation-warnings compact">
-                      {generationWarnings.map((warning, index) => (
-                        <div key={index} className="warning-item">
-                          <strong>{warning.message}</strong>
+              <div className="config-inner">
+                {!generatedSchedule ? (
+                  <div className="no-schedule">
+                    <p>No schedule generated yet. Go to the Shifts tab and click "Generate Schedule".</p>
+                  </div>
+                ) : (
+                  <div>
+                    <h3>Generated Timetable</h3>
+                    {/* Warnings in timetable view */}
+                    {generationWarnings.length > 0 && (
+                      <div className="generation-warnings compact">
+                        {generationWarnings.map((warning, index) => (
+                          <div key={index} className="warning-item">
+                            <strong>{warning.message}</strong>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    <div className="timetable-container">
+                      <table className="timetable">
+                        <thead>
+                          <tr>
+                            <th>Match #</th>
+                            <th>Lead Scouter</th>
+                            <th>Camera</th>
+                            <th>Blue 1</th>
+                            <th>Blue 2</th>
+                            <th>Blue 3</th>
+                            <th>Red 1</th>
+                            <th>Red 2</th>
+                            <th>Red 3</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {generatedSchedule.schedule.map(match => (
+                            <tr key={match.matchNumber}>
+                              <td>{match.matchNumber}</td>
+                              <td>{match.leadScouter}</td>
+                              <td>{match.camera}</td>
+                              {match.assignments.map((a, i) => (
+                                <td key={i} className={!a.scouter ? 'unassigned' : ''}>
+                                  {a.scouter || '—'}
+                                </td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    <h3>Scouter Statistics</h3>
+                    <div className="scouter-stats">
+                      {Array.from(getScouterStats(generatedSchedule).entries()).map(([name, stats]) => (
+                        <div key={name} className="stat-item">
+                          <strong>{name}:</strong> {stats.totalMatches} matches
                         </div>
                       ))}
                     </div>
-                  )}
-
-                  <div className="timetable-container">
-                    <table className="timetable">
-                      <thead>
-                        <tr>
-                          <th>Match #</th>
-                          <th>Lead Scouter</th>
-                          <th>Camera</th>
-                          <th>Blue 1</th>
-                          <th>Blue 2</th>
-                          <th>Blue 3</th>
-                          <th>Red 1</th>
-                          <th>Red 2</th>
-                          <th>Red 3</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {generatedSchedule.schedule.map(match => (
-                          <tr key={match.matchNumber}>
-                            <td>{match.matchNumber}</td>
-                            <td>{match.leadScouter}</td>
-                            <td>{match.camera}</td>
-                            {match.assignments.map((a, i) => (
-                              <td key={i} className={!a.scouter ? 'unassigned' : ''}>
-                                {a.scouter || '—'}
-                              </td>
-                            ))}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
                   </div>
-
-                  <h3>Scouter Statistics</h3>
-                  <div className="scouter-stats">
-                    {Array.from(getScouterStats(generatedSchedule).entries()).map(([name, stats]) => (
-                      <div key={name} className="stat-item">
-                        <strong>{name}:</strong> {stats.totalMatches} matches
-                      </div>
-                    ))}
-                  </div>
-                </>
-              )}
+                )}
+              </div>
             </div>
           )}
 
           {/* Export Tab */}
           {activeTab === 'export' && (
             <div className="config-section">
-              <h3>Export Options</h3>
-              {!generatedSchedule ? (
-                <p className="no-schedule">Generate a schedule first to enable exports.</p>
-              ) : (
-                <div className="export-buttons">
-                  <button
-                    className="export-btn"
-                    onClick={() => handleDownload(
-                      exportEventConfig(generatedSchedule),
-                      'event_config.json',
-                      'application/json'
-                    )}
-                  >
-                    Download Event Config (JSON)
-                  </button>
-                  <button
-                    className="export-btn"
-                    onClick={() => handleDownload(
-                      exportPersonnel(generatedSchedule),
-                      'personnel.json',
-                      'application/json'
-                    )}
-                  >
-                    Download Personnel (JSON)
-                  </button>
-                  <button
-                    className="export-btn"
-                    onClick={() => handleDownload(
-                      exportToCSV(generatedSchedule),
-                      'timetable.csv',
-                      'text/csv'
-                    )}
-                  >
-                    Download Timetable (CSV)
-                  </button>
-                  <button
-                    className="export-btn primary"
-                    onClick={() => handleDownload(
-                      exportFullSchedule(generatedSchedule),
-                      'full_schedule.json',
-                      'application/json'
-                    )}
-                  >
-                    Download Full Schedule (JSON)
-                  </button>
-                </div>
-              )}
+              <div className="config-inner">
+                <h3>Export Options</h3>
+                {!generatedSchedule ? (
+                  <div><p className="no-schedule">Generate a schedule first to enable exports.</p></div>
+                ) : (
+                  <div className="export-buttons">
+                    <button
+                      className="export-btn"
+                      onClick={() => handleDownload(
+                        exportEventConfig(generatedSchedule),
+                        'event_config.json',
+                        'application/json'
+                      )}
+                    >
+                      Download Event Config (JSON)
+                    </button>
+                    <button
+                      className="export-btn"
+                      onClick={() => handleDownload(
+                        exportPersonnel(generatedSchedule),
+                        'personnel.json',
+                        'application/json'
+                      )}
+                    >
+                      Download Personnel (JSON)
+                    </button>
+                    <button
+                      className="export-btn"
+                      onClick={() => handleDownload(
+                        exportToCSV(generatedSchedule),
+                        'timetable.csv',
+                        'text/csv'
+                      )}
+                    >
+                      Download Timetable (CSV)
+                    </button>
+                    <button
+                      className="export-btn primary"
+                      onClick={() => handleDownload(
+                        exportFullSchedule(generatedSchedule),
+                        'full_schedule.json',
+                        'application/json'
+                      )}
+                    >
+                      Download Full Schedule (JSON)
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </div>
