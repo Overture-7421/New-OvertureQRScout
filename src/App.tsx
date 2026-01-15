@@ -1,9 +1,16 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import type { Config, Phase, FormData, Schedule, ScheduleEntry } from './types';
+import type { Config, Phase, FormData, GeneratedSchedule, ScouterTurnAssignment } from './types';
 import { TextField, NumberField, DropdownField, SwitchField, CounterField } from './components/FieldComponents';
 import { QRModal } from './components/QRModal';
-import { parseScheduleFile, getScouterMatches, getUniqueScouterIds } from './utils/scheduleParser';
+import { ScheduleConfigModal } from './components/ScheduleConfigModal';
+import {
+  parseScheduleJSON,
+  getScouterAssignments,
+  getAllScouterNames,
+  getNextScouterForPosition,
+  isLastMatchOfTurn
+} from './utils/scheduleGenerator';
 
 type TabType = Phase;
 
@@ -12,28 +19,40 @@ function App() {
   const [formData, setFormData] = useState<FormData>({});
   const [activeTab, setActiveTab] = useState<TabType>('PREMATCH');
   const [qrModalOpen, setQrModalOpen] = useState(false);
-  const [schedule, setSchedule] = useState<Schedule | null>(null);
   const [selectedScouterId, setSelectedScouterId] = useState<string>('');
-  const [selectedMatchIndex, setSelectedMatchIndex] = useState<number>(0);
-  const [scouterMatches, setScouterMatches] = useState<ScheduleEntry[]>([]);
+
+  // Schedule configuration state
+  const [scheduleConfigModalOpen, setScheduleConfigModalOpen] = useState(false);
+  const [generatedSchedule, setGeneratedSchedule] = useState<GeneratedSchedule | null>(null);
+  const [scouterTurnAssignments, setScouterTurnAssignments] = useState<ScouterTurnAssignment[]>([]);
+  const [currentAssignmentIndex, setCurrentAssignmentIndex] = useState<number>(0);
+
+  // Flatten all assignments for easy navigation
+  const allAssignments = scouterTurnAssignments.flatMap(turn =>
+    turn.assignments.map(a => ({ ...a, turn: turn.turn }))
+  );
 
   // Load config on startup
   useEffect(() => {
     loadConfig();
-    loadDefaultSchedule();
   }, []);
 
-  // Update scouter matches when schedule or scouter changes
+  // Update turn assignments when generated schedule or scouter changes
   useEffect(() => {
-    if (schedule && selectedScouterId) {
-      const matches = getScouterMatches(schedule, selectedScouterId);
-      setScouterMatches(matches);
-      if (matches.length > 0) {
-        setSelectedMatchIndex(0);
-        autoFillFromSchedule(matches[0]);
+    if (generatedSchedule && selectedScouterId) {
+      const assignments = getScouterAssignments(generatedSchedule, selectedScouterId);
+      setScouterTurnAssignments(assignments);
+      setCurrentAssignmentIndex(0);
+      // Auto-fill first assignment
+      if (assignments.length > 0 && assignments[0].assignments.length > 0) {
+        const firstAssignment = assignments[0].assignments[0];
+        autoFillFromTurnAssignment(firstAssignment, selectedScouterId);
       }
+    } else {
+      setScouterTurnAssignments([]);
+      setCurrentAssignmentIndex(0);
     }
-  }, [schedule, selectedScouterId]);
+  }, [generatedSchedule, selectedScouterId]);
 
   const loadConfig = async () => {
     try {
@@ -46,22 +65,9 @@ function App() {
     }
   };
 
-  const loadDefaultSchedule = async () => {
-    try {
-      const response = await fetch('/sample_schedule.txt');
-      const content = await response.text();
-      const parsedSchedule = parseScheduleFile(content);
-      if (parsedSchedule) {
-        setSchedule(parsedSchedule);
-      }
-    } catch (error) {
-      console.error('Error loading default schedule:', error);
-    }
-  };
-
   const initializeFormData = (cfg: Config) => {
     const initialData: FormData = {};
-    
+
     Object.values(cfg).flat().forEach(field => {
       if (field.type === 'switch') {
         initialData[field.key] = false;
@@ -75,14 +81,49 @@ function App() {
     setFormData(initialData);
   };
 
-  const autoFillFromSchedule = (match: ScheduleEntry) => {
+  const autoFillFromTurnAssignment = (
+    assignment: ScouterTurnAssignment['assignments'][0],
+    scouterName: string
+  ) => {
     setFormData(prev => ({
       ...prev,
-      scouter_name: selectedScouterId,
-      match_number: match.matchNumber,
-      robot_position: match.position,
-      team_number: match.teamNumber
+      scouter_name: scouterName,
+      match_number: assignment.matchNumber,
+      robot_position: assignment.position,
+      team_number: assignment.teamNumber || 0,
+      lead_scouter: assignment.leadScouter
     }));
+  };
+
+  const handleGeneratedScheduleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target?.result as string;
+        const parsed = parseScheduleJSON(content);
+        if (parsed) {
+          setGeneratedSchedule(parsed);
+          setSelectedScouterId('');
+          setScouterTurnAssignments([]);
+          setCurrentAssignmentIndex(0);
+        } else {
+          alert('Invalid schedule file');
+        }
+      };
+      reader.readAsText(file);
+    }
+  };
+
+  const handleAssignmentSelection = (index: number) => {
+    setCurrentAssignmentIndex(index);
+    if (allAssignments[index]) {
+      autoFillFromTurnAssignment(allAssignments[index], selectedScouterId);
+    }
+  };
+
+  const handleScheduleGenerated = (newSchedule: GeneratedSchedule) => {
+    setGeneratedSchedule(newSchedule);
   };
 
   const handleFieldChange = (key: string, value: string | number | boolean) => {
@@ -90,25 +131,6 @@ function App() {
       ...prev,
       [key]: value
     }));
-  };
-
-  const handleScheduleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const content = e.target?.result as string;
-        const parsedSchedule = parseScheduleFile(content);
-        if (parsedSchedule) {
-          setSchedule(parsedSchedule);
-          const scouterIds = getUniqueScouterIds(parsedSchedule);
-          if (scouterIds.length > 0 && !selectedScouterId) {
-            setSelectedScouterId(scouterIds[0]);
-          }
-        }
-      };
-      reader.readAsText(file);
-    }
   };
 
   const handleConfigUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -130,16 +152,9 @@ function App() {
     }
   };
 
-  const handleMatchSelection = (index: number) => {
-    setSelectedMatchIndex(index);
-    if (scouterMatches[index]) {
-      autoFillFromSchedule(scouterMatches[index]);
-    }
-  };
-
   const generateDataString = (): string => {
     if (!config) return '';
-    
+
     const values: string[] = [];
     Object.values(config).flat().forEach(field => {
       const value = formData[field.key];
@@ -149,18 +164,18 @@ function App() {
         values.push(String(value || ''));
       }
     });
-    
+
     return values.join('\t');
   };
 
   const generateHeaders = (): string => {
     if (!config) return '';
-    
+
     const headers: string[] = [];
     Object.values(config).flat().forEach(field => {
       headers.push(field.label);
     });
-    
+
     return headers.join(',');
   };
 
@@ -168,20 +183,58 @@ function App() {
     setQrModalOpen(true);
   };
 
-  const resetForm = () => {
+  const handleNextMatch = () => {
     if (!config) return;
-    
-    const scouterName = formData['scouter_name'];
-    const currentMatch = formData['match_number'] as number;
-    
+
+    // Reset form data
     initializeFormData(config);
-    
-    // Preserve scouter name and increment match
-    setFormData(prev => ({
-      ...prev,
-      scouter_name: scouterName,
-      match_number: (currentMatch || 0) + 1
-    }));
+
+    // Move to next assignment
+    const nextIndex = currentAssignmentIndex + 1;
+    if (nextIndex < allAssignments.length) {
+      setCurrentAssignmentIndex(nextIndex);
+      autoFillFromTurnAssignment(allAssignments[nextIndex], selectedScouterId);
+    } else {
+      // No more matches for this scouter
+      setFormData(prev => ({
+        ...prev,
+        scouter_name: selectedScouterId
+      }));
+    }
+
+    // Go back to PREMATCH tab
+    setActiveTab('PREMATCH');
+  };
+
+  const getCurrentMatchInfo = () => {
+    if (!generatedSchedule || !selectedScouterId || allAssignments.length === 0) {
+      return null;
+    }
+
+    const currentAssignment = allAssignments[currentAssignmentIndex];
+    if (!currentAssignment) return null;
+
+    const matchNumber = currentAssignment.matchNumber;
+    const position = currentAssignment.position;
+
+    // Check if this is the last match of the turn
+    const turnEndInfo = isLastMatchOfTurn(generatedSchedule, matchNumber, selectedScouterId);
+
+    // Get who is next for this position
+    const nextScouter = getNextScouterForPosition(generatedSchedule, matchNumber, position);
+
+    // Check if there are more matches for this scouter
+    const hasMoreMatches = currentAssignmentIndex < allAssignments.length - 1;
+
+    return {
+      matchNumber,
+      position,
+      turn: currentAssignment.turn,
+      isLastOfTurn: turnEndInfo.isLast,
+      turnNumber: turnEndInfo.turnNumber,
+      nextScouter,
+      hasMoreMatches
+    };
   };
 
   const renderField = (field: any) => {
@@ -238,41 +291,65 @@ function App() {
     }
   };
 
+  const matchInfo = getCurrentMatchInfo();
+
   const renderTabContent = () => {
     if (!config) return <div>Loading...</div>;
 
     const fields = config[activeTab];
-    
+
     return (
       <div className="tab-content">
-        {activeTab === 'PREMATCH' && schedule && (
+        {activeTab === 'PREMATCH' && generatedSchedule && (
           <div className="schedule-card">
             <div className="schedule-header">
               <span className="event-icon">🏆</span>
               <div className="event-info">
-                <div className="event-name">{schedule.eventName}</div>
+                <div className="event-name">{generatedSchedule.event.localLabel}</div>
                 {selectedScouterId && (
                   <div className="scouter-id">Scouter: {selectedScouterId}</div>
                 )}
               </div>
             </div>
-            
-            {scouterMatches.length > 0 && (
+
+            {scouterTurnAssignments.length > 0 && (
               <div className="match-selector">
-                <label>Select Match:</label>
+                <label>Select Assignment:</label>
                 <select
-                  value={selectedMatchIndex}
-                  onChange={(e) => handleMatchSelection(Number(e.target.value))}
+                  value={currentAssignmentIndex}
+                  onChange={(e) => handleAssignmentSelection(Number(e.target.value))}
                   className="match-dropdown"
                 >
-                  {scouterMatches.map((match, idx) => (
+                  {allAssignments.map((assignment, idx) => (
                     <option key={idx} value={idx}>
-                      Match {match.matchNumber} - {match.position} - Team {match.teamNumber}
+                      Turn {assignment.turn} | Match {assignment.matchNumber} - {assignment.position}
                     </option>
                   ))}
                 </select>
               </div>
             )}
+
+            {/* Turn end notification */}
+            {matchInfo?.isLastOfTurn && (
+              <div className="turn-end-notification">
+                <span className="notification-icon">⚠️</span>
+                <span>Last match of Turn {matchInfo.turnNumber}! Your turn ends after this match.</span>
+              </div>
+            )}
+
+            {/* Next scouter info */}
+            {matchInfo?.nextScouter && (
+              <div className="next-scouter-info">
+                <span className="info-label">Next for {matchInfo.position}:</span>
+                <span className="next-scouter-name">{matchInfo.nextScouter}</span>
+              </div>
+            )}
+          </div>
+        )}
+
+        {activeTab === 'PREMATCH' && !generatedSchedule && (
+          <div className="no-schedule-notice">
+            <p>No schedule loaded. Click the ⚙️ button to configure a schedule or upload one.</p>
           </div>
         )}
 
@@ -295,14 +372,18 @@ function App() {
               NEXT PERIOD →
             </button>
           )}
-          
+
           {activeTab === 'ENDGAME' && (
             <>
               <button className="commit-button" onClick={commitData}>
                 📊 COMMIT DATA
               </button>
-              <button className="reset-button" onClick={resetForm}>
-                🔄 RESET FORM
+              <button
+                className="next-match-button"
+                onClick={handleNextMatch}
+                disabled={!matchInfo?.hasMoreMatches}
+              >
+                ⏭️ NEXT MATCH
               </button>
             </>
           )}
@@ -326,17 +407,25 @@ function App() {
       <header className="app-header">
         <h1 className="app-title">Overture RebuiltQR</h1>
         <div className="header-actions">
-          <label className="icon-button" title="Upload Schedule">
-            📅
+          <button
+            className="icon-button"
+            onClick={() => setScheduleConfigModalOpen(true)}
+            title="Schedule Configuration"
+          >
+            ⚙️
+          </button>
+
+          <label className="icon-button" title="Upload Schedule (JSON)">
+            📋
             <input
               type="file"
-              accept=".txt"
-              onChange={handleScheduleUpload}
+              accept=".json"
+              onChange={handleGeneratedScheduleUpload}
               style={{ display: 'none' }}
             />
           </label>
-          
-          {schedule && (
+
+          {generatedSchedule && (
             <select
               className="scouter-selector"
               value={selectedScouterId}
@@ -344,8 +433,8 @@ function App() {
               title="Select Scouter"
             >
               <option value="">Select Scouter...</option>
-              {getUniqueScouterIds(schedule).map(id => (
-                <option key={id} value={id}>{id}</option>
+              {getAllScouterNames(generatedSchedule).map(name => (
+                <option key={name} value={name}>{name}</option>
               ))}
             </select>
           )}
@@ -383,6 +472,12 @@ function App() {
         onClose={() => setQrModalOpen(false)}
         data={generateDataString()}
         headers={generateHeaders()}
+      />
+
+      <ScheduleConfigModal
+        isOpen={scheduleConfigModalOpen}
+        onClose={() => setScheduleConfigModalOpen(false)}
+        onScheduleGenerated={handleScheduleGenerated}
       />
     </div>
   );
