@@ -65,7 +65,7 @@ export const validateScheduleConfig = (
   constraints: ScheduleConstraints
 ): ScheduleValidationError[] => {
   const errors: ScheduleValidationError[] = [];
-  const { totalMatches, teamsPerMatch } = eventConfig;
+  const { totalMatches } = eventConfig;
   const { scouters, leadScouters, cameras } = personnel;
   const positions = getPositions(eventConfig);
   const positionsPerMatch = positions.length;
