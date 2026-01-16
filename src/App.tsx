@@ -71,8 +71,8 @@ function App() {
       const programs: RoboticsProgram[] = [];
       
       // Check which config files are available
-      const ftcResponse = await fetch('/configFTC.json');
-      const frcResponse = await fetch('/configFRC.json');
+      const ftcResponse = await fetch(`${import.meta.env.BASE_URL}configFTC.json`);
+      const frcResponse = await fetch(`${import.meta.env.BASE_URL}configFRC.json`);
       
       if (ftcResponse.ok) programs.push('FTC');
       if (frcResponse.ok) programs.push('FRC');
@@ -96,10 +96,10 @@ function App() {
 
   const loadConfigForProgram = async (program: RoboticsProgram) => {
     try {
-      let url = '/configFTC.json';
-      
+      let url = `${import.meta.env.BASE_URL}configFTC.json`;
+
       if (program === 'FRC') {
-        url = '/configFRC.json';
+        url = `${import.meta.env.BASE_URL}configFRC.json`;
       }
       
       const response = await fetch(url);
