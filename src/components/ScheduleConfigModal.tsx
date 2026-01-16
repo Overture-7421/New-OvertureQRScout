@@ -7,7 +7,8 @@ import {
   exportEventConfig,
   exportPersonnel,
   exportFullSchedule,
-  getScouterStats
+  getScouterStats,
+  getPositions
 } from '../utils/scheduleGenerator';
 import './ScheduleConfigModal.css';
 
@@ -165,8 +166,12 @@ export const ScheduleConfigModal: React.FC<ScheduleConfigModalProps> = ({
 
   const turns = calculateTurns(eventConfig.totalMatches, breakPoints);
 
+  // Get positions based on current event config
+  const positions = getPositions(eventConfig);
+  const positionsPerMatch = positions.length;
+
   // Calculate suggested max matches
-  const totalAssignments = eventConfig.totalMatches * 6;
+  const totalAssignments = eventConfig.totalMatches * positionsPerMatch;
   const suggestedMaxMatches = Math.ceil(totalAssignments / personnel.scouters.length);
 
   if (!isOpen) return null;
@@ -337,7 +342,7 @@ export const ScheduleConfigModal: React.FC<ScheduleConfigModalProps> = ({
 
                 <h3>Scouters</h3>
                 <p className="section-description">
-                  Minimum 6 scouters required (one per robot position).
+                  Minimum {positionsPerMatch} scouters required (one per robot position).
                   Currently: {personnel.scouters.length} scouters
                 </p>
                 <div className="personnel-list">
@@ -352,7 +357,7 @@ export const ScheduleConfigModal: React.FC<ScheduleConfigModalProps> = ({
                       <button
                         className="remove-btn"
                         onClick={() => handleRemovePerson('scouters', index)}
-                        disabled={personnel.scouters.length <= 6}
+                        disabled={personnel.scouters.length <= positionsPerMatch}
                       >
                         &times;
                       </button>
@@ -522,12 +527,9 @@ export const ScheduleConfigModal: React.FC<ScheduleConfigModalProps> = ({
                             <th>Match #</th>
                             <th>Lead Scouter</th>
                             <th>Camera</th>
-                            <th>Blue 1</th>
-                            <th>Blue 2</th>
-                            <th>Blue 3</th>
-                            <th>Red 1</th>
-                            <th>Red 2</th>
-                            <th>Red 3</th>
+                            {getPositions(generatedSchedule.event).map((pos, i) => (
+                              <th key={i}>{pos}</th>
+                            ))}
                           </tr>
                         </thead>
                         <tbody>

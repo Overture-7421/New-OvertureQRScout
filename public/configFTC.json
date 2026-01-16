@@ -50,7 +50,12 @@
       "type": "counter"
     },
     {
-      "label": "Artifacts Placed in Depot (your estimate)",
+      "label": "How many artifacts failed to score?",
+      "key": "auto_artifact_failed",
+      "type": "counter"
+    },
+    {
+      "label": "Artifacts Placed in Depot",
       "key": "auto_depot_placed",
       "type": "counter"
     },
@@ -83,8 +88,13 @@
       "type": "counter"
     },
     {
-      "label": "Artifacts Placed in Depot (your estimate)",
+      "label": "Artifacts Placed in Depot",
       "key": "teleop_depot_placed",
+      "type": "counter"
+    },
+    {
+      "label": "How many artifacts failed to score?",
+      "key": "teleop_artifact_failed",
       "type": "counter"
     },
     {
@@ -96,7 +106,7 @@
       "label": "Cycle Focus",
       "key": "teleop_cycle_focus",
       "type": "dropdown",
-      "options": ["Goal Scoring", "Pattern Building", "Depot", "Mixed", "None"]
+      "options": ["Goal Scoring", "Pattern Building", "Depot", "Mixed", "None/Dead"]
     },
     {
       "label": "Played Defense",
@@ -126,6 +136,12 @@
       "key": "endgame_attempted_return",
       "type": "switch"
     },
+        {
+      "label": "Climbed On Top of Another Robot",
+      "key": "endgame_climbed",
+      "type": "dropdown",
+      "options": ["Attempted - Successful", "Attempted - Failed"]
+    },
     {
       "label": "Tipped/Fell Over",
       "key": "endgame_tipped",
@@ -141,11 +157,6 @@
       "key": "endgame_card",
       "type": "dropdown",
       "options": ["None", "Yellow Card", "Red Card"]
-    },
-    {
-      "label": "Notes",
-      "key": "endgame_notes",
-      "type": "text"
     }
   ]
 }

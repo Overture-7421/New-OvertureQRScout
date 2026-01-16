@@ -1,0 +1,1109 @@
+{
+  "event": {
+    "localLabel": "Regional MTY 2026",
+    "tbaLabel": "2026MXMOQ",
+    "amountOfTeams": 32,
+    "matchesPerTeam": 5,
+    "totalMatches": 39,
+    "teamsPerMatch": 4,
+    "allianceBlue": "Blue",
+    "allianceRed": "Red"
+  },
+  "personnel": {
+    "leadScouters": [
+      "Marco",
+      "Zayas",
+      "Neto"
+    ],
+    "scouters": [
+      "Gaytan",
+      "Hermes",
+      "Max",
+      "Pastrana",
+      "Alexa",
+      "Regina",
+      "Mila",
+      "Marifer",
+      "Sara",
+      "Kaleff"
+    ],
+    "cameras": [
+      "Vaner",
+      "Eric",
+      "Emini"
+    ]
+  },
+  "shifts": {
+    "breakPoints": [
+      20,
+      40
+    ],
+    "turns": [
+      {
+        "turn": 1,
+        "startMatch": 1,
+        "endMatch": 20
+      },
+      {
+        "turn": 2,
+        "startMatch": 21,
+        "endMatch": 39
+      }
+    ]
+  },
+  "schedule": [
+    {
+      "matchNumber": 1,
+      "leadScouter": "Marco",
+      "camera": "Vaner",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Hermes",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Gaytan",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Pastrana",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Max",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 2,
+      "leadScouter": "Marco",
+      "camera": "Vaner",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Regina",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alexa",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Marifer",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Mila",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 3,
+      "leadScouter": "Marco",
+      "camera": "Vaner",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Kaleff",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Sara",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Gaytan",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Hermes",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 4,
+      "leadScouter": "Marco",
+      "camera": "Vaner",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Max",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Pastrana",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Alexa",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Regina",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 5,
+      "leadScouter": "Marco",
+      "camera": "Vaner",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Mila",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Marifer",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Sara",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Kaleff",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 6,
+      "leadScouter": "Marco",
+      "camera": "Vaner",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Gaytan",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Hermes",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Max",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Pastrana",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 7,
+      "leadScouter": "Marco",
+      "camera": "Vaner",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Alexa",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Regina",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Mila",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Marifer",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 8,
+      "leadScouter": "Marco",
+      "camera": "Vaner",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Sara",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Kaleff",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Gaytan",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Hermes",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 9,
+      "leadScouter": "Marco",
+      "camera": "Vaner",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Max",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Pastrana",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Alexa",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Regina",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 10,
+      "leadScouter": "Marco",
+      "camera": "Vaner",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Mila",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Marifer",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Sara",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Kaleff",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 11,
+      "leadScouter": "Marco",
+      "camera": "Vaner",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Gaytan",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Hermes",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Max",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Pastrana",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 12,
+      "leadScouter": "Marco",
+      "camera": "Vaner",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Alexa",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Regina",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Mila",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Marifer",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 13,
+      "leadScouter": "Marco",
+      "camera": "Vaner",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Sara",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Kaleff",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Gaytan",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Hermes",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 14,
+      "leadScouter": "Marco",
+      "camera": "Vaner",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Max",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Pastrana",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Alexa",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Regina",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 15,
+      "leadScouter": "Marco",
+      "camera": "Vaner",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Mila",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Marifer",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Sara",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Kaleff",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 16,
+      "leadScouter": "Marco",
+      "camera": "Vaner",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Gaytan",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Hermes",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Max",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Pastrana",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 17,
+      "leadScouter": "Marco",
+      "camera": "Vaner",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Alexa",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Regina",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Mila",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Marifer",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 18,
+      "leadScouter": "Marco",
+      "camera": "Vaner",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Sara",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Kaleff",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Gaytan",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Hermes",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 19,
+      "leadScouter": "Marco",
+      "camera": "Vaner",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Max",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Pastrana",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Alexa",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Regina",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 20,
+      "leadScouter": "Marco",
+      "camera": "Vaner",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Mila",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Marifer",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Sara",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Kaleff",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 21,
+      "leadScouter": "Zayas",
+      "camera": "Eric",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Gaytan",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Hermes",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Max",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Pastrana",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 22,
+      "leadScouter": "Zayas",
+      "camera": "Eric",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Alexa",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Regina",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Mila",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Marifer",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 23,
+      "leadScouter": "Zayas",
+      "camera": "Eric",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Sara",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Kaleff",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Gaytan",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Hermes",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 24,
+      "leadScouter": "Zayas",
+      "camera": "Eric",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Max",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Pastrana",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Alexa",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Regina",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 25,
+      "leadScouter": "Zayas",
+      "camera": "Eric",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Mila",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Marifer",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Sara",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Kaleff",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 26,
+      "leadScouter": "Zayas",
+      "camera": "Eric",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Gaytan",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Hermes",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Max",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Pastrana",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 27,
+      "leadScouter": "Zayas",
+      "camera": "Eric",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Alexa",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Regina",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Mila",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Marifer",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 28,
+      "leadScouter": "Zayas",
+      "camera": "Eric",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Sara",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Kaleff",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Gaytan",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Hermes",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 29,
+      "leadScouter": "Zayas",
+      "camera": "Eric",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Max",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Pastrana",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Alexa",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Regina",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 30,
+      "leadScouter": "Zayas",
+      "camera": "Eric",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Mila",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Marifer",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Sara",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Kaleff",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 31,
+      "leadScouter": "Zayas",
+      "camera": "Eric",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Gaytan",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Hermes",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Max",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Pastrana",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 32,
+      "leadScouter": "Zayas",
+      "camera": "Eric",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Alexa",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Regina",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Mila",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Marifer",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 33,
+      "leadScouter": "Zayas",
+      "camera": "Eric",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Sara",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Kaleff",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Gaytan",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Hermes",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 34,
+      "leadScouter": "Zayas",
+      "camera": "Eric",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Max",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Pastrana",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Alexa",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Regina",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 35,
+      "leadScouter": "Zayas",
+      "camera": "Eric",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Mila",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Marifer",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Sara",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Kaleff",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 36,
+      "leadScouter": "Zayas",
+      "camera": "Eric",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Gaytan",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Hermes",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Max",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Pastrana",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 37,
+      "leadScouter": "Zayas",
+      "camera": "Eric",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Alexa",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Regina",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Mila",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Marifer",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 38,
+      "leadScouter": "Zayas",
+      "camera": "Eric",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Sara",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Kaleff",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Gaytan",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Hermes",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 39,
+      "leadScouter": "Zayas",
+      "camera": "Eric",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Max",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Pastrana",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Alexa",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Regina",
+          "teamNumber": null
+        }
+      ]
+    }
+  ]
+}

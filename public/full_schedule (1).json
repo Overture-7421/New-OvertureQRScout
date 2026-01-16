@@ -1,0 +1,1999 @@
+{
+  "event": {
+    "localLabel": "Regional MTY 2026",
+    "tbaLabel": "2025mxmo",
+    "amountOfTeams": 60,
+    "matchesPerTeam": 8,
+    "totalMatches": 72,
+    "teamsPerMatch": 4,
+    "allianceBlue": "Blue",
+    "allianceRed": "Red"
+  },
+  "personnel": {
+    "leadScouters": [
+      "Marco"
+    ],
+    "scouters": [
+      "Roberto",
+      "Alarii",
+      "Santi",
+      "Scouter 4",
+      "Scouter 5",
+      "Scouter 6"
+    ],
+    "cameras": [
+      "Camera 1",
+      "Camera 2",
+      "Camera 3"
+    ]
+  },
+  "shifts": {
+    "breakPoints": [
+      20,
+      40
+    ],
+    "turns": [
+      {
+        "turn": 1,
+        "startMatch": 1,
+        "endMatch": 20
+      },
+      {
+        "turn": 2,
+        "startMatch": 21,
+        "endMatch": 40
+      },
+      {
+        "turn": 3,
+        "startMatch": 41,
+        "endMatch": 72
+      }
+    ]
+  },
+  "schedule": [
+    {
+      "matchNumber": 1,
+      "leadScouter": "Marco",
+      "camera": "Camera 1",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 2,
+      "leadScouter": "Marco",
+      "camera": "Camera 1",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 3,
+      "leadScouter": "Marco",
+      "camera": "Camera 1",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 4,
+      "leadScouter": "Marco",
+      "camera": "Camera 1",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 5,
+      "leadScouter": "Marco",
+      "camera": "Camera 1",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 6,
+      "leadScouter": "Marco",
+      "camera": "Camera 1",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 7,
+      "leadScouter": "Marco",
+      "camera": "Camera 1",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 8,
+      "leadScouter": "Marco",
+      "camera": "Camera 1",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 9,
+      "leadScouter": "Marco",
+      "camera": "Camera 1",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 10,
+      "leadScouter": "Marco",
+      "camera": "Camera 1",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 11,
+      "leadScouter": "Marco",
+      "camera": "Camera 1",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 12,
+      "leadScouter": "Marco",
+      "camera": "Camera 1",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 13,
+      "leadScouter": "Marco",
+      "camera": "Camera 1",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 14,
+      "leadScouter": "Marco",
+      "camera": "Camera 1",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 15,
+      "leadScouter": "Marco",
+      "camera": "Camera 1",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 16,
+      "leadScouter": "Marco",
+      "camera": "Camera 1",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 17,
+      "leadScouter": "Marco",
+      "camera": "Camera 1",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 18,
+      "leadScouter": "Marco",
+      "camera": "Camera 1",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 19,
+      "leadScouter": "Marco",
+      "camera": "Camera 1",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 20,
+      "leadScouter": "Marco",
+      "camera": "Camera 1",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 21,
+      "leadScouter": "Marco",
+      "camera": "Camera 2",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 22,
+      "leadScouter": "Marco",
+      "camera": "Camera 2",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 23,
+      "leadScouter": "Marco",
+      "camera": "Camera 2",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 24,
+      "leadScouter": "Marco",
+      "camera": "Camera 2",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 25,
+      "leadScouter": "Marco",
+      "camera": "Camera 2",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 26,
+      "leadScouter": "Marco",
+      "camera": "Camera 2",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 27,
+      "leadScouter": "Marco",
+      "camera": "Camera 2",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 28,
+      "leadScouter": "Marco",
+      "camera": "Camera 2",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 29,
+      "leadScouter": "Marco",
+      "camera": "Camera 2",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 30,
+      "leadScouter": "Marco",
+      "camera": "Camera 2",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 31,
+      "leadScouter": "Marco",
+      "camera": "Camera 2",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 32,
+      "leadScouter": "Marco",
+      "camera": "Camera 2",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 33,
+      "leadScouter": "Marco",
+      "camera": "Camera 2",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 34,
+      "leadScouter": "Marco",
+      "camera": "Camera 2",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 35,
+      "leadScouter": "Marco",
+      "camera": "Camera 2",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 36,
+      "leadScouter": "Marco",
+      "camera": "Camera 2",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 37,
+      "leadScouter": "Marco",
+      "camera": "Camera 2",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 38,
+      "leadScouter": "Marco",
+      "camera": "Camera 2",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 39,
+      "leadScouter": "Marco",
+      "camera": "Camera 2",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 40,
+      "leadScouter": "Marco",
+      "camera": "Camera 2",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Roberto",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Alarii",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 41,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 42,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 43,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 44,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 45,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 46,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 47,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 48,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 49,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 50,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 51,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 52,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 53,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 54,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 55,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 56,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 57,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 58,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 59,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 60,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 61,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 62,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 63,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 64,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 65,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 66,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 67,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 68,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 69,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 70,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 71,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    },
+    {
+      "matchNumber": 72,
+      "leadScouter": "Marco",
+      "camera": "Camera 3",
+      "assignments": [
+        {
+          "position": "Blue 1",
+          "scouter": "Santi",
+          "teamNumber": null
+        },
+        {
+          "position": "Blue 2",
+          "scouter": "Scouter 4",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 1",
+          "scouter": "Scouter 5",
+          "teamNumber": null
+        },
+        {
+          "position": "Red 2",
+          "scouter": "Scouter 6",
+          "teamNumber": null
+        }
+      ]
+    }
+  ]
+}

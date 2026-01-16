@@ -11,7 +11,28 @@ import type {
   ScheduleGenerationResult
 } from '../types';
 
-const POSITIONS = ['Blue 1', 'Blue 2', 'Blue 3', 'Red 1', 'Red 2', 'Red 3'];
+/**
+ * Generate position names dynamically based on teamsPerMatch and alliance names
+ * FRC: 6 teams (3 per alliance) -> Blue 1, Blue 2, Blue 3, Red 1, Red 2, Red 3
+ * FTC: 4 teams (2 per alliance) -> Blue 1, Blue 2, Red 1, Red 2
+ */
+export const getPositions = (eventConfig: EventConfig): string[] => {
+  const { teamsPerMatch, allianceBlue, allianceRed } = eventConfig;
+  const teamsPerAlliance = Math.floor(teamsPerMatch / 2);
+  const positions: string[] = [];
+
+  // Blue alliance positions
+  for (let i = 1; i <= teamsPerAlliance; i++) {
+    positions.push(`${allianceBlue} ${i}`);
+  }
+
+  // Red alliance positions
+  for (let i = 1; i <= teamsPerAlliance; i++) {
+    positions.push(`${allianceRed} ${i}`);
+  }
+
+  return positions;
+};
 
 export const calculateTurns = (totalMatches: number, breakPoints: number[]): Turn[] => {
   const sortedBreaks = [...breakPoints].sort((a, b) => a - b).filter(bp => bp > 0 && bp < totalMatches);
@@ -44,9 +65,10 @@ export const validateScheduleConfig = (
   constraints: ScheduleConstraints
 ): ScheduleValidationError[] => {
   const errors: ScheduleValidationError[] = [];
-  const { totalMatches } = eventConfig;
+  const { totalMatches, teamsPerMatch } = eventConfig;
   const { scouters, leadScouters, cameras } = personnel;
-  const positionsPerMatch = POSITIONS.length;
+  const positions = getPositions(eventConfig);
+  const positionsPerMatch = positions.length;
 
   // Check minimum scouters
   if (scouters.length < positionsPerMatch) {
@@ -149,17 +171,17 @@ export const generateSchedule = (
 
   const { scouters, leadScouters, cameras } = personnel;
   const { turns } = shiftConfig;
-  const { maxMatchesPerScouter } = constraints;
+  const positions = getPositions(eventConfig);
 
   const schedule: MatchSchedule[] = [];
 
-  // Track match counts per scouter
+  // Track total match counts per scouter (for statistics)
   const scouterMatchCounts = new Map<string, number>();
   scouters.forEach(s => scouterMatchCounts.set(s, 0));
 
-  // Track which position each scouter last had (for rotation)
-  const scouterLastPosition = new Map<string, number>();
-  scouters.forEach((s, i) => scouterLastPosition.set(s, i % POSITIONS.length));
+  // Track which scouters have been used in previous turns (for rotation)
+  const scouterTurnCounts = new Map<string, number>();
+  scouters.forEach(s => scouterTurnCounts.set(s, 0));
 
   let leadScouterIndex = 0;
   let cameraIndex = 0;
@@ -173,60 +195,48 @@ export const generateSchedule = (
     leadScouterIndex++;
     cameraIndex++;
 
-    // Generate matches for this turn
+    const matchesInTurn = turn.endMatch - turn.startMatch + 1;
+
+    // Select scouters for this entire turn - prioritize those with fewer turn assignments
+    const sortedScouters = [...scouters].sort((a, b) => {
+      const countA = scouterTurnCounts.get(a) || 0;
+      const countB = scouterTurnCounts.get(b) || 0;
+      return countA - countB;
+    });
+
+    // Assign one scouter per position for this entire turn
+    const turnAssignments: string[] = [];
+    for (let posIndex = 0; posIndex < positions.length; posIndex++) {
+      // Find first available scouter not already assigned in this turn
+      const availableScouter = sortedScouters.find(s => !turnAssignments.includes(s));
+
+      if (availableScouter) {
+        turnAssignments.push(availableScouter);
+        // Update turn count for this scouter
+        scouterTurnCounts.set(availableScouter, (scouterTurnCounts.get(availableScouter) || 0) + 1);
+        // Update total match count
+        scouterMatchCounts.set(availableScouter, (scouterMatchCounts.get(availableScouter) || 0) + matchesInTurn);
+      } else {
+        // Not enough scouters - this shouldn't happen if validation passed
+        turnAssignments.push('');
+        warnings.push({
+          type: 'warning',
+          message: `No available scouter for Turn ${turn.turn}, ${positions[posIndex]}`,
+          details: 'Not enough scouters to cover all positions.'
+        });
+      }
+    }
+
+    // Generate all matches for this turn with the same scouter assignments
     for (let matchNum = turn.startMatch; matchNum <= turn.endMatch; matchNum++) {
       const assignments: { position: string; scouter: string; teamNumber: number | null }[] = [];
 
-      // For each position, find the best available scouter
-      for (let posIndex = 0; posIndex < POSITIONS.length; posIndex++) {
-        const position = POSITIONS[posIndex];
-
-        // Find available scouters (those who haven't hit their limit)
-        const availableScouters = scouters.filter(s => {
-          const count = scouterMatchCounts.get(s) || 0;
-          if (maxMatchesPerScouter !== null && count >= maxMatchesPerScouter) {
-            return false;
-          }
-          // Also check if already assigned in this match
-          return !assignments.some(a => a.scouter === s);
+      for (let posIndex = 0; posIndex < positions.length; posIndex++) {
+        assignments.push({
+          position: positions[posIndex],
+          scouter: turnAssignments[posIndex],
+          teamNumber: null
         });
-
-        if (availableScouters.length === 0) {
-          // This shouldn't happen if validation passed, but handle gracefully
-          warnings.push({
-            type: 'warning',
-            message: `No available scouter for Match ${matchNum}, ${position}`,
-            details: 'All scouters have reached their match limit or are already assigned.'
-          });
-          assignments.push({ position, scouter: '', teamNumber: null });
-          continue;
-        }
-
-        // Sort by: 1) lowest match count, 2) different position than last time
-        availableScouters.sort((a, b) => {
-          const countA = scouterMatchCounts.get(a) || 0;
-          const countB = scouterMatchCounts.get(b) || 0;
-
-          // Primary: fewest matches
-          if (countA !== countB) {
-            return countA - countB;
-          }
-
-          // Secondary: prefer scouters who haven't scouted this position recently
-          const lastPosA = scouterLastPosition.get(a) || 0;
-          const lastPosB = scouterLastPosition.get(b) || 0;
-          const diffA = lastPosA === posIndex ? 1 : 0;
-          const diffB = lastPosB === posIndex ? 1 : 0;
-
-          return diffA - diffB;
-        });
-
-        const selectedScouter = availableScouters[0];
-        assignments.push({ position, scouter: selectedScouter, teamNumber: null });
-
-        // Update tracking
-        scouterMatchCounts.set(selectedScouter, (scouterMatchCounts.get(selectedScouter) || 0) + 1);
-        scouterLastPosition.set(selectedScouter, posIndex);
       }
 
       const matchSchedule: MatchSchedule = {
@@ -258,11 +268,11 @@ export const generateSchedule = (
   const minCount = Math.min(...counts);
   const maxCount = Math.max(...counts);
 
-  if (maxCount - minCount > Math.ceil(eventConfig.totalMatches / scouters.length)) {
+  if (maxCount - minCount > Math.ceil(eventConfig.totalMatches / scouters.length) * 2) {
     warnings.push({
       type: 'warning',
       message: 'Uneven workload distribution',
-      details: `Match counts range from ${minCount} to ${maxCount}. Consider adjusting constraints.`
+      details: `Match counts range from ${minCount} to ${maxCount}. Consider adding more scouters or adjusting shifts.`
     });
   }
 
@@ -328,7 +338,8 @@ export const getAllScouterNames = (generatedSchedule: GeneratedSchedule): string
 };
 
 export const exportToCSV = (generatedSchedule: GeneratedSchedule): string => {
-  const headers = ['Match #', 'Lead Scouter', 'Camera', ...POSITIONS];
+  const positions = getPositions(generatedSchedule.event);
+  const headers = ['Match #', 'Lead Scouter', 'Camera', ...positions];
   const rows = [headers.join(',')];
 
   for (const match of generatedSchedule.schedule) {
