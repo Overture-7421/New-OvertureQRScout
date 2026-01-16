@@ -285,7 +285,7 @@ function App() {
             <button
               className="next-button"
               onClick={() => {
-                const tabs: TabType[] = ['PREMATCH', 'AUTONOMOUS', 'TELEOP', 'ENDGAME'];
+                const tabs: TabType[] = ['PREMATCH', 'AUTONOMOUS', 'TELEOP', 'ENDGAME', 'PIT SCOUTING'];
                 const currentIndex = tabs.indexOf(activeTab);
                 if (currentIndex < tabs.length - 1) {
                   setActiveTab(tabs[currentIndex + 1]);
@@ -363,7 +363,7 @@ function App() {
       </header>
 
       <div className="tabs">
-        {(['PREMATCH', 'AUTONOMOUS', 'TELEOP', 'ENDGAME'] as TabType[]).map(tab => (
+        {(['PREMATCH', 'AUTONOMOUS', 'TELEOP', 'ENDGAME', 'PIT SCOUTING'] as TabType[]).map(tab => (
           <button
             key={tab}
             className={`tab ${activeTab === tab ? 'active' : ''}`}

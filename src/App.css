@@ -31,9 +31,9 @@ body {
 }
 
 .app-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+  font-size: 3rem;
+  font-weight: 650;
+  background: linear-gradient(135deg, #9c27b0 0%, #9c27b0 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -67,7 +67,7 @@ body {
 
 .scouter-selector {
   padding: 0.5rem 1rem;
-  font-size: 1rem;
+  font-size: 1.5rem;
   background: #1e1e1e;
   border: 2px solid #9c27b0;
   border-radius: 8px;
@@ -157,7 +157,7 @@ body {
 }
 
 .event-icon {
-  font-size: 2rem;
+  font-size: 2.3rem;
 }
 
 .event-info {
@@ -165,7 +165,7 @@ body {
 }
 
 .event-name {
-  font-size: 1.3rem;
+  font-size: 2.2  rem;
   font-weight: 700;
   color: #9c27b0;
 }
@@ -229,8 +229,8 @@ body {
 .next-button,
 .commit-button,
 .reset-button {
-  padding: 1.25rem 2rem;
-  font-size: 1.1rem;
+  padding: 1.50rem 2rem;
+  font-size: 1.3rem;
   font-weight: 700;
   border: none;
   border-radius: 12px;
@@ -361,7 +361,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background: #9c27b0;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {

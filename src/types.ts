@@ -14,7 +14,7 @@ export interface Config {
   ENDGAME: FieldConfig[];
 }
 
-export type Phase = 'PREMATCH' | 'AUTONOMOUS' | 'TELEOP' | 'ENDGAME';
+export type Phase = 'PREMATCH' | 'AUTONOMOUS' | 'TELEOP' | 'ENDGAME' | 'PIT SCOUTING';
 
 export interface FormData {
   [key: string]: string | number | boolean;
