@@ -4,7 +4,11 @@
       "Bash(npm run build:*)",
       "Bash(npx tsc --noEmit)",
       "Bash(npx stylelint:*)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "Bash(git add:*)",
+      "WebFetch(domain:overture-7421.github.io)",
+      "Bash(git commit:*)",
+      "Bash(git push)"
     ]
   }
 }
