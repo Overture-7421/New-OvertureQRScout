@@ -45,6 +45,12 @@ body {
   flex-wrap: wrap;
 }
 
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .app-title {
   font-size: clamp(1.2rem, 5vw, 1.8rem);
   font-weight: 700;
@@ -54,6 +60,43 @@ body {
   background-clip: text;
   margin: 0;
   white-space: nowrap;
+}
+
+.header-badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.version-badge {
+  background: rgba(156, 39, 176, 0.3);
+  border: 1px solid #9c27b0;
+  color: #ce93d8;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.practice-flag {
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+  color: #000000;
+  padding: 0.2rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  animation: practiceFlash 2s ease-in-out infinite;
+}
+
+@keyframes practiceFlash {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(255, 152, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(255, 152, 0, 0.8);
+  }
 }
 
 .header-actions {
@@ -302,7 +345,8 @@ body {
 .next-button,
 .commit-button,
 .reset-button,
-.next-match-button {
+.next-match-button,
+.copy-columns-button {
   padding: clamp(0.75rem, 2vw, 1.25rem) clamp(1rem, 3vw, 2rem);
   font-size: clamp(0.9rem, 3vw, 1.1rem);
   font-weight: 700;
@@ -314,6 +358,20 @@ body {
   min-width: 120px;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+}
+
+.copy-columns-button {
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+  color: #000000;
+}
+
+.copy-columns-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 152, 0, 0.4);
+}
+
+.copy-columns-button:active {
+  transform: translateY(-1px);
 }
 
 .next-button {
@@ -442,7 +500,8 @@ body {
 
   .next-button,
   .commit-button,
-  .reset-button {
+  .reset-button,
+  .copy-columns-button {
     width: 100%;
     min-width: unset;
   }

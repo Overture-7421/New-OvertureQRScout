@@ -16,21 +16,39 @@ interface ScheduleConfigModalProps {
   isOpen: boolean;
   onClose: () => void;
   onScheduleGenerated: (schedule: GeneratedSchedule) => void;
+  selectedProgram: 'FTC' | 'FRC' | 'custom';
 }
 
 type ConfigTab = 'event' | 'personnel' | 'shifts' | 'timetable' | 'export';
 
 const SCHEDULE_PASSWORD = 'OVT2026_schedule!';
 
-const defaultEventConfig: EventConfig = {
-  localLabel: 'Regional MTY 2026',
-  tbaLabel: '2025mxmo',
-  amountOfTeams: 60,
-  matchesPerTeam: 8,
-  totalMatches: 72,
-  teamsPerMatch: 6,
-  allianceBlue: 'Blue',
-  allianceRed: 'Red'
+const getDefaultEventConfig = (program: 'FTC' | 'FRC' | 'custom'): EventConfig => {
+  if (program === 'FTC') {
+    return {
+      localLabel: 'FTC Event 2026',
+      tbaLabel: 'FTCScout',
+      amountOfTeams: 30,
+      matchesPerTeam: 5,
+      totalMatches: 45,
+      teamsPerMatch: 4,
+      allianceBlue: 'Blue',
+      allianceRed: 'Red',
+      isPractice: false
+    };
+  }
+  // FRC or custom defaults
+  return {
+    localLabel: 'Regional MTY 2026',
+    tbaLabel: '2025mxmo',
+    amountOfTeams: 60,
+    matchesPerTeam: 8,
+    totalMatches: 72,
+    teamsPerMatch: 6,
+    allianceBlue: 'Blue',
+    allianceRed: 'Red',
+    isPractice: false
+  };
 };
 
 const defaultPersonnel: Personnel = {
@@ -42,7 +60,8 @@ const defaultPersonnel: Personnel = {
 export const ScheduleConfigModal: React.FC<ScheduleConfigModalProps> = ({
   isOpen,
   onClose,
-  onScheduleGenerated
+  onScheduleGenerated,
+  selectedProgram
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
@@ -50,9 +69,9 @@ export const ScheduleConfigModal: React.FC<ScheduleConfigModalProps> = ({
   const [activeTab, setActiveTab] = useState<ConfigTab>('event');
 
   // Configuration state
-  const [eventConfig, setEventConfig] = useState<EventConfig>(defaultEventConfig);
+  const [eventConfig, setEventConfig] = useState<EventConfig>(getDefaultEventConfig(selectedProgram));
   const [personnel, setPersonnel] = useState<Personnel>(defaultPersonnel);
-  const [breakPoints, setBreakPoints] = useState<number[]>([20, 40]);
+  const [breakPoints, setBreakPoints] = useState<number[]>(selectedProgram === 'FTC' ? [15, 30] : [20, 40]);
   const [generatedSchedule, setGeneratedSchedule] = useState<GeneratedSchedule | null>(null);
 
   // Constraints state
@@ -72,6 +91,13 @@ export const ScheduleConfigModal: React.FC<ScheduleConfigModalProps> = ({
     }
   }, [isOpen]);
 
+  // Update defaults when program changes
+  useEffect(() => {
+    const newDefaults = getDefaultEventConfig(selectedProgram);
+    setEventConfig(newDefaults);
+    setBreakPoints(selectedProgram === 'FTC' ? [15, 30] : [20, 40]);
+  }, [selectedProgram]);
+
   const handlePasswordSubmit = () => {
     if (passwordInput === SCHEDULE_PASSWORD) {
       setIsAuthenticated(true);
@@ -81,7 +107,7 @@ export const ScheduleConfigModal: React.FC<ScheduleConfigModalProps> = ({
     }
   };
 
-  const handleEventChange = (key: keyof EventConfig, value: string | number) => {
+  const handleEventChange = (key: keyof EventConfig, value: string | number | boolean) => {
     setEventConfig(prev => ({ ...prev, [key]: value }));
   };
 
@@ -307,6 +333,20 @@ export const ScheduleConfigModal: React.FC<ScheduleConfigModalProps> = ({
                       onChange={(e) => handleEventChange('allianceRed', e.target.value)}
                     />
                   </div>
+                </div>
+
+                <div className="practice-toggle-section">
+                  <label className="practice-toggle-label">
+                    <input
+                      type="checkbox"
+                      checked={eventConfig.isPractice || false}
+                      onChange={(e) => handleEventChange('isPractice', e.target.checked)}
+                    />
+                    <span className="practice-toggle-text">Practice Mode</span>
+                  </label>
+                  <p className="practice-toggle-description">
+                    Enable this for practice matches. A "PRACTICE" flag will be displayed on the main page.
+                  </p>
                 </div>
               </div>
             </div>

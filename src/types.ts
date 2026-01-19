@@ -8,6 +8,7 @@ export interface FieldConfig {
 }
 
 export interface Config {
+  version?: string;
   PREMATCH: FieldConfig[];
   AUTONOMOUS: FieldConfig[];
   TELEOP: FieldConfig[];
@@ -31,6 +32,7 @@ export interface EventConfig {
   teamsPerMatch: number;
   allianceBlue: string;
   allianceRed: string;
+  isPractice?: boolean;
 }
 
 export interface Personnel {

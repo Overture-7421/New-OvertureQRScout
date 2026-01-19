@@ -25,6 +25,8 @@ function App() {
   const [selectedProgram, setSelectedProgram] = useState<RoboticsProgram>('FTC');
   const [availablePrograms, setAvailablePrograms] = useState<RoboticsProgram[]>(['FTC']);
   const [isLoadingConfig, setIsLoadingConfig] = useState(true);
+  const [hasCommittedOnce, setHasCommittedOnce] = useState(false);
+  const [configVersion, setConfigVersion] = useState<string>('');
 
   // Schedule configuration state
   const [scheduleConfigModalOpen, setScheduleConfigModalOpen] = useState(false);
@@ -101,13 +103,17 @@ function App() {
       if (program === 'FRC') {
         url = `${import.meta.env.BASE_URL}configFRC.json`;
       }
-      
+
       const response = await fetch(url);
       if (!response.ok) throw new Error(`Failed to load ${program} config`);
-      
-      const configData: Config = await response.json();
-      setConfig(configData);
-      initializeFormData(configData);
+
+      const configData = await response.json();
+      // Extract version if present
+      if (configData.version) {
+        setConfigVersion(configData.version);
+      }
+      setConfig(configData as Config);
+      initializeFormData(configData as Config);
     } catch (error) {
       console.error(`Error loading ${program} config:`, error);
       alert(`Failed to load ${program} config. Please ensure the config file exists.`);
@@ -182,24 +188,6 @@ function App() {
     }));
   };
 
-  const handleConfigUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const content = e.target?.result as string;
-          const newConfig: Config = JSON.parse(content);
-          setConfig(newConfig);
-          initializeFormData(newConfig);
-        } catch (error) {
-          console.error('Error loading custom config:', error);
-          alert('Invalid config file');
-        }
-      };
-      reader.readAsText(file);
-    }
-  };
 
   const generateDataString = (): string => {
     if (!config) return '';
@@ -209,6 +197,9 @@ function App() {
       const value = formData[field.key];
       if (typeof value === 'boolean') {
         values.push(value ? 'Yes' : 'No');
+      } else if (typeof value === 'number') {
+        // Always show the number, including 0
+        values.push(String(value));
       } else {
         values.push(String(value || ''));
       }
@@ -229,6 +220,7 @@ function App() {
   };
 
   const commitData = () => {
+    setHasCommittedOnce(true);
     setQrModalOpen(true);
   };
 
@@ -428,9 +420,19 @@ function App() {
                 📊 COMMIT DATA
               </button>
               <button
+                className="copy-columns-button"
+                onClick={() => {
+                  navigator.clipboard.writeText(generateHeaders()).then(() => {
+                    alert('Column titles copied to clipboard!');
+                  });
+                }}
+              >
+                📋 COPY COLUMN TITLES
+              </button>
+              <button
                 className="next-match-button"
                 onClick={handleNextMatch}
-                disabled={!matchInfo?.hasMoreMatches}
+                disabled={!hasCommittedOnce || !matchInfo?.hasMoreMatches}
               >
                 ⏭️ NEXT MATCH
               </button>
@@ -454,22 +456,30 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1 className="app-title">Overture RebuiltQR</h1>
+        <div className="header-left">
+          <h1 className="app-title">Overture QRScout</h1>
+          <div className="header-badges">
+            {configVersion && (
+              <span className="version-badge">v{configVersion}</span>
+            )}
+            {generatedSchedule?.event?.isPractice && (
+              <span className="practice-flag">PRACTICE</span>
+            )}
+          </div>
+        </div>
         <div className="header-actions">
-          {availablePrograms.length > 1 && (
-            <select
-              className="program-selector"
-              value={selectedProgram}
-              onChange={(e) => setSelectedProgram(e.target.value as RoboticsProgram)}
-              title="Select Robotics Program"
-            >
-              {availablePrograms.map(program => (
-                <option key={program} value={program}>
-                  {program}
-                </option>
-              ))}
-            </select>
-          )}
+          <select
+            className="program-selector"
+            value={selectedProgram}
+            onChange={(e) => setSelectedProgram(e.target.value as RoboticsProgram)}
+            title="Select Robotics Program"
+          >
+            {availablePrograms.map(program => (
+              <option key={program} value={program}>
+                {program}
+              </option>
+            ))}
+          </select>
 
           <button
             className="icon-button"
@@ -502,16 +512,6 @@ function App() {
               ))}
             </select>
           )}
-
-          <label className="icon-button" title="Load Custom Config">
-            📁
-            <input
-              type="file"
-              accept=".json"
-              onChange={handleConfigUpload}
-              style={{ display: 'none' }}
-            />
-          </label>
         </div>
       </header>
 
@@ -542,6 +542,7 @@ function App() {
         isOpen={scheduleConfigModalOpen}
         onClose={() => setScheduleConfigModalOpen(false)}
         onScheduleGenerated={handleScheduleGenerated}
+        selectedProgram={selectedProgram}
       />
     </div>
   );
