@@ -100,26 +100,32 @@ export const PitScouting: React.FC<PitScoutingProps> = ({ onBack }) => {
     }
   };
 
+  // Save only if not already saved for this team/questionnaire in this session
   const handleSave = () => {
     if (!formData.team_number || formData.team_number === 0) {
       alert('Please enter a team number before saving.');
       return;
     }
-
     if (!selectedQuestionnaire) {
       alert('Please select a questionnaire.');
       return;
     }
-
+    // Prevent duplicate save for same team/questionnaire (in this session)
+    const alreadySaved = savedEntries.some(
+      (entry) => entry.teamNumber === formData.team_number && entry.questionnaire === selectedQuestionnaire
+    );
+    if (alreadySaved) {
+      // Optionally update the entry instead of skipping, but for now, skip
+      return;
+    }
     const entry: PitScoutingEntry = {
       teamNumber: formData.team_number as number,
       questionnaire: selectedQuestionnaire,
       answers: { ...formData },
       timestamp: Date.now()
     };
-
     setSavedEntries(prev => [...prev, entry]);
-    alert(`Saved data for Team ${formData.team_number} (${selectedQuestionnaire})`);
+    // No alert, as this is now an implicit save
   };
 
   const handleNextRobot = () => {
@@ -127,7 +133,6 @@ export const PitScouting: React.FC<PitScoutingProps> = ({ onBack }) => {
     if (formData.team_number && formData.team_number !== 0) {
       handleSave();
     }
-
     // Reset form but keep examiner name and questionnaire selection
     initializeFormData(selectedQuestionnaire);
     setFormData(prev => ({
@@ -414,9 +419,6 @@ export const PitScouting: React.FC<PitScoutingProps> = ({ onBack }) => {
 
             {/* Action buttons */}
             <div className="pit-scouting-actions">
-              <button className="save-button" onClick={handleSave}>
-                💾 SAVE
-              </button>
               <button className="next-robot-button" onClick={handleNextRobot}>
                 ⏭️ NEXT ROBOT
               </button>

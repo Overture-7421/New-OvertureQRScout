@@ -9,7 +9,8 @@
       "WebFetch(domain:overture-7421.github.io)",
       "Bash(git commit:*)",
       "Bash(git push)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(git checkout:*)"
     ]
   }
 }

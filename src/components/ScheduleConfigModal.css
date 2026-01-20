@@ -194,7 +194,7 @@
 }
 
 /* ========== MODAL HEADER ========== */
-.modal-header {
+.schedule-modal .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -205,7 +205,7 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-.modal-header h2 {
+.schedule-modal .modal-header h2 {
   font-size: 1.4rem;
   font-weight: 700;
   background: linear-gradient(135deg, #e040fb 0%, #9c27b0 100%);
@@ -296,7 +296,7 @@
 }
 
 /* ========== MODAL CONTENT ========== */
-.modal-content {
+.schedule-modal .modal-content {
   flex: 1 1 auto;
   width: 100vw;
   max-width: 100vw;
@@ -1080,11 +1080,11 @@
 
 /* Mobile screens */
 @media (max-width: 768px) {
-  .modal-header {
+  .schedule-modal .modal-header {
     padding: 1rem 1.25rem;
   }
 
-  .modal-header h2 {
+  .schedule-modal .modal-header h2 {
     font-size: 1.2rem;
   }
 
