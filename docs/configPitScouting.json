@@ -1,0 +1,123 @@
+{
+  "version": "1.0.0",
+  "questionnaires": {
+    "Mech": {
+      "label": "Mechanical",
+      "fields": [
+        {
+          "label": "How long does it take to change bumpers?",
+          "key": "mech_bumper_time",
+          "type": "dropdown",
+          "options": ["-3 mins", "3-5 mins", "+5 mins"]
+        },
+        {
+          "label": "Do you have a robot checklist before each match?",
+          "key": "mech_checklist",
+          "type": "switch"
+        },
+        {
+          "label": "Do you have spare mechanisms or spare parts?",
+          "key": "mech_spare_parts",
+          "type": "switch"
+        }
+      ]
+    },
+    "Programming": {
+      "label": "Programming",
+      "fields": [
+        {
+          "label": "Do you use Choreo/Pathplanner?",
+          "key": "prog_choreo_pathplanner",
+          "type": "switch"
+        },
+        {
+          "label": "What programming language do you use?",
+          "key": "prog_language",
+          "type": "dropdown",
+          "options": ["Java", "C++", "Python", "LabVIEW", "Other"]
+        },
+        {
+          "label": "Do you use Odometry?",
+          "key": "prog_odometry",
+          "type": "switch"
+        },
+        {
+          "label": "Is the control field or robot oriented?",
+          "key": "prog_control_orientation",
+          "type": "dropdown",
+          "options": ["Field", "Robot"]
+        },
+        {
+          "label": "Do you use vision?",
+          "key": "prog_vision",
+          "type": "switch"
+        }
+      ]
+    },
+    "Electrical": {
+      "label": "Electrical",
+      "fields": [
+        {
+          "label": "Do you use CANivore?",
+          "key": "elec_canivore",
+          "type": "switch"
+        },
+        {
+          "label": "Do you protect the cables with something?",
+          "key": "elec_cable_protection",
+          "type": "switch"
+        },
+        {
+          "label": "Do you solder or use WAGOs?",
+          "key": "elec_connection_type",
+          "type": "dropdown",
+          "options": ["Solder", "WAGOs", "Both", "Other"]
+        }
+      ]
+    },
+    "Competences": {
+      "label": "Competences",
+      "fields": [
+        {
+          "label": "How many batteries do they have?",
+          "key": "comp_batteries",
+          "type": "dropdown",
+          "options": ["-3", "3-5", "5-10", "10+"]
+        },
+        {
+          "label": "If there is a problem, is it necessary the drive team to fix it?",
+          "key": "comp_drive_team_fix",
+          "type": "switch"
+        },
+        {
+          "label": "Did they pass inspection on the first try?",
+          "key": "comp_first_inspection",
+          "type": "switch"
+        },
+        {
+          "label": "How committed do you see the team?",
+          "key": "comp_commitment",
+          "type": "dropdown",
+          "options": ["Little", "Some", "Good", "Very Good", "Excellent", "More than us"]
+        }
+      ]
+    }
+  },
+  "commonFields": [
+    {
+      "label": "Team Number",
+      "key": "team_number",
+      "type": "number"
+    },
+    {
+      "label": "Examiner Name",
+      "key": "examiner_name",
+      "type": "text"
+    },
+    {
+      "label": "As examiner, how did you feel evaluating this team?",
+      "key": "examiner_feeling",
+      "type": "textarea"
+    }
+  ]
+}
