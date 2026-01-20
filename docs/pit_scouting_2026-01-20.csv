@@ -1,0 +1,10 @@
+Team Number,Questionnaire,Timestamp,team_number,examiner_name,examiner_feeling,mech_bumper_time,mech_checklist,mech_spare_parts,prog_choreo_pathplanner,prog_language,prog_odometry,prog_control_orientation,prog_vision,elec_canivore,elec_cable_protection,elec_connection_type,comp_batteries,comp_drive_team_fix,comp_first_inspection,comp_commitment
+123,Mech,2026-01-20T00:51:46.537Z,123,Santi,Good,-3 mins,Yes,Yes,,,,,,,,,,,,
+432,Mech,2026-01-20T00:56:13.584Z,432,Santi,Good,3-5 mins,Yes,Yes,,,,,,,,,,,,
+5745,Mech,2026-01-20T00:56:29.424Z,5745,Santi,Bad,3-5 mins,Yes,Yes,,,,,,,,,,,,
+634,Mech,2026-01-20T00:56:38.794Z,634,Santi,dfsf,3-5 mins,Yes,No,,,,,,,,,,,,
+4234,Programming,2026-01-20T00:57:40.836Z,4234,Santi,G,,,,Yes,C++,Yes,Robot,Yes,,,,,,,
+423,Programming,2026-01-20T00:57:51.580Z,423,Santi,fgdfgd,,,,Yes,Python,Yes,Robot,Yes,,,,,,,
+342342,Electrical,2026-01-20T00:58:03.215Z,342342,Santi,fggdg,,,,,,,,,Yes,Yes,Both,,,,
+655,Electrical,2026-01-20T00:58:11.812Z,655,Santi,ghfg,,,,,,,,,Yes,Yes,WAGOs,,,,
+4234,Competences,2026-01-20T00:58:26.321Z,4234,Santi,ghffdg,,,,,,,,,,,,5-10,Yes,Yes,More than us
