@@ -16,7 +16,11 @@ type TabType = Phase;
 
 type RoboticsProgram = 'FTC' | 'FRC' | 'custom';
 
-function App() {
+interface AppProps {
+  onNavigateToPitScouting?: () => void;
+}
+
+function App({ onNavigateToPitScouting }: AppProps = {}) {
   const [config, setConfig] = useState<Config | null>(null);
   const [formData, setFormData] = useState<FormData>({});
   const [activeTab, setActiveTab] = useState<TabType>('PREMATCH');
@@ -468,6 +472,16 @@ function App() {
           </div>
         </div>
         <div className="header-actions">
+          {onNavigateToPitScouting && (
+            <button
+              className="pit-scouting-nav-button"
+              onClick={onNavigateToPitScouting}
+              title="Pit Scouting"
+            >
+              🔧 Pit Scout
+            </button>
+          )}
+
           <select
             className="program-selector"
             value={selectedProgram}

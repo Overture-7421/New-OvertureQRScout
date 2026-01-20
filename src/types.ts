@@ -1,4 +1,4 @@
-export type FieldType = 'text' | 'number' | 'dropdown' | 'switch' | 'counter';
+export type FieldType = 'text' | 'number' | 'dropdown' | 'switch' | 'counter' | 'textarea';
 
 export interface FieldConfig {
   label: string;
@@ -6,6 +6,29 @@ export interface FieldConfig {
   type: FieldType;
   options?: string[];
 }
+
+// Pit Scouting Types
+export interface PitScoutingQuestionnaire {
+  label: string;
+  fields: FieldConfig[];
+}
+
+export interface PitScoutingConfig {
+  version?: string;
+  questionnaires: {
+    [key: string]: PitScoutingQuestionnaire;
+  };
+  commonFields: FieldConfig[];
+}
+
+export interface PitScoutingEntry {
+  teamNumber: number;
+  questionnaire: string;
+  answers: FormData;
+  timestamp: number;
+}
+
+export type AppRoute = 'scouting' | 'pit-scouting';
 
 export interface Config {
   version?: string;

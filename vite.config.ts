@@ -12,7 +12,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['config.json', 'sample_schedule.txt'],
+      includeAssets: ['config.json', 'sample_schedule.txt', 'configPitScouting.json'],
       manifest: {
         name: 'Overture RebuiltQR Scouting',
         short_name: 'RebuiltQR',
