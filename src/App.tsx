@@ -29,6 +29,7 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
   const [selectedProgram, setSelectedProgram] = useState<RoboticsProgram>('FTC');
   const [availablePrograms, setAvailablePrograms] = useState<RoboticsProgram[]>(['FTC']);
   const [isLoadingConfig, setIsLoadingConfig] = useState(true);
+  const [isRefreshingConfig, setIsRefreshingConfig] = useState(false);
   const [hasCommittedOnce, setHasCommittedOnce] = useState(false);
   const [configVersion, setConfigVersion] = useState<string>('');
 
@@ -75,19 +76,22 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
   const initializeApp = async () => {
     try {
       const programs: RoboticsProgram[] = [];
-      
+
+      // Cache-busting timestamp to ensure fresh configs on launch
+      const cacheBuster = `?t=${Date.now()}`;
+
       // Check which config files are available
-      const ftcResponse = await fetch(`${import.meta.env.BASE_URL}configFTC.json`);
-      const frcResponse = await fetch(`${import.meta.env.BASE_URL}configFRC.json`);
-      
+      const ftcResponse = await fetch(`${import.meta.env.BASE_URL}configFTC.json${cacheBuster}`);
+      const frcResponse = await fetch(`${import.meta.env.BASE_URL}configFRC.json${cacheBuster}`);
+
       if (ftcResponse.ok) programs.push('FTC');
       if (frcResponse.ok) programs.push('FRC');
-      
+
       setAvailablePrograms(programs);
-      
+
       // Load the first available program (prefer FTC if available)
       const programToLoad = programs.includes('FTC') ? 'FTC' : programs[0];
-      
+
       if (programToLoad) {
         // Load config directly without updating selectedProgram yet
         await loadConfigForProgram(programToLoad);
@@ -102,10 +106,12 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
 
   const loadConfigForProgram = async (program: RoboticsProgram) => {
     try {
-      let url = `${import.meta.env.BASE_URL}configFTC.json`;
+      // Cache-busting timestamp to ensure fresh configs
+      const cacheBuster = `?t=${Date.now()}`;
+      let url = `${import.meta.env.BASE_URL}configFTC.json${cacheBuster}`;
 
       if (program === 'FRC') {
-        url = `${import.meta.env.BASE_URL}configFRC.json`;
+        url = `${import.meta.env.BASE_URL}configFRC.json${cacheBuster}`;
       }
 
       const response = await fetch(url);
@@ -121,6 +127,15 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
     } catch (error) {
       console.error(`Error loading ${program} config:`, error);
       alert(`Failed to load ${program} config. Please ensure the config file exists.`);
+    }
+  };
+
+  const refreshConfig = async () => {
+    setIsRefreshingConfig(true);
+    try {
+      await loadConfigForProgram(selectedProgram);
+    } finally {
+      setIsRefreshingConfig(false);
     }
   };
 
@@ -494,6 +509,15 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
               </option>
             ))}
           </select>
+
+          <button
+            className={`icon-button refresh-config-button ${isRefreshingConfig ? 'refreshing' : ''}`}
+            onClick={refreshConfig}
+            disabled={isRefreshingConfig}
+            title="Refresh Config JSON"
+          >
+            🔄
+          </button>
 
           <button
             className="icon-button"

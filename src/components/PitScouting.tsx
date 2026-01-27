@@ -49,7 +49,9 @@ export const PitScouting: React.FC<PitScoutingProps> = ({ onBack }) => {
 
   const loadConfig = async () => {
     try {
-      const response = await fetch(`${import.meta.env.BASE_URL}configPitScouting.json`);
+      // Cache-busting timestamp to ensure fresh config on launch
+      const cacheBuster = `?t=${Date.now()}`;
+      const response = await fetch(`${import.meta.env.BASE_URL}configPitScouting.json${cacheBuster}`);
       if (!response.ok) throw new Error('Failed to load pit scouting config');
       const data = await response.json();
       setConfig(data);
