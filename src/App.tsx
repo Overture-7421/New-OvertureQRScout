@@ -29,7 +29,6 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
   const [selectedProgram, setSelectedProgram] = useState<RoboticsProgram>('FTC');
   const [availablePrograms, setAvailablePrograms] = useState<RoboticsProgram[]>(['FTC']);
   const [isLoadingConfig, setIsLoadingConfig] = useState(true);
-  const [isRefreshingConfig, setIsRefreshingConfig] = useState(false);
   const [hasCommittedOnce, setHasCommittedOnce] = useState(false);
   const [configVersion, setConfigVersion] = useState<string>('');
 
@@ -130,13 +129,31 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
     }
   };
 
-  const refreshConfig = async () => {
-    setIsRefreshingConfig(true);
-    try {
-      await loadConfigForProgram(selectedProgram);
-    } finally {
-      setIsRefreshingConfig(false);
+  const handleConfigUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const content = e.target?.result as string;
+          const configData = JSON.parse(content);
+          if (configData.version) {
+            setConfigVersion(configData.version);
+          }
+          setConfig(configData as Config);
+          initializeFormData(configData as Config);
+          setSelectedProgram('custom');
+          if (!availablePrograms.includes('custom')) {
+            setAvailablePrograms(prev => [...prev, 'custom']);
+          }
+        } catch {
+          alert('Invalid config file. Please upload a valid JSON config.');
+        }
+      };
+      reader.readAsText(file);
     }
+    // Reset input so same file can be uploaded again
+    event.target.value = '';
   };
 
   const initializeFormData = (cfg: Config) => {
@@ -510,14 +527,15 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
             ))}
           </select>
 
-          <button
-            className={`icon-button refresh-config-button ${isRefreshingConfig ? 'refreshing' : ''}`}
-            onClick={refreshConfig}
-            disabled={isRefreshingConfig}
-            title="Refresh Config JSON"
-          >
-            🔄
-          </button>
+          <label className="icon-button" title="Upload Config (JSON)">
+            📤
+            <input
+              type="file"
+              accept=".json"
+              onChange={handleConfigUpload}
+              style={{ display: 'none' }}
+            />
+          </label>
 
           <button
             className="icon-button"

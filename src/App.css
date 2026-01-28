@@ -179,21 +179,6 @@ body {
   transform: scale(0.95);
 }
 
-.refresh-config-button.refreshing {
-  animation: spin 1s linear infinite;
-  pointer-events: none;
-  opacity: 0.7;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .scouter-selector {
   padding: 0.5rem 1rem;
   font-size: 0.9rem;
