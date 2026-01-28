@@ -1,5 +1,5 @@
 {
-  "version": "0.0.1",
+  "version": "0.0.2",
   "PREMATCH": [
     {
       "label": "Scouter Name",
@@ -51,12 +51,7 @@
       "type": "counter"
     },
     {
-      "label": "Artifacts Placed in Depot",
-      "key": "auto_depot_placed",
-      "type": "counter"
-    },
-    {
-      "label": "Pattern Matches at End of Auto (0-9)",
+      "label": "Pattern Made at End of Auto (0-9)",
       "key": "auto_pattern_matches",
       "type": "counter"
     },
@@ -74,6 +69,11 @@
   ],
   "TELEOP": [
     {
+      "label": "How many artifacts failed to score?",
+      "key": "teleop_artifact_failed",
+      "type": "counter"
+    },
+    {
       "label": "Artifacts Scored (CLASSIFIED)",
       "key": "teleop_artifact_classified",
       "type": "counter"
@@ -89,12 +89,7 @@
       "type": "counter"
     },
     {
-      "label": "How many artifacts failed to score?",
-      "key": "teleop_artifact_failed",
-      "type": "counter"
-    },
-    {
-      "label": "Pattern Matches at End of Match (0-9)",
+      "label": "Pattern Made at End of Match (0-9)",
       "key": "teleop_pattern_matches",
       "type": "counter"
     },
@@ -132,11 +127,6 @@
       "key": "endgame_climbed",
       "type": "dropdown",
       "options": ["NOT Attempted", "Attempted - Successful", "Attempted - Failed"]
-    },
-    {
-      "label": "Tipped/Fell Over",
-      "key": "endgame_tipped",
-      "type": "switch"
     },
     {
       "label": "Broke / Major Failure",
