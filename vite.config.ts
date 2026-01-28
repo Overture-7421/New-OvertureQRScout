@@ -12,7 +12,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['config.json', 'sample_schedule.txt', 'configPitScouting.json'],
+      includeAssets: ['sample_schedule.txt'],
       manifest: {
         name: 'Overture RebuiltQR Scouting',
         short_name: 'RebuiltQR',
@@ -34,8 +34,22 @@ export default defineConfig({
         ]
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,json,txt}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
         runtimeCaching: [
+          {
+            urlPattern: /config.*\.json$/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'config-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 // 1 day
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
+          },
           {
             urlPattern: /^https:\/\/www\.youtube\.com\/.*/i,
             handler: 'CacheFirst',
