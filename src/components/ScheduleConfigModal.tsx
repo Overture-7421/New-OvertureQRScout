@@ -1,4 +1,4 @@
-// src/components/ScheduleConfigModal.tsx
+// src/components/ScheduleConfigModal.tsxnbbmbm
 import { useState, useEffect } from 'react';
 import type { EventConfig, Personnel, ShiftConfig, GeneratedSchedule, ScheduleConstraints, ScheduleValidationError } from '../types';
 import {
