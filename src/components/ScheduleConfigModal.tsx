@@ -1,4 +1,4 @@
-// src/components/ScheduleConfigModal.tsxnbbmbm
+// src/components/ScheduleConfigModal.tsxnbbmbm /testing gitaction
 import { useState, useEffect } from 'react';
 import type { EventConfig, Personnel, ShiftConfig, GeneratedSchedule, ScheduleConstraints, ScheduleValidationError } from '../types';
 import {
