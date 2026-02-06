@@ -1,5 +1,6 @@
 {
-  "version": "0.0.2",
+  "category": "FTC",
+  "version": "0.0.4",
   "PREMATCH": [
     {
       "label": "Scouter Name",
@@ -26,7 +27,7 @@
       "label": "Starting Side (Relative)",
       "key": "starting_side",
       "type": "dropdown",
-      "options": ["Goal Side", "Obelisk Side", "Center", "Unknown"]
+      "options": ["Goal Side", "Obelisk Side", "Audience - Center", "Audience - Left", "Audience - Right"]
     },
     {
       "label": "No Show",
@@ -51,9 +52,9 @@
       "type": "counter"
     },
     {
-      "label": "Pattern Made at End of Auto (0-9)",
-      "key": "auto_pattern_matches",
-      "type": "counter"
+      "label": "Patterns Made in Auto?",
+      "key": "auto_pattern",
+      "type": "switch"
     },
     {
       "label": "Auto Strategy",
@@ -84,20 +85,15 @@
       "type": "counter"
     },
     {
-      "label": "Artifacts Placed in Depot",
-      "key": "teleop_depot_placed",
-      "type": "counter"
-    },
-    {
-      "label": "Pattern Made at End of Match (0-9)",
-      "key": "teleop_pattern_matches",
-      "type": "counter"
+      "label": "Pattern Made in TeleOp?",
+      "key": "teleop_pattern",
+      "type": "switch"
     },
     {
       "label": "Cycle Focus",
       "key": "teleop_cycle_focus",
       "type": "dropdown",
-      "options": ["Goal Scoring", "Pattern Building", "Depot", "Mixed", "None/Dead"]
+      "options": ["Goal Scoring", "Pattern Building", "Mixed", "None/Dead"]
     },
     {
       "label": "Played Defense",
