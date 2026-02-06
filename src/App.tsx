@@ -31,6 +31,7 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
   const [isLoadingConfig, setIsLoadingConfig] = useState(true);
   const [hasCommittedOnce, setHasCommittedOnce] = useState(false);
   const [configVersion, setConfigVersion] = useState<string>('');
+  const [showConfigPrompt, setShowConfigPrompt] = useState(true);
 
   // Ref to skip config reload after upload
   const skipNextConfigLoadRef = useRef(false);
@@ -51,9 +52,12 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
     initializeApp();
   }, []);
 
-  // Load config when program changes (only after initial load)
+  // Load config when program changes (only after initial load and prompt dismissed)
   useEffect(() => {
-    if (!isLoadingConfig && selectedProgram) {
+    // Don't load if still showing prompt or loading
+    if (isLoadingConfig || showConfigPrompt) return;
+
+    if (selectedProgram) {
       // Skip if we just uploaded a config (to prevent overwriting it)
       if (skipNextConfigLoadRef.current) {
         skipNextConfigLoadRef.current = false;
@@ -61,7 +65,7 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
       }
       loadConfigForProgram(selectedProgram);
     }
-  }, [selectedProgram, isLoadingConfig]);
+  }, [selectedProgram, isLoadingConfig, showConfigPrompt]);
 
   // Update turn assignments when generated schedule or scouter changes
   useEffect(() => {
@@ -87,7 +91,7 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
       // Cache-busting timestamp to ensure fresh configs on launch
       const cacheBuster = `?t=${Date.now()}`;
 
-      // Check which config files are available
+      // Check which config files are available (but don't load yet)
       const ftcResponse = await fetch(`${import.meta.env.BASE_URL}configFTC.json${cacheBuster}`);
       const frcResponse = await fetch(`${import.meta.env.BASE_URL}configFRC.json${cacheBuster}`);
 
@@ -96,12 +100,9 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
 
       setAvailablePrograms(programs);
 
-      // Load the first available program (prefer FTC if available)
+      // Set default program preference (but don't load config yet - wait for user choice)
       const programToLoad = programs.includes('FTC') ? 'FTC' : programs[0];
-
       if (programToLoad) {
-        // Load config directly without updating selectedProgram yet
-        await loadConfigForProgram(programToLoad);
         setSelectedProgram(programToLoad);
       }
     } catch (error) {
@@ -109,6 +110,51 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
     } finally {
       setIsLoadingConfig(false);
     }
+  };
+
+  const handleUseDefaultConfig = async () => {
+    await loadConfigForProgram(selectedProgram);
+    // Skip the next auto-load since we just loaded
+    skipNextConfigLoadRef.current = true;
+    setShowConfigPrompt(false);
+  };
+
+  const handleStartupConfigUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const content = e.target?.result as string;
+          const configData = JSON.parse(content);
+
+          // Get category from config (must be FTC or FRC)
+          const category = configData.category as RoboticsProgram;
+          if (category !== 'FTC' && category !== 'FRC') {
+            alert('Invalid config file. The "category" field must be "FTC" or "FRC".');
+            return;
+          }
+
+          if (configData.version) {
+            setConfigVersion(configData.version);
+          }
+          setConfig(configData as Config);
+          initializeFormData(configData as Config);
+
+          // Update selected program to match and skip next auto-load
+          skipNextConfigLoadRef.current = true;
+          if (category !== selectedProgram) {
+            setSelectedProgram(category);
+          }
+
+          setShowConfigPrompt(false);
+        } catch {
+          alert('Invalid config file. Please upload a valid JSON config.');
+        }
+      };
+      reader.readAsText(file);
+    }
+    event.target.value = '';
   };
 
   const loadConfigForProgram = async (program: RoboticsProgram) => {
@@ -497,12 +543,66 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
     );
   };
 
-  if (!config) {
+  // Show loading while checking available programs
+  if (isLoadingConfig) {
     return (
       <div className="loading-screen">
         <div className="loading-icon">📱</div>
         <h1>Overture RebuiltQR</h1>
         <p>Loading...</p>
+      </div>
+    );
+  }
+
+  // Show config upload prompt
+  if (showConfigPrompt) {
+    return (
+      <div className="config-prompt-screen">
+        <div className="config-prompt-container">
+          <div className="config-prompt-icon">📋</div>
+          <h1>Overture QRScout</h1>
+          <p className="config-prompt-subtitle">Upload a scouting configuration to get started</p>
+
+          <div className="config-prompt-actions">
+            <label className="config-upload-button">
+              📤 Upload Config
+              <input
+                type="file"
+                accept=".json"
+                onChange={handleStartupConfigUpload}
+                style={{ display: 'none' }}
+              />
+            </label>
+
+            <div className="config-prompt-divider">
+              <span>or</span>
+            </div>
+
+            <button
+              className="config-default-button"
+              onClick={handleUseDefaultConfig}
+              disabled={availablePrograms.length === 0}
+            >
+              Use Default ({selectedProgram})
+            </button>
+          </div>
+
+          {availablePrograms.length === 0 && (
+            <p className="config-prompt-warning">
+              No default configs available. Please upload a config file.
+            </p>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (!config) {
+    return (
+      <div className="loading-screen">
+        <div className="loading-icon">📱</div>
+        <h1>Overture RebuiltQR</h1>
+        <p>Loading config...</p>
       </div>
     );
   }

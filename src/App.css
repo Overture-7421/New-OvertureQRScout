@@ -650,3 +650,119 @@ body {
   }
 }
 
+/* Config Prompt Screen */
+.config-prompt-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #121212;
+  padding: 2rem;
+}
+
+.config-prompt-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.config-prompt-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.config-prompt-screen h1 {
+  background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.config-prompt-subtitle {
+  color: #9e9e9e;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+.config-prompt-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.config-upload-button {
+  padding: 1.25rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+  border: none;
+  border-radius: 12px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  display: block;
+}
+
+.config-upload-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(156, 39, 176, 0.4);
+}
+
+.config-upload-button:active {
+  transform: translateY(-1px);
+}
+
+.config-prompt-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #616161;
+  font-size: 0.9rem;
+}
+
+.config-prompt-divider::before,
+.config-prompt-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #424242;
+}
+
+.config-default-button {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background: transparent;
+  border: 2px solid #616161;
+  border-radius: 12px;
+  color: #9e9e9e;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.config-default-button:hover:not(:disabled) {
+  border-color: #9c27b0;
+  color: #ffffff;
+  background: rgba(156, 39, 176, 0.1);
+}
+
+.config-default-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.config-prompt-warning {
+  color: #ff9800;
+  font-size: 0.85rem;
+  margin-top: 1rem;
+}
+
