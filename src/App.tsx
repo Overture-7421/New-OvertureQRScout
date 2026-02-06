@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './App.css';
 import type { Config, Phase, FormData, GeneratedSchedule, ScouterTurnAssignment } from './types';
 import { TextField, NumberField, DropdownField, SwitchField, CounterField } from './components/FieldComponents';
@@ -14,7 +14,7 @@ import {
 
 type TabType = Phase;
 
-type RoboticsProgram = 'FTC' | 'FRC' | 'custom';
+type RoboticsProgram = 'FTC' | 'FRC';
 
 interface AppProps {
   onNavigateToPitScouting?: () => void;
@@ -31,6 +31,9 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
   const [isLoadingConfig, setIsLoadingConfig] = useState(true);
   const [hasCommittedOnce, setHasCommittedOnce] = useState(false);
   const [configVersion, setConfigVersion] = useState<string>('');
+
+  // Ref to skip config reload after upload
+  const skipNextConfigLoadRef = useRef(false);
 
   // Schedule configuration state
   const [scheduleConfigModalOpen, setScheduleConfigModalOpen] = useState(false);
@@ -51,6 +54,11 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
   // Load config when program changes (only after initial load)
   useEffect(() => {
     if (!isLoadingConfig && selectedProgram) {
+      // Skip if we just uploaded a config (to prevent overwriting it)
+      if (skipNextConfigLoadRef.current) {
+        skipNextConfigLoadRef.current = false;
+        return;
+      }
       loadConfigForProgram(selectedProgram);
     }
   }, [selectedProgram, isLoadingConfig]);
@@ -137,14 +145,24 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
         try {
           const content = e.target?.result as string;
           const configData = JSON.parse(content);
+
+          // Get category from config (must be FTC or FRC)
+          const category = configData.category as RoboticsProgram;
+          if (category !== 'FTC' && category !== 'FRC') {
+            alert('Invalid config file. The "category" field must be "FTC" or "FRC".');
+            return;
+          }
+
           if (configData.version) {
             setConfigVersion(configData.version);
           }
           setConfig(configData as Config);
           initializeFormData(configData as Config);
-          setSelectedProgram('custom');
-          if (!availablePrograms.includes('custom')) {
-            setAvailablePrograms(prev => [...prev, 'custom']);
+
+          // If category differs from current selection, skip the next auto-load and switch
+          if (category !== selectedProgram) {
+            skipNextConfigLoadRef.current = true;
+            setSelectedProgram(category);
           }
         } catch {
           alert('Invalid config file. Please upload a valid JSON config.');

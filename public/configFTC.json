@@ -1,5 +1,6 @@
 {
-  "version": "0.0.3",
+  "category": "FTC",
+  "version": "0.0.4",
   "PREMATCH": [
     {
       "label": "Scouter Name",
@@ -51,9 +52,9 @@
       "type": "counter"
     },
     {
-      "label": "Pattern Made at End of Auto (0-9)",
-      "key": "auto_pattern_matches",
-      "type": "counter"
+      "label": "Patterns Made in Auto?",
+      "key": "auto_pattern",
+      "type": "switch"
     },
     {
       "label": "Auto Strategy",
@@ -84,9 +85,9 @@
       "type": "counter"
     },
     {
-      "label": "Pattern Made at End of Match (0-9)",
-      "key": "teleop_pattern_matches",
-      "type": "counter"
+      "label": "Pattern Made in TeleOp?",
+      "key": "teleop_pattern",
+      "type": "switch"
     },
     {
       "label": "Cycle Focus",
