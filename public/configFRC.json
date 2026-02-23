@@ -32,6 +32,11 @@
   ],
   "AUTONOMOUS": [
     {
+      "label": "Cycle Time",
+      "key": "cycle_time",
+      "type": "chrono"
+    },
+    {
       "label": "Moved",
       "key": "auto_moved",
       "type": "switch"

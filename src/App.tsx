@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
-import type { Config, Phase, FormData, GeneratedSchedule, ScouterTurnAssignment } from './types';
-import { TextField, NumberField, DropdownField, SwitchField, CounterField } from './components/FieldComponents';
+import type { Config, Phase, FormData, GeneratedSchedule, ScouterTurnAssignment, RoboticsProgram } from './types';
+import { TextField, NumberField, DropdownField, SwitchField, CounterField, ChronoField } from './components/FieldComponents';
 import { QRModal } from './components/QRModal';
 import { ScheduleConfigModal } from './components/ScheduleConfigModal';
 import {
@@ -14,27 +14,22 @@ import {
 
 type TabType = Phase;
 
-type RoboticsProgram = 'FTC' | 'FRC';
-
 interface AppProps {
   onNavigateToPitScouting?: () => void;
+  onProgramSelected?: (program: RoboticsProgram) => void;
 }
 
-function App({ onNavigateToPitScouting }: AppProps = {}) {
+function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
   const [config, setConfig] = useState<Config | null>(null);
   const [formData, setFormData] = useState<FormData>({});
   const [activeTab, setActiveTab] = useState<TabType>('PREMATCH');
   const [qrModalOpen, setQrModalOpen] = useState(false);
   const [selectedScouterId, setSelectedScouterId] = useState<string>('');
   const [selectedProgram, setSelectedProgram] = useState<RoboticsProgram>('FTC');
-  const [availablePrograms, setAvailablePrograms] = useState<RoboticsProgram[]>(['FTC']);
-  const [isLoadingConfig, setIsLoadingConfig] = useState(true);
   const [hasCommittedOnce, setHasCommittedOnce] = useState(false);
   const [configVersion, setConfigVersion] = useState<string>('');
   const [showConfigPrompt, setShowConfigPrompt] = useState(true);
-
-  // Ref to skip config reload after upload
-  const skipNextConfigLoadRef = useRef(false);
+  const [isLoadingConfig, setIsLoadingConfig] = useState(false);
 
   // Schedule configuration state
   const [scheduleConfigModalOpen, setScheduleConfigModalOpen] = useState(false);
@@ -47,33 +42,12 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
     turn.assignments.map(a => ({ ...a, turn: turn.turn }))
   );
 
-  // Check available programs and load config on startup
-  useEffect(() => {
-    initializeApp();
-  }, []);
-
-  // Load config when program changes (only after initial load and prompt dismissed)
-  useEffect(() => {
-    // Don't load if still showing prompt or loading
-    if (isLoadingConfig || showConfigPrompt) return;
-
-    if (selectedProgram) {
-      // Skip if we just uploaded a config (to prevent overwriting it)
-      if (skipNextConfigLoadRef.current) {
-        skipNextConfigLoadRef.current = false;
-        return;
-      }
-      loadConfigForProgram(selectedProgram);
-    }
-  }, [selectedProgram, isLoadingConfig, showConfigPrompt]);
-
   // Update turn assignments when generated schedule or scouter changes
   useEffect(() => {
     if (generatedSchedule && selectedScouterId) {
       const assignments = getScouterAssignments(generatedSchedule, selectedScouterId);
       setScouterTurnAssignments(assignments);
       setCurrentAssignmentIndex(0);
-      // Auto-fill first assignment
       if (assignments.length > 0 && assignments[0].assignments.length > 0) {
         const firstAssignment = assignments[0].assignments[0];
         autoFillFromTurnAssignment(firstAssignment, selectedScouterId);
@@ -84,39 +58,35 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
     }
   }, [generatedSchedule, selectedScouterId]);
 
-  const initializeApp = async () => {
+  const loadConfigForProgram = async (program: RoboticsProgram) => {
+    setIsLoadingConfig(true);
     try {
-      const programs: RoboticsProgram[] = [];
-
-      // Cache-busting timestamp to ensure fresh configs on launch
       const cacheBuster = `?t=${Date.now()}`;
+      const url = program === 'FRC'
+        ? `${import.meta.env.BASE_URL}configFRC.json${cacheBuster}`
+        : `${import.meta.env.BASE_URL}configFTC.json${cacheBuster}`;
 
-      // Check which config files are available (but don't load yet)
-      const ftcResponse = await fetch(`${import.meta.env.BASE_URL}configFTC.json${cacheBuster}`);
-      const frcResponse = await fetch(`${import.meta.env.BASE_URL}configFRC.json${cacheBuster}`);
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`Failed to load ${program} config`);
 
-      if (ftcResponse.ok) programs.push('FTC');
-      if (frcResponse.ok) programs.push('FRC');
-
-      setAvailablePrograms(programs);
-
-      // Set default program preference (but don't load config yet - wait for user choice)
-      const programToLoad = programs.includes('FTC') ? 'FTC' : programs[0];
-      if (programToLoad) {
-        setSelectedProgram(programToLoad);
-      }
+      const configData = await response.json();
+      if (configData.version) setConfigVersion(configData.version);
+      setConfig(configData as Config);
+      initializeFormData(configData as Config);
     } catch (error) {
-      console.error('Error initializing app:', error);
+      console.error(`Error loading ${program} config:`, error);
+      alert(`Failed to load ${program} config. Please upload a config file instead.`);
     } finally {
       setIsLoadingConfig(false);
     }
   };
 
-  const handleUseDefaultConfig = async () => {
-    await loadConfigForProgram(selectedProgram);
-    // Skip the next auto-load since we just loaded
-    skipNextConfigLoadRef.current = true;
-    setShowConfigPrompt(false);
+  const applyConfigData = (configData: Config, category: RoboticsProgram) => {
+    if (configData.version) setConfigVersion(configData.version as string);
+    setConfig(configData);
+    initializeFormData(configData);
+    setSelectedProgram(category);
+    onProgramSelected?.(category);
   };
 
   const handleStartupConfigUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -127,26 +97,12 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
         try {
           const content = e.target?.result as string;
           const configData = JSON.parse(content);
-
-          // Get category from config (must be FTC or FRC)
           const category = configData.category as RoboticsProgram;
           if (category !== 'FTC' && category !== 'FRC') {
             alert('Invalid config file. The "category" field must be "FTC" or "FRC".');
             return;
           }
-
-          if (configData.version) {
-            setConfigVersion(configData.version);
-          }
-          setConfig(configData as Config);
-          initializeFormData(configData as Config);
-
-          // Update selected program to match and skip next auto-load
-          skipNextConfigLoadRef.current = true;
-          if (category !== selectedProgram) {
-            setSelectedProgram(category);
-          }
-
+          applyConfigData(configData as Config, category);
           setShowConfigPrompt(false);
         } catch {
           alert('Invalid config file. Please upload a valid JSON config.');
@@ -157,30 +113,11 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
     event.target.value = '';
   };
 
-  const loadConfigForProgram = async (program: RoboticsProgram) => {
-    try {
-      // Cache-busting timestamp to ensure fresh configs
-      const cacheBuster = `?t=${Date.now()}`;
-      let url = `${import.meta.env.BASE_URL}configFTC.json${cacheBuster}`;
-
-      if (program === 'FRC') {
-        url = `${import.meta.env.BASE_URL}configFRC.json${cacheBuster}`;
-      }
-
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`Failed to load ${program} config`);
-
-      const configData = await response.json();
-      // Extract version if present
-      if (configData.version) {
-        setConfigVersion(configData.version);
-      }
-      setConfig(configData as Config);
-      initializeFormData(configData as Config);
-    } catch (error) {
-      console.error(`Error loading ${program} config:`, error);
-      alert(`Failed to load ${program} config. Please ensure the config file exists.`);
-    }
+  const handleUseDefault = async (program: RoboticsProgram) => {
+    setSelectedProgram(program);
+    await loadConfigForProgram(program);
+    onProgramSelected?.(program);
+    setShowConfigPrompt(false);
   };
 
   const handleConfigUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -191,32 +128,18 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
         try {
           const content = e.target?.result as string;
           const configData = JSON.parse(content);
-
-          // Get category from config (must be FTC or FRC)
           const category = configData.category as RoboticsProgram;
           if (category !== 'FTC' && category !== 'FRC') {
             alert('Invalid config file. The "category" field must be "FTC" or "FRC".');
             return;
           }
-
-          if (configData.version) {
-            setConfigVersion(configData.version);
-          }
-          setConfig(configData as Config);
-          initializeFormData(configData as Config);
-
-          // If category differs from current selection, skip the next auto-load and switch
-          if (category !== selectedProgram) {
-            skipNextConfigLoadRef.current = true;
-            setSelectedProgram(category);
-          }
+          applyConfigData(configData as Config, category);
         } catch {
           alert('Invalid config file. Please upload a valid JSON config.');
         }
       };
       reader.readAsText(file);
     }
-    // Reset input so same file can be uploaded again
     event.target.value = '';
   };
 
@@ -226,7 +149,7 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
     Object.values(cfg).flat().forEach(field => {
       if (field.type === 'switch') {
         initialData[field.key] = false;
-      } else if (field.type === 'counter' || field.type === 'number') {
+      } else if (field.type === 'counter' || field.type === 'number' || field.type === 'chrono') {
         initialData[field.key] = 0;
       } else {
         initialData[field.key] = '';
@@ -288,7 +211,6 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
     }));
   };
 
-
   const generateDataString = (): string => {
     if (!config) return '';
 
@@ -298,7 +220,6 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
       if (typeof value === 'boolean') {
         values.push(value ? 'Yes' : 'No');
       } else if (typeof value === 'number') {
-        // Always show the number, including 0
         values.push(String(value));
       } else {
         values.push(String(value || ''));
@@ -327,23 +248,19 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
   const handleNextMatch = () => {
     if (!config) return;
 
-    // Reset form data
     initializeFormData(config);
 
-    // Move to next assignment
     const nextIndex = currentAssignmentIndex + 1;
     if (nextIndex < allAssignments.length) {
       setCurrentAssignmentIndex(nextIndex);
       autoFillFromTurnAssignment(allAssignments[nextIndex], selectedScouterId);
     } else {
-      // No more matches for this scouter
       setFormData(prev => ({
         ...prev,
         scouter_name: selectedScouterId
       }));
     }
 
-    // Go back to PREMATCH tab
     setActiveTab('PREMATCH');
   };
 
@@ -358,13 +275,8 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
     const matchNumber = currentAssignment.matchNumber;
     const position = currentAssignment.position;
 
-    // Check if this is the last match of the turn
     const turnEndInfo = isLastMatchOfTurn(generatedSchedule, matchNumber, selectedScouterId);
-
-    // Get who is next for this position
     const nextScouter = getNextScouterForPosition(generatedSchedule, matchNumber, position);
-
-    // Check if there are more matches for this scouter
     const hasMoreMatches = currentAssignmentIndex < allAssignments.length - 1;
 
     return {
@@ -427,6 +339,15 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
             onChange={(val) => handleFieldChange(field.key, val)}
           />
         );
+      case 'chrono':
+        return (
+          <ChronoField
+            key={field.key}
+            config={field}
+            value={value as number}
+            onChange={(val) => handleFieldChange(field.key, val)}
+          />
+        );
       default:
         return null;
     }
@@ -470,7 +391,6 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
               </div>
             )}
 
-            {/* Turn end notification */}
             {matchInfo?.isLastOfTurn && (
               <div className="turn-end-notification">
                 <span className="notification-icon">⚠️</span>
@@ -478,7 +398,6 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
               </div>
             )}
 
-            {/* Next scouter info */}
             {matchInfo?.nextScouter && (
               <div className="next-scouter-info">
                 <span className="info-label">Next for {matchInfo.position}:</span>
@@ -543,25 +462,25 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
     );
   };
 
-  // Show loading while checking available programs
+  // Loading state while fetching config after selection
   if (isLoadingConfig) {
     return (
       <div className="loading-screen">
         <div className="loading-icon">📱</div>
-        <h1>Overture RebuiltQR</h1>
-        <p>Loading...</p>
+        <h1>Overture QRScout</h1>
+        <p>Loading {selectedProgram} config...</p>
       </div>
     );
   }
 
-  // Show config upload prompt
+  // Startup program / config selection screen
   if (showConfigPrompt) {
     return (
       <div className="config-prompt-screen">
         <div className="config-prompt-container">
           <div className="config-prompt-icon">📋</div>
           <h1>Overture QRScout</h1>
-          <p className="config-prompt-subtitle">Upload a scouting configuration to get started</p>
+          <p className="config-prompt-subtitle">Upload a config or choose a default to get started</p>
 
           <div className="config-prompt-actions">
             <label className="config-upload-button">
@@ -575,23 +494,24 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
             </label>
 
             <div className="config-prompt-divider">
-              <span>or</span>
+              <span>or use default</span>
             </div>
 
-            <button
-              className="config-default-button"
-              onClick={handleUseDefaultConfig}
-              disabled={availablePrograms.length === 0}
-            >
-              Use Default ({selectedProgram})
-            </button>
+            <div className="config-defaults-row">
+              <button
+                className="config-default-button config-default-ftc"
+                onClick={() => handleUseDefault('FTC')}
+              >
+                FTC
+              </button>
+              <button
+                className="config-default-button config-default-frc"
+                onClick={() => handleUseDefault('FRC')}
+              >
+                FRC
+              </button>
+            </div>
           </div>
-
-          {availablePrograms.length === 0 && (
-            <p className="config-prompt-warning">
-              No default configs available. Please upload a config file.
-            </p>
-          )}
         </div>
       </div>
     );
@@ -601,7 +521,7 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
     return (
       <div className="loading-screen">
         <div className="loading-icon">📱</div>
-        <h1>Overture RebuiltQR</h1>
+        <h1>Overture QRScout</h1>
         <p>Loading config...</p>
       </div>
     );
@@ -613,6 +533,9 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
         <div className="header-left">
           <h1 className="app-title">Overture QRScout</h1>
           <div className="header-badges">
+            <span className={`program-badge program-badge-${selectedProgram.toLowerCase()}`}>
+              {selectedProgram}
+            </span>
             {configVersion && (
               <span className="version-badge">v{configVersion}</span>
             )}
@@ -631,19 +554,6 @@ function App({ onNavigateToPitScouting }: AppProps = {}) {
               🔧 Pit Scout
             </button>
           )}
-
-          <select
-            className="program-selector"
-            value={selectedProgram}
-            onChange={(e) => setSelectedProgram(e.target.value as RoboticsProgram)}
-            title="Select Robotics Program"
-          >
-            {availablePrograms.map(program => (
-              <option key={program} value={program}>
-                {program}
-              </option>
-            ))}
-          </select>
 
           <label className="icon-button" title="Upload Config (JSON)">
             📤

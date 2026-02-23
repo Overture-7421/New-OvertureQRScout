@@ -1,4 +1,4 @@
-export type FieldType = 'text' | 'number' | 'dropdown' | 'switch' | 'counter' | 'textarea';
+export type FieldType = 'text' | 'number' | 'dropdown' | 'switch' | 'counter' | 'textarea' | 'chrono';
 
 export interface FieldConfig {
   label: string;
@@ -27,6 +27,8 @@ export interface PitScoutingEntry {
   answers: FormData;
   timestamp: number;
 }
+
+export type RoboticsProgram = 'FTC' | 'FRC';
 
 export type AppRoute = 'scouting' | 'pit-scouting';
 

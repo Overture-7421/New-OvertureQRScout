@@ -62,6 +62,27 @@
   gap: 0.5rem;
 }
 
+.pit-program-badge {
+  padding: 0.2rem 0.65rem;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.pit-program-badge-ftc {
+  background: rgba(255, 111, 0, 0.2);
+  border: 1px solid #ff6f00;
+  color: #ffab40;
+}
+
+.pit-program-badge-frc {
+  background: rgba(33, 150, 243, 0.2);
+  border: 1px solid #2196f3;
+  color: #64b5f6;
+}
+
 .entries-count {
   background: rgba(255, 111, 0, 0.3);
   border: 1px solid #ff6f00;

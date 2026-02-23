@@ -3,16 +3,15 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import { PitScouting } from './components/PitScouting.tsx'
-import type { AppRoute } from './types.ts'
+import type { AppRoute, RoboticsProgram } from './types.ts'
 
 function Router() {
   const [route, setRoute] = useState<AppRoute>('scouting');
+  const [selectedProgram, setSelectedProgram] = useState<RoboticsProgram>('FTC');
 
   useEffect(() => {
-    // Check initial route from URL
     const checkRoute = () => {
       const path = window.location.pathname;
-      // Handle both direct path and hash-based routing
       const hash = window.location.hash;
 
       if (path.toLowerCase().includes('/pitscouting') ||
@@ -27,7 +26,6 @@ function Router() {
 
     checkRoute();
 
-    // Listen for popstate events (back/forward navigation)
     window.addEventListener('popstate', checkRoute);
     window.addEventListener('hashchange', checkRoute);
 
@@ -48,10 +46,20 @@ function Router() {
   };
 
   if (route === 'pit-scouting') {
-    return <PitScouting onBack={() => navigateTo('scouting')} />;
+    return (
+      <PitScouting
+        onBack={() => navigateTo('scouting')}
+        selectedProgram={selectedProgram}
+      />
+    );
   }
 
-  return <App onNavigateToPitScouting={() => navigateTo('pit-scouting')} />;
+  return (
+    <App
+      onNavigateToPitScouting={() => navigateTo('pit-scouting')}
+      onProgramSelected={(prog) => setSelectedProgram(prog)}
+    />
+  );
 }
 
 createRoot(document.getElementById('root')!).render(

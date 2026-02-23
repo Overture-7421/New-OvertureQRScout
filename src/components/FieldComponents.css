@@ -179,10 +179,108 @@
   .counter-value {
     font-size: 2rem;
   }
-  
+
   .counter-button {
     width: 50px;
     height: 50px;
     font-size: 1.5rem;
+  }
+}
+
+/* Chrono */
+.chrono-display {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.05em;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.35);
+  transition: color 0.3s ease;
+}
+
+.chrono-display-running {
+  color: #69f0ae;
+  animation: chrono-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes chrono-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
+
+.chrono-controls {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.chrono-startstop {
+  flex: 1;
+  padding: 1.1rem 1rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: linear-gradient(135deg, #388e3c 0%, #2e7d32 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(56, 142, 60, 0.35);
+}
+
+.chrono-startstop:active {
+  transform: scale(0.96);
+}
+
+.chrono-startstop.chrono-running {
+  background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.4);
+}
+
+.chrono-startstop.chrono-paused {
+  background: linear-gradient(135deg, #f57c00 0%, #e65100 100%);
+  box-shadow: 0 4px 12px rgba(245, 124, 0, 0.35);
+}
+
+.chrono-reset {
+  width: 58px;
+  height: 58px;
+  font-size: 1.4rem;
+  border: 2px solid #424242;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #2a2a2a;
+  color: #aaaaaa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.chrono-reset:hover:not(:disabled) {
+  border-color: #9c27b0;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(156, 39, 176, 0.3);
+}
+
+.chrono-reset:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+@media (max-width: 800px) {
+  .chrono-display {
+    font-size: 2.8rem;
+  }
+
+  .chrono-startstop {
+    font-size: 1.1rem;
+    padding: 1rem;
   }
 }

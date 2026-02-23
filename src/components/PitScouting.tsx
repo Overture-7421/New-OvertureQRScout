@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
-import type { PitScoutingConfig, PitScoutingEntry, FormData, FieldConfig } from '../types';
+import type { PitScoutingConfig, PitScoutingEntry, FormData, FieldConfig, RoboticsProgram } from '../types';
 import { TextField, NumberField, DropdownField, SwitchField } from './FieldComponents';
 import { QRCodeSVG } from 'qrcode.react';
 import './PitScouting.css';
 
 interface PitScoutingProps {
   onBack: () => void;
+  selectedProgram: RoboticsProgram;
 }
 
-export const PitScouting: React.FC<PitScoutingProps> = ({ onBack }) => {
+export const PitScouting: React.FC<PitScoutingProps> = ({ onBack, selectedProgram }) => {
   const [config, setConfig] = useState<PitScoutingConfig | null>(null);
   const [selectedQuestionnaire, setSelectedQuestionnaire] = useState<string>('');
   const [formData, setFormData] = useState<FormData>({});
@@ -49,9 +50,15 @@ export const PitScouting: React.FC<PitScoutingProps> = ({ onBack }) => {
 
   const loadConfig = async () => {
     try {
-      // Cache-busting timestamp to ensure fresh config on launch
       const cacheBuster = `?t=${Date.now()}`;
-      const response = await fetch(`${import.meta.env.BASE_URL}configPitScouting.json${cacheBuster}`);
+      // Try program-specific config first (e.g. configPitScoutingFTC.json / configPitScoutingFRC.json)
+      const specificUrl = `${import.meta.env.BASE_URL}configPitScouting${selectedProgram}.json${cacheBuster}`;
+      const genericUrl = `${import.meta.env.BASE_URL}configPitScouting.json${cacheBuster}`;
+
+      let response = await fetch(specificUrl);
+      if (!response.ok) {
+        response = await fetch(genericUrl);
+      }
       if (!response.ok) throw new Error('Failed to load pit scouting config');
       const data = await response.json();
       setConfig(data);
@@ -327,6 +334,9 @@ export const PitScouting: React.FC<PitScoutingProps> = ({ onBack }) => {
             ← Back
           </button>
           <h1 className="pit-scouting-title">Pit Scouting</h1>
+          <span className={`pit-program-badge pit-program-badge-${selectedProgram.toLowerCase()}`}>
+            {selectedProgram}
+          </span>
         </div>
         <div className="header-right">
           <span className="entries-count">
