@@ -1,0 +1,246 @@
+{
+  "category": "FTC",
+  "version": "1.0.0",
+  "questionnaires": {
+    "Mech": {
+      "label": "Mechanical",
+      "fields": [
+        {
+          "label": "Drivetrain type",
+          "key": "mech_drivetrain",
+          "type": "dropdown",
+          "options": ["Tank / West Coast", "Mecanum", "Holonomic / X-Drive", "Differential Swerve", "Other"]
+        },
+        {
+          "label": "Number of drive motors",
+          "key": "mech_drive_motors",
+          "type": "number"
+        },
+        {
+          "label": "Has intake mechanism",
+          "key": "mech_has_intake",
+          "type": "switch"
+        },
+        {
+          "label": "Has scoring / outtake mechanism",
+          "key": "mech_has_outtake",
+          "type": "switch"
+        },
+        {
+          "label": "Has climbing mechanism",
+          "key": "mech_has_climb",
+          "type": "switch"
+        },
+        {
+          "label": "Primary frame material",
+          "key": "mech_material",
+          "type": "dropdown",
+          "options": ["Aluminum extrusion", "Polycarbonate / Acrylic", "3D Printed", "Sheet metal", "Mixed", "Other"]
+        },
+        {
+          "label": "Time to swap battery",
+          "key": "mech_battery_swap",
+          "type": "dropdown",
+          "options": ["< 1 min", "1–2 min", "2–5 min", "> 5 min"]
+        },
+        {
+          "label": "Has pre-match robot checklist",
+          "key": "mech_checklist",
+          "type": "switch"
+        },
+        {
+          "label": "Has spare mechanisms / parts on-site",
+          "key": "mech_spare_parts",
+          "type": "switch"
+        },
+        {
+          "label": "Can team self-repair during event",
+          "key": "mech_self_repair",
+          "type": "switch"
+        },
+        {
+          "label": "Drive team fixes issues (not technicians)",
+          "key": "mech_drive_team_fix",
+          "type": "switch"
+        }
+      ]
+    },
+    "Programming": {
+      "label": "Programming",
+      "fields": [
+        {
+          "label": "Programming language",
+          "key": "prog_language",
+          "type": "dropdown",
+          "options": ["Java", "OnBot Java", "Blocks", "Other"]
+        },
+        {
+          "label": "Uses a motion / path library",
+          "key": "prog_path_lib_used",
+          "type": "switch"
+        },
+        {
+          "label": "Path / motion library",
+          "key": "prog_path_lib",
+          "type": "dropdown",
+          "options": ["None", "Road Runner", "Pedro Pathing", "FTCLib", "Custom", "Other"]
+        },
+        {
+          "label": "Has autonomous routines",
+          "key": "prog_has_auto",
+          "type": "switch"
+        },
+        {
+          "label": "Number of autonomous routines",
+          "key": "prog_auto_count",
+          "type": "number"
+        },
+        {
+          "label": "Uses computer vision",
+          "key": "prog_vision",
+          "type": "switch"
+        },
+        {
+          "label": "Vision system / library",
+          "key": "prog_vision_lib",
+          "type": "dropdown",
+          "options": ["None", "TFOD (TensorFlow)", "AprilTags", "EasyOpenCV", "Custom", "Other"]
+        },
+        {
+          "label": "Uses odometry",
+          "key": "prog_odometry",
+          "type": "switch"
+        },
+        {
+          "label": "Drive control orientation",
+          "key": "prog_drive_orient",
+          "type": "dropdown",
+          "options": ["Robot oriented", "Field oriented", "Both available"]
+        }
+      ]
+    },
+    "Electrical": {
+      "label": "Electrical",
+      "fields": [
+        {
+          "label": "Main controller",
+          "key": "elec_controller",
+          "type": "dropdown",
+          "options": ["REV Control Hub", "Android Phone", "Control Hub + Phone", "Other"]
+        },
+        {
+          "label": "Uses REV Expansion Hub",
+          "key": "elec_expansion_hub",
+          "type": "switch"
+        },
+        {
+          "label": "Total number of motors",
+          "key": "elec_motor_count",
+          "type": "number"
+        },
+        {
+          "label": "Total number of servos",
+          "key": "elec_servo_count",
+          "type": "number"
+        },
+        {
+          "label": "Good cable management",
+          "key": "elec_cable_mgmt",
+          "type": "switch"
+        },
+        {
+          "label": "Cables protected from pinching / cuts",
+          "key": "elec_cable_protection",
+          "type": "switch"
+        },
+        {
+          "label": "Connection method",
+          "key": "elec_connections",
+          "type": "dropdown",
+          "options": ["Soldered", "XT30 / Anderson connectors", "JST connectors", "Mixed", "Other"]
+        },
+        {
+          "label": "Uses voltage / current monitoring",
+          "key": "elec_monitoring",
+          "type": "switch"
+        },
+        {
+          "label": "Uses 12V power distribution board",
+          "key": "elec_power_dist",
+          "type": "switch"
+        }
+      ]
+    },
+    "Competences": {
+      "label": "Competences",
+      "fields": [
+        {
+          "label": "Number of batteries on-site",
+          "key": "comp_batteries",
+          "type": "dropdown",
+          "options": ["1", "2", "3–5", "6+"]
+        },
+        {
+          "label": "Passed inspection on first try",
+          "key": "comp_first_inspection",
+          "type": "switch"
+        },
+        {
+          "label": "Team experience level",
+          "key": "comp_experience",
+          "type": "dropdown",
+          "options": ["Rookie (1st year)", "1–2 years", "3–5 years", "5+ years"]
+        },
+        {
+          "label": "Has a dedicated drive coach",
+          "key": "comp_drive_coach",
+          "type": "switch"
+        },
+        {
+          "label": "Drive team is entirely students",
+          "key": "comp_student_drive",
+          "type": "switch"
+        },
+        {
+          "label": "Drive / teleop practice frequency",
+          "key": "comp_practice_freq",
+          "type": "dropdown",
+          "options": ["Rarely", "Once a week", "2–3× per week", "Daily"]
+        },
+        {
+          "label": "Has a defined match strategy",
+          "key": "comp_has_strategy",
+          "type": "switch"
+        },
+        {
+          "label": "Willing to alliance with Overture",
+          "key": "comp_alliance_willing",
+          "type": "switch"
+        },
+        {
+          "label": "Overall team commitment level",
+          "key": "comp_commitment",
+          "type": "dropdown",
+          "options": ["Low", "Moderate", "Good", "High", "Excellent", "More than us"]
+        }
+      ]
+    }
+  },
+  "commonFields": [
+    {
+      "label": "Team Number",
+      "key": "team_number",
+      "type": "number"
+    },
+    {
+      "label": "Examiner Name",
+      "key": "examiner_name",
+      "type": "text"
+    },
+    {
+      "label": "As examiner, how did you feel evaluating this team?",
+      "key": "examiner_feeling",
+      "type": "textarea"
+    }
+  ]
+}

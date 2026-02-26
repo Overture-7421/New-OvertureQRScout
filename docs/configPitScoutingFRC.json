@@ -1,0 +1,263 @@
+{
+  "category": "FRC",
+  "version": "1.0.0",
+  "questionnaires": {
+    "Mech": {
+      "label": "Mechanical",
+      "fields": [
+        {
+          "label": "Drivetrain type",
+          "key": "mech_drivetrain",
+          "type": "dropdown",
+          "options": ["West Coast / Tank", "Mecanum", "Swerve Drive", "Kiwi Drive", "Other"]
+        },
+        {
+          "label": "Number of drive modules / wheels",
+          "key": "mech_drive_modules",
+          "type": "number"
+        },
+        {
+          "label": "Frame material",
+          "key": "mech_material",
+          "type": "dropdown",
+          "options": ["Aluminum extrusion (e.g. WCP, TTB)", "Sheet aluminum", "Steel", "Carbon fiber", "Mixed", "Other"]
+        },
+        {
+          "label": "Has game-piece intake",
+          "key": "mech_has_intake",
+          "type": "switch"
+        },
+        {
+          "label": "Has scoring / outtake mechanism",
+          "key": "mech_has_outtake",
+          "type": "switch"
+        },
+        {
+          "label": "Has climbing mechanism",
+          "key": "mech_has_climb",
+          "type": "switch"
+        },
+        {
+          "label": "Approximate robot weight (lbs)",
+          "key": "mech_weight",
+          "type": "number"
+        },
+        {
+          "label": "Time to change bumpers",
+          "key": "mech_bumper_time",
+          "type": "dropdown",
+          "options": ["< 2 min", "2–5 min", "5–10 min", "> 10 min"]
+        },
+        {
+          "label": "Has pre-match robot checklist",
+          "key": "mech_checklist",
+          "type": "switch"
+        },
+        {
+          "label": "Has spare mechanisms / parts on-site",
+          "key": "mech_spare_parts",
+          "type": "switch"
+        },
+        {
+          "label": "Can team self-repair during event",
+          "key": "mech_self_repair",
+          "type": "switch"
+        },
+        {
+          "label": "Drive team fixes issues (not technicians)",
+          "key": "mech_drive_team_fix",
+          "type": "switch"
+        }
+      ]
+    },
+    "Programming": {
+      "label": "Programming",
+      "fields": [
+        {
+          "label": "Programming language",
+          "key": "prog_language",
+          "type": "dropdown",
+          "options": ["Java", "C++", "Python", "LabVIEW", "Other"]
+        },
+        {
+          "label": "Uses a path planning tool",
+          "key": "prog_path_used",
+          "type": "switch"
+        },
+        {
+          "label": "Path planning tool",
+          "key": "prog_path_tool",
+          "type": "dropdown",
+          "options": ["None", "PathPlanner", "Choreo", "Custom", "Other"]
+        },
+        {
+          "label": "Has autonomous routines",
+          "key": "prog_has_auto",
+          "type": "switch"
+        },
+        {
+          "label": "Number of autonomous routines",
+          "key": "prog_auto_count",
+          "type": "number"
+        },
+        {
+          "label": "Uses computer vision",
+          "key": "prog_vision",
+          "type": "switch"
+        },
+        {
+          "label": "Vision system",
+          "key": "prog_vision_sys",
+          "type": "dropdown",
+          "options": ["None", "Limelight", "PhotonVision", "QuestNav", "Custom", "Other"]
+        },
+        {
+          "label": "Uses pose estimation / odometry",
+          "key": "prog_odometry",
+          "type": "switch"
+        },
+        {
+          "label": "Odometry method",
+          "key": "prog_odometry_type",
+          "type": "dropdown",
+          "options": ["N/A", "Wheel encoders only", "Swerve state estimation", "AprilTag correction", "Sensor fusion (custom)"]
+        },
+        {
+          "label": "Drive control orientation",
+          "key": "prog_drive_orient",
+          "type": "dropdown",
+          "options": ["Robot oriented", "Field oriented", "Both available"]
+        },
+        {
+          "label": "Uses data logging / telemetry",
+          "key": "prog_logging",
+          "type": "switch"
+        }
+      ]
+    },
+    "Electrical": {
+      "label": "Electrical",
+      "fields": [
+        {
+          "label": "Power distribution",
+          "key": "elec_power_dist",
+          "type": "dropdown",
+          "options": ["REV PDH", "CTRE PDP", "Custom", "Other"]
+        },
+        {
+          "label": "Uses CANivore",
+          "key": "elec_canivore",
+          "type": "switch"
+        },
+        {
+          "label": "Primary motor controllers",
+          "key": "elec_motor_ctrl",
+          "type": "dropdown",
+          "options": ["CTRE TalonFX / Falcon 500", "CTRE Kraken X60", "REV SparkMax", "REV SparkFlex", "Mixed", "Other"]
+        },
+        {
+          "label": "Uses pneumatics",
+          "key": "elec_pneumatics",
+          "type": "switch"
+        },
+        {
+          "label": "Good cable management",
+          "key": "elec_cable_mgmt",
+          "type": "switch"
+        },
+        {
+          "label": "Cables protected from damage",
+          "key": "elec_cable_protection",
+          "type": "switch"
+        },
+        {
+          "label": "Electrical connection method",
+          "key": "elec_connections",
+          "type": "dropdown",
+          "options": ["Soldered", "Anderson / XT30 connectors", "WAGO lever connectors", "Mixed", "Other"]
+        },
+        {
+          "label": "Has custom PCBs / circuit boards",
+          "key": "elec_custom_pcb",
+          "type": "switch"
+        },
+        {
+          "label": "Has current / voltage monitoring",
+          "key": "elec_monitoring",
+          "type": "switch"
+        }
+      ]
+    },
+    "Competences": {
+      "label": "Competences",
+      "fields": [
+        {
+          "label": "Number of batteries on-site",
+          "key": "comp_batteries",
+          "type": "dropdown",
+          "options": ["1", "2", "3–5", "6+"]
+        },
+        {
+          "label": "Passed inspection on first try",
+          "key": "comp_first_inspection",
+          "type": "switch"
+        },
+        {
+          "label": "Team experience level",
+          "key": "comp_experience",
+          "type": "dropdown",
+          "options": ["Rookie (1st year)", "1–2 years", "3–5 years", "5+ years"]
+        },
+        {
+          "label": "Has a dedicated drive coach",
+          "key": "comp_drive_coach",
+          "type": "switch"
+        },
+        {
+          "label": "Drive team is entirely students",
+          "key": "comp_student_drive",
+          "type": "switch"
+        },
+        {
+          "label": "Drive / teleop practice frequency",
+          "key": "comp_practice_freq",
+          "type": "dropdown",
+          "options": ["Rarely", "Once a week", "2–3× per week", "Daily"]
+        },
+        {
+          "label": "Has a defined match strategy",
+          "key": "comp_has_strategy",
+          "type": "switch"
+        },
+        {
+          "label": "Willing to alliance with Overture",
+          "key": "comp_alliance_willing",
+          "type": "switch"
+        },
+        {
+          "label": "Overall team commitment level",
+          "key": "comp_commitment",
+          "type": "dropdown",
+          "options": ["Low", "Moderate", "Good", "High", "Excellent", "More than us"]
+        }
+      ]
+    }
+  },
+  "commonFields": [
+    {
+      "label": "Team Number",
+      "key": "team_number",
+      "type": "number"
+    },
+    {
+      "label": "Examiner Name",
+      "key": "examiner_name",
+      "type": "text"
+    },
+    {
+      "label": "As examiner, how did you feel evaluating this team?",
+      "key": "examiner_feeling",
+      "type": "textarea"
+    }
+  ]
+}
