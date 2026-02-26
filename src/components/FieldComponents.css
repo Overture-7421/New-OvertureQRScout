@@ -227,10 +227,13 @@
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.15s ease, transform 0.1s ease;
   background: linear-gradient(135deg, #388e3c 0%, #2e7d32 100%);
   color: #ffffff;
   box-shadow: 0 4px 12px rgba(56, 142, 60, 0.35);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .chrono-startstop:active {
@@ -242,10 +245,6 @@
   box-shadow: 0 4px 12px rgba(211, 47, 47, 0.4);
 }
 
-.chrono-startstop.chrono-paused {
-  background: linear-gradient(135deg, #f57c00 0%, #e65100 100%);
-  box-shadow: 0 4px 12px rgba(245, 124, 0, 0.35);
-}
 
 .chrono-reset {
   width: 58px;

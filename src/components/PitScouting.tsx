@@ -18,16 +18,16 @@ export const PitScouting: React.FC<PitScoutingProps> = ({ onBack, selectedProgra
   const [qrData, setQrData] = useState<string>('');
   const [showCSVModal, setShowCSVModal] = useState(false);
   const [examinerName, setExaminerName] = useState<string>('');
+  const [showConfigPrompt, setShowConfigPrompt] = useState(true);
+  const [configError, setConfigError] = useState<string | null>(null);
+  const [isLoadingConfig, setIsLoadingConfig] = useState(false);
 
-  // Load config on mount
+  // Load persisted data on mount
   useEffect(() => {
-    loadConfig();
-    // Load saved entries from localStorage
     const saved = localStorage.getItem('pitScoutingEntries');
     if (saved) {
       setSavedEntries(JSON.parse(saved));
     }
-    // Load examiner name from localStorage
     const savedExaminer = localStorage.getItem('pitScoutingExaminer');
     if (savedExaminer) {
       setExaminerName(savedExaminer);
@@ -49,9 +49,10 @@ export const PitScouting: React.FC<PitScoutingProps> = ({ onBack, selectedProgra
   }, [examinerName]);
 
   const loadConfig = async () => {
+    setIsLoadingConfig(true);
+    setConfigError(null);
     try {
       const cacheBuster = `?t=${Date.now()}`;
-      // Try program-specific config first (e.g. configPitScoutingFTC.json / configPitScoutingFRC.json)
       const specificUrl = `${import.meta.env.BASE_URL}configPitScouting${selectedProgram}.json${cacheBuster}`;
       const genericUrl = `${import.meta.env.BASE_URL}configPitScouting.json${cacheBuster}`;
 
@@ -62,10 +63,37 @@ export const PitScouting: React.FC<PitScoutingProps> = ({ onBack, selectedProgra
       if (!response.ok) throw new Error('Failed to load pit scouting config');
       const data = await response.json();
       setConfig(data);
+      setShowConfigPrompt(false);
     } catch (error) {
       console.error('Error loading pit scouting config:', error);
-      alert('Failed to load pit scouting configuration.');
+      setConfigError('Failed to load the default config. Please upload a config file.');
+    } finally {
+      setIsLoadingConfig(false);
     }
+  };
+
+  const handlePitConfigUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const content = e.target?.result as string;
+          const configData = JSON.parse(content) as PitScoutingConfig;
+          if (!configData.questionnaires) {
+            setConfigError('Invalid config: missing "questionnaires" field.');
+            return;
+          }
+          setConfig(configData);
+          setShowConfigPrompt(false);
+          setConfigError(null);
+        } catch {
+          setConfigError('Invalid JSON file. Please check the format.');
+        }
+      };
+      reader.readAsText(file);
+    }
+    event.target.value = '';
   };
 
   const initializeFormData = (questionnaire: string) => {
@@ -315,6 +343,51 @@ export const PitScouting: React.FC<PitScoutingProps> = ({ onBack, selectedProgra
         return null;
     }
   };
+
+  if (showConfigPrompt) {
+    return (
+      <div className="pit-scouting">
+        <header className="pit-scouting-header">
+          <div className="header-left">
+            <button className="back-button" onClick={onBack}>← Back</button>
+            <h1 className="pit-scouting-title">Pit Scouting</h1>
+            <span className={`pit-program-badge pit-program-badge-${selectedProgram.toLowerCase()}`}>
+              {selectedProgram}
+            </span>
+          </div>
+        </header>
+        <main className="pit-scouting-content">
+          <div className="pit-config-prompt-container">
+            <div className="pit-config-prompt-icon">🔧</div>
+            <h2>Pit Scouting Config</h2>
+            <p className="pit-config-prompt-subtitle">Upload a config file or use the default</p>
+            <div className="pit-config-prompt-actions">
+              <label className="pit-config-upload-button">
+                📤 Upload Config
+                <input
+                  type="file"
+                  accept=".json"
+                  onChange={handlePitConfigUpload}
+                  style={{ display: 'none' }}
+                />
+              </label>
+              <div className="pit-config-prompt-divider"><span>or</span></div>
+              <button
+                className="pit-config-default-button"
+                onClick={loadConfig}
+                disabled={isLoadingConfig}
+              >
+                {isLoadingConfig ? 'Loading...' : 'Use Default'}
+              </button>
+              {configError && (
+                <div className="pit-config-error">{configError}</div>
+              )}
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   if (!config) {
     return (

@@ -174,26 +174,27 @@ export const ChronoField: React.FC<ChronoFieldProps> = ({ config, value, onChang
     return `${String(secs).padStart(2, '0')}.${tenths}s`;
   };
 
-  const handleStartStop = () => {
-    if (isRunningRef.current) {
-      // STOP
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      intervalRef.current = null;
-      const finalMs = baseElapsedRef.current + (Date.now() - startTimeRef.current);
-      baseElapsedRef.current = finalMs;
-      isRunningRef.current = false;
-      setIsRunning(false);
-      setDisplayMs(finalMs);
-      onChange(Math.round(finalMs / 100) / 10);
-    } else {
-      // START / RESUME
-      startTimeRef.current = Date.now();
-      isRunningRef.current = true;
-      setIsRunning(true);
-      intervalRef.current = setInterval(() => {
-        setDisplayMs(baseElapsedRef.current + (Date.now() - startTimeRef.current));
-      }, 100);
-    }
+  const startTiming = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (isRunningRef.current) return;
+    e.currentTarget.setPointerCapture(e.pointerId);
+    startTimeRef.current = Date.now();
+    isRunningRef.current = true;
+    setIsRunning(true);
+    intervalRef.current = setInterval(() => {
+      setDisplayMs(baseElapsedRef.current + (Date.now() - startTimeRef.current));
+    }, 100);
+  };
+
+  const stopTiming = () => {
+    if (!isRunningRef.current) return;
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = null;
+    const finalMs = baseElapsedRef.current + (Date.now() - startTimeRef.current);
+    baseElapsedRef.current = finalMs;
+    isRunningRef.current = false;
+    setIsRunning(false);
+    setDisplayMs(finalMs);
+    onChange(Math.round(finalMs / 100) / 10);
   };
 
   const handleReset = () => {
@@ -214,10 +215,12 @@ export const ChronoField: React.FC<ChronoFieldProps> = ({ config, value, onChang
       </div>
       <div className="chrono-controls">
         <button
-          className={`chrono-startstop${isRunning ? ' chrono-running' : displayMs > 0 ? ' chrono-paused' : ''}`}
-          onClick={handleStartStop}
+          className={`chrono-startstop${isRunning ? ' chrono-running' : ''}`}
+          onPointerDown={startTiming}
+          onPointerUp={stopTiming}
+          onPointerCancel={stopTiming}
         >
-          {isRunning ? '⏹ STOP' : displayMs > 0 ? '▶ RESUME' : '▶ START'}
+          {isRunning ? '■ TIMING...' : '⏱ HOLD'}
         </button>
         <button
           className="chrono-reset"

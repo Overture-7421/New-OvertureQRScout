@@ -93,6 +93,114 @@
   font-weight: 600;
 }
 
+/* Config Prompt */
+.pit-config-prompt-container {
+  max-width: 480px;
+  margin: 3rem auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.pit-config-prompt-icon {
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+}
+
+.pit-config-prompt-container h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ff6f00;
+  margin: 0;
+  text-align: center;
+}
+
+.pit-config-prompt-subtitle {
+  color: #9e9e9e;
+  text-align: center;
+  margin: 0;
+}
+
+.pit-config-prompt-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.pit-config-upload-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ff6f00 0%, #ff9100 100%);
+  color: #000000;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  text-align: center;
+}
+
+.pit-config-upload-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 111, 0, 0.4);
+}
+
+.pit-config-prompt-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #616161;
+  font-size: 0.9rem;
+}
+
+.pit-config-prompt-divider::before,
+.pit-config-prompt-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #424242;
+}
+
+.pit-config-default-button {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: transparent;
+  border: 2px solid #616161;
+  border-radius: 12px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pit-config-default-button:hover:not(:disabled) {
+  border-color: #ff6f00;
+  color: #ff6f00;
+}
+
+.pit-config-default-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pit-config-error {
+  padding: 0.75rem 1rem;
+  background: rgba(244, 67, 54, 0.15);
+  border: 1px solid #f44336;
+  border-radius: 8px;
+  color: #ef9a9a;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
 /* Loading */
 .pit-scouting-loading {
   display: flex;
