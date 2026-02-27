@@ -1,6 +1,6 @@
 {
   "category": "FRC",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "PREMATCH": [
     {
       "label": "Scouter Name",
@@ -32,8 +32,8 @@
   ],
   "AUTONOMOUS": [
     {
-      "label": "Cycle Time",
-      "key": "cycle_time",
+      "label": "Shoot Time",
+      "key": "auton_shoot_time",
       "type": "chrono"
     },
     {
@@ -42,9 +42,9 @@
       "type": "switch"
     },
     {
-      "label": "8 Fuel Auto",
-      "key": "auto_8_fuel",
-      "type": "switch"
+      "label": "Fuel Scored",
+      "key": "auton_fuel_scored",
+      "type": "counter"
     },
     {
       "label": "Missed Counter",
@@ -55,12 +55,6 @@
       "label": "Crossed into Neutral Zone",
       "key": "auto_neutral_zone",
       "type": "switch"
-    },
-    {
-      "label": "Cycle Type",
-      "key": "auto_cycle_type",
-      "type": "dropdown",
-      "options": ["Outpost", "Depot", "Neutral", "All", "None"]
     },
     {
       "label": "HP Scored",
@@ -98,22 +92,14 @@
   ],
   "TELEOP": [
     {
-      "label": "Storage Capability",
-      "key": "teleop_storage",
-      "type": "dropdown",
-      "options": ["Tons (50 +)", "Many (35 - 50)", "Some (10 - 25)", "Few (0 - 10)", "One"]
+      "label": "Shoot Time",
+      "key": "teleop_shoot_time",
+      "type": "chrono"
     },
     {
-      "label": "Shoot Capability",
-      "key": "teleop_shoot",
-      "type": "dropdown",
-      "options": ["Tons (50 +)", "Many (35 - 50)", "Some (10 - 25)", "Few (0 - 10)", "One"]
-
-    },
-    {
-      "label": "Missed Counter",
-      "key": "teleop_missed",
-      "type": "counter"
+      "label": "Pass Time",
+      "key": "teleop_pass_time",
+      "type": "chrono"
     },
     {
       "label": "Pick Up Place",

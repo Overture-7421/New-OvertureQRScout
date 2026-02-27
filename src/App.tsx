@@ -30,6 +30,7 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
   const [configVersion, setConfigVersion] = useState<string>('');
   const [showConfigPrompt, setShowConfigPrompt] = useState(true);
   const [isLoadingConfig, setIsLoadingConfig] = useState(false);
+  const [autonFPS, setAutonFPS] = useState<number>(0);
 
   // Schedule configuration state
   const [scheduleConfigModalOpen, setScheduleConfigModalOpen] = useState(false);
@@ -211,20 +212,36 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
     }));
   };
 
+  const switchToTab = (tab: TabType) => {
+    if (tab === 'TELEOP' && selectedProgram === 'FRC') {
+      const time = (formData['auton_shoot_time'] as number) ?? 0;
+      const fuel = (formData['auton_fuel_scored'] as number) ?? 0;
+      const fps = time > 0 ? Math.round((fuel / time) * 10) / 10 : 0;
+      setAutonFPS(fps);
+    }
+    setActiveTab(tab);
+  };
+
   const generateDataString = (): string => {
     if (!config) return '';
 
     const values: string[] = [];
-    Object.values(config).flat().forEach(field => {
+    const serializeField = (field: { key: string; type: string }) => {
       const value = formData[field.key];
-      if (typeof value === 'boolean') {
-        values.push(value ? 'Yes' : 'No');
-      } else if (typeof value === 'number') {
-        values.push(String(value));
-      } else {
-        values.push(String(value || ''));
-      }
+      if (typeof value === 'boolean') return value ? 'Yes' : 'No';
+      if (typeof value === 'number') return String(value);
+      return String(value || '');
+    };
+
+    (['PREMATCH', 'AUTONOMOUS', 'TELEOP'] as Phase[]).forEach(phase => {
+      config[phase].forEach(field => values.push(serializeField(field)));
     });
+
+    if (selectedProgram === 'FRC') {
+      values.push(autonFPS.toFixed(1));
+    }
+
+    config.ENDGAME.forEach(field => values.push(serializeField(field)));
 
     return values.join('\t');
   };
@@ -233,9 +250,16 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
     if (!config) return '';
 
     const headers: string[] = [];
-    Object.values(config).flat().forEach(field => {
-      headers.push(field.label);
+
+    (['PREMATCH', 'AUTONOMOUS', 'TELEOP'] as Phase[]).forEach(phase => {
+      config[phase].forEach(field => headers.push(field.label));
     });
+
+    if (selectedProgram === 'FRC') {
+      headers.push('Auton FPS');
+    }
+
+    config.ENDGAME.forEach(field => headers.push(field.label));
 
     return headers.join(',');
   };
@@ -249,6 +273,7 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
     if (!config) return;
 
     initializeFormData(config);
+    setAutonFPS(0);
 
     const nextIndex = currentAssignmentIndex + 1;
     if (nextIndex < allAssignments.length) {
@@ -413,6 +438,14 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
           </div>
         )}
 
+        {activeTab === 'TELEOP' && selectedProgram === 'FRC' && (
+          <div className="auton-fps-card">
+            <span className="auton-fps-label">Auton FPS</span>
+            <span className="auton-fps-value">{autonFPS.toFixed(1)}</span>
+            <span className="auton-fps-unit">fuel / sec</span>
+          </div>
+        )}
+
         <div className="fields-grid">
           {fields.map(field => renderField(field))}
         </div>
@@ -425,7 +458,7 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
                 const tabs: TabType[] = ['PREMATCH', 'AUTONOMOUS', 'TELEOP', 'ENDGAME'];
                 const currentIndex = tabs.indexOf(activeTab);
                 if (currentIndex < tabs.length - 1) {
-                  setActiveTab(tabs[currentIndex + 1]);
+                  switchToTab(tabs[currentIndex + 1]);
                 }
               }}
             >
@@ -604,7 +637,7 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
           <button
             key={tab}
             className={`tab ${activeTab === tab ? 'active' : ''}`}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => switchToTab(tab)}
           >
             {tab}
           </button>

@@ -790,3 +790,42 @@ body {
   margin-top: 1rem;
 }
 
+/* Auton FPS display card — FRC only, shown at top of TeleOp tab */
+.auton-fps-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, rgba(30, 30, 60, 0.9) 0%, rgba(20, 20, 50, 0.9) 100%);
+  border: 2px solid #1565c0;
+  border-radius: 12px;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 0 12px rgba(21, 101, 192, 0.35);
+}
+
+.auton-fps-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #90caf9;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  flex: 1;
+}
+
+.auton-fps-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #42a5f5;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.auton-fps-unit {
+  font-size: 0.75rem;
+  color: #64b5f6;
+  opacity: 0.8;
+  align-self: flex-end;
+  padding-bottom: 0.2rem;
+}
+
+
