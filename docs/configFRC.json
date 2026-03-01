@@ -1,6 +1,6 @@
 {
   "category": "FRC",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "PREMATCH": [
     {
       "label": "Scouter Name",
@@ -28,6 +28,11 @@
       "key": "starting_position",
       "type": "dropdown",
       "options": ["Outpost Side", "Middle", "Depot Side"]
+    },
+    {
+      "label": "Is HP True to your team?",
+      "key": "teleop_hp_true",
+      "type": "switch"
     }
   ],
   "AUTONOMOUS": [
@@ -35,26 +40,6 @@
       "label": "Shoot Time",
       "key": "auton_shoot_time",
       "type": "chrono"
-    },
-    {
-      "label": "Moved",
-      "key": "auto_moved",
-      "type": "switch"
-    },
-    {
-      "label": "Fuel Scored",
-      "key": "auton_fuel_scored",
-      "type": "counter"
-    },
-    {
-      "label": "Missed Counter",
-      "key": "auto_missed",
-      "type": "counter"
-    },
-    {
-      "label": "Crossed into Neutral Zone",
-      "key": "auto_neutral_zone",
-      "type": "switch"
     },
     {
       "label": "HP Scored",
@@ -68,26 +53,15 @@
       "options": ["Middle", "Side"]
     },
     {
-      "label": "Descends? Got stuck in Tower?",
+      "label": "If climbed, Got stuck in Tower?",
       "key": "auto_descends_stuck",
       "type": "switch"
     },
     {
-      "label":"Crosses...?",
-      "key":"auto_crosses_what",
-      "type":"dropdown",
-      "options":["Bump","Trench","All","None"]
-    },
-
-    {
-      "label": "Crosses Bump",
-      "key": "auto_crosses_bump",
-      "type": "switch"
-    },
-    {
-      "label": "Crosses Trench",
-      "key": "auto_crosses_trench",
-      "type": "switch"
+      "label": "Auton Quality",
+      "key": "auton_quality",
+      "type": "dropdown",
+      "options": ["Did Nothing", "Bad", "Average", "Good", "Excellent"]
     }
   ],
   "TELEOP": [
@@ -102,23 +76,6 @@
       "type": "chrono"
     },
     {
-      "label": "Pick Up Place",
-      "key": "teleop_pickup_place",
-      "type": "dropdown",
-      "options": ["Depot", "Neutral", "All", "None"]
-    },
-    {
-      "label": "Field Movement Type",
-      "key": "teleop_field_movement",
-      "type": "dropdown",
-      "options": ["Bump", "Trench", "All", "Stayed", "None"]
-    },
-    {
-      "label": "Is HP True to your team?",
-      "key": "teleop_hp_true",
-      "type": "switch"
-    },
-    {
       "label": "HP Scored",
       "key": "teleop_hp_scored",
       "type": "counter"
@@ -127,11 +84,6 @@
       "label": "Penalty Counter",
       "key": "teleop_penalty",
       "type": "counter"
-    },
-    {
-      "label": "Died",
-      "key": "teleop_died",
-      "type": "switch"
     }
   ],
   "ENDGAME": [
@@ -145,6 +97,17 @@
       "label": "Jammed over balls?",
       "key": "endgame_jammed_over_balls",
       "type": "switch"
+    },
+        {
+      "label": "Died",
+      "key": "teleop_died",
+      "type": "switch"
+    },
+        {
+      "label": "Driver Quality",
+      "key": "driver_quality",
+      "type": "dropdown",
+      "options": ["Did Nothing", "Bad", "Average", "Good", "Excellent"]
     },
     {
       "label": "Do you want it on our alliance?",

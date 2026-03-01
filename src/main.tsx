@@ -45,20 +45,21 @@ function Router() {
     setRoute(newRoute);
   };
 
-  if (route === 'pit-scouting') {
-    return (
-      <PitScouting
-        onBack={() => navigateTo('scouting')}
-        selectedProgram={selectedProgram}
-      />
-    );
-  }
-
   return (
-    <App
-      onNavigateToPitScouting={() => navigateTo('pit-scouting')}
-      onProgramSelected={(prog) => setSelectedProgram(prog)}
-    />
+    <>
+      <div style={{ display: route === 'scouting' ? undefined : 'none' }}>
+        <App
+          onNavigateToPitScouting={() => navigateTo('pit-scouting')}
+          onProgramSelected={(prog) => setSelectedProgram(prog)}
+        />
+      </div>
+      {route === 'pit-scouting' && (
+        <PitScouting
+          onBack={() => navigateTo('scouting')}
+          selectedProgram={selectedProgram}
+        />
+      )}
+    </>
   );
 }
 

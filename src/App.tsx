@@ -30,8 +30,6 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
   const [configVersion, setConfigVersion] = useState<string>('');
   const [showConfigPrompt, setShowConfigPrompt] = useState(true);
   const [isLoadingConfig, setIsLoadingConfig] = useState(false);
-  const [autonFPS, setAutonFPS] = useState<number>(0);
-
   // Schedule configuration state
   const [scheduleConfigModalOpen, setScheduleConfigModalOpen] = useState(false);
   const [generatedSchedule, setGeneratedSchedule] = useState<GeneratedSchedule | null>(null);
@@ -213,12 +211,6 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
   };
 
   const switchToTab = (tab: TabType) => {
-    if (tab === 'TELEOP' && selectedProgram === 'FRC') {
-      const time = (formData['auton_shoot_time'] as number) ?? 0;
-      const fuel = (formData['auton_fuel_scored'] as number) ?? 0;
-      const fps = time > 0 ? Math.round((fuel / time) * 10) / 10 : 0;
-      setAutonFPS(fps);
-    }
     setActiveTab(tab);
   };
 
@@ -237,10 +229,6 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
       config[phase].forEach(field => values.push(serializeField(field)));
     });
 
-    if (selectedProgram === 'FRC') {
-      values.push(autonFPS.toFixed(1));
-    }
-
     config.ENDGAME.forEach(field => values.push(serializeField(field)));
 
     return values.join('\t');
@@ -254,10 +242,6 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
     (['PREMATCH', 'AUTONOMOUS', 'TELEOP'] as Phase[]).forEach(phase => {
       config[phase].forEach(field => headers.push(field.label));
     });
-
-    if (selectedProgram === 'FRC') {
-      headers.push('Auton FPS');
-    }
 
     config.ENDGAME.forEach(field => headers.push(field.label));
 
@@ -273,7 +257,6 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
     if (!config) return;
 
     initializeFormData(config);
-    setAutonFPS(0);
 
     const nextIndex = currentAssignmentIndex + 1;
     if (nextIndex < allAssignments.length) {
@@ -435,14 +418,6 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
         {activeTab === 'PREMATCH' && !generatedSchedule && (
           <div className="no-schedule-notice">
             <p>No schedule loaded. Click the ⚙️ button to configure a schedule or upload one.</p>
-          </div>
-        )}
-
-        {activeTab === 'TELEOP' && selectedProgram === 'FRC' && (
-          <div className="auton-fps-card">
-            <span className="auton-fps-label">Auton FPS</span>
-            <span className="auton-fps-value">{autonFPS.toFixed(1)}</span>
-            <span className="auton-fps-unit">fuel / sec</span>
           </div>
         )}
 
