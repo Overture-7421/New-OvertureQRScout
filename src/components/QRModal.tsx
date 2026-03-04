@@ -7,9 +7,12 @@ interface QRModalProps {
   onClose: () => void;
   data: string;
   headers: string;
+  title?: string;
+  copyDataLabel?: string;
+  copyHeadersLabel?: string;
 }
 
-export const QRModal: React.FC<QRModalProps> = ({ isOpen, onClose, data, headers }) => {
+export const QRModal: React.FC<QRModalProps> = ({ isOpen, onClose, data, headers, title = 'Data QR Code', copyDataLabel = '📋 Copy Info', copyHeadersLabel = '📊 Copy Columns' }) => {
   if (!isOpen) return null;
 
   const copyToClipboard = (text: string) => {
@@ -22,12 +25,12 @@ export const QRModal: React.FC<QRModalProps> = ({ isOpen, onClose, data, headers
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>Data QR Code</h2>
+          <h2>{title}</h2>
           <button className="close-button" onClick={onClose}>
             ✕
           </button>
         </div>
-        
+
         <div className="qr-container">
           <QRCodeSVG
             value={data}
@@ -44,13 +47,13 @@ export const QRModal: React.FC<QRModalProps> = ({ isOpen, onClose, data, headers
             className="modal-button primary"
             onClick={() => copyToClipboard(data)}
           >
-            📋 Copy Info
+            {copyDataLabel}
           </button>
           <button
             className="modal-button secondary"
             onClick={() => copyToClipboard(headers)}
           >
-            📊 Copy Columns
+            {copyHeadersLabel}
           </button>
         </div>
 
@@ -61,4 +64,8 @@ export const QRModal: React.FC<QRModalProps> = ({ isOpen, onClose, data, headers
       </div>
     </div>
   );
+};
+
+export const QRModalSchedule: React.FC<QRModalProps> = (props) => {
+  return <QRModal {...props} title={props.title ?? 'Schedule QR Code'} copyDataLabel={props.copyDataLabel ?? '📋 Copy Schedule'} copyHeadersLabel={props.copyHeadersLabel ?? '📅 Copy Fields'} />;
 };

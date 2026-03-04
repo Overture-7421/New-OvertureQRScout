@@ -2,28 +2,31 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import type { Config, Phase, FormData, Schedule, ScheduleEntry } from './types';
 import { TextField, NumberField, DropdownField, SwitchField, CounterField } from './components/FieldComponents';
-import { QRModal } from './components/QRModal';
+import { QRModal, QRModalSchedule } from './components/QRModal';
+
 import { parseScheduleFile, getScouterMatches, getUniqueScouterIds } from './utils/scheduleParser';
 
-type TabType = Phase;
+type TabType = Phase | 'SCHEDULE';
+type PitTab = 'MECH' | 'PROGRA' | 'TEAM';
 
 function App() {
   const [config, setConfig] = useState<Config | null>(null);
   const [formData, setFormData] = useState<FormData>({});
   const [activeTab, setActiveTab] = useState<TabType>('PREMATCH');
+  const [activePitTab, setActivePitTab] = useState<PitTab>('MECH');
   const [qrModalOpen, setQrModalOpen] = useState(false);
+  const [qrModalOpenSchedule, setQrModalOpenSchedule] = useState(false);
+  
   const [schedule, setSchedule] = useState<Schedule | null>(null);
   const [selectedScouterId, setSelectedScouterId] = useState<string>('');
   const [selectedMatchIndex, setSelectedMatchIndex] = useState<number>(0);
   const [scouterMatches, setScouterMatches] = useState<ScheduleEntry[]>([]);
 
-  // Load config on startup
   useEffect(() => {
     loadConfig();
     loadDefaultSchedule();
   }, []);
 
-  // Update scouter matches when schedule or scouter changes
   useEffect(() => {
     if (schedule && selectedScouterId) {
       const matches = getScouterMatches(schedule, selectedScouterId);
@@ -61,8 +64,8 @@ function App() {
 
   const initializeFormData = (cfg: Config) => {
     const initialData: FormData = {};
-    
-    Object.values(cfg).flat().forEach(field => {
+
+    Object.values(cfg).flat().forEach((field: any) => {
       if (field.type === 'switch') {
         initialData[field.key] = false;
       } else if (field.type === 'counter' || field.type === 'number') {
@@ -139,9 +142,9 @@ function App() {
 
   const generateDataString = (): string => {
     if (!config) return '';
-    
+
     const values: string[] = [];
-    Object.values(config).flat().forEach(field => {
+    Object.values(config).flat().forEach((field: any) => {
       const value = formData[field.key];
       if (typeof value === 'boolean') {
         values.push(value ? 'Yes' : 'No');
@@ -149,34 +152,61 @@ function App() {
         values.push(String(value || ''));
       }
     });
-    
+
     return values.join('\t');
   };
 
   const generateHeaders = (): string => {
     if (!config) return '';
-    
+
     const headers: string[] = [];
-    Object.values(config).flat().forEach(field => {
+    Object.values(config).flat().forEach((field: any) => {
       headers.push(field.label);
     });
-    
+
     return headers.join(',');
   };
 
-  const commitData = () => {
-    setQrModalOpen(true);
+  const generateScheduleDataString = (): string => {
+    if (!schedule || !selectedScouterId || scouterMatches.length === 0) return '';
+    const match = scouterMatches[selectedMatchIndex] || scouterMatches[0];
+    const parts = [String(match.matchNumber), match.position, String(match.teamNumber), selectedScouterId, schedule.eventName];
+    return parts.join('\t');
   };
+
+  const generateScheduleHeaders = (): string => {
+    return ['Match Number', 'Position', 'Team Number', 'Scouter ID', 'Event'].join(',');
+  };
+
+  const commitData = () => {
+    if (activeTab === 'SCHEDULE') {
+      setQrModalOpenSchedule(true);
+    } else {
+      setQrModalOpen(true);
+    }
+  };
+
 
   const resetForm = () => {
     if (!config) return;
-    
+
     const scouterName = formData['scouter_name'];
     const currentMatch = formData['match_number'] as number;
-    
+
     initializeFormData(config);
-    
-    // Preserve scouter name and increment match
+
+    setFormData(prev => ({
+      ...prev,
+      scouter_name: scouterName,
+      match_number: (currentMatch || 0) + 1
+    }));
+  };
+    const resetFormSchedule = () => {
+    if (!schedule) return;
+
+    const scouterName = formData['scouter_name'];
+    const currentMatch = formData['match_number'] as number;
+
     setFormData(prev => ({
       ...prev,
       scouter_name: scouterName,
@@ -184,65 +214,55 @@ function App() {
     }));
   };
 
-  const renderField = (field: any) => {
-    const value = formData[field.key];
+const renderField = (field: any) => {
+  const value = formData[field.key];
 
-    switch (field.type) {
-      case 'text':
-        return (
-          <TextField
-            key={field.key}
-            config={field}
-            value={value as string}
-            onChange={(val) => handleFieldChange(field.key, val)}
-          />
-        );
-      case 'number':
-        return (
-          <NumberField
-            key={field.key}
-            config={field}
-            value={value as number}
-            onChange={(val) => handleFieldChange(field.key, val)}
-          />
-        );
-      case 'dropdown':
-        return (
-          <DropdownField
-            key={field.key}
-            config={field}
-            value={value as string}
-            onChange={(val) => handleFieldChange(field.key, val)}
-          />
-        );
-      case 'switch':
-        return (
-          <SwitchField
-            key={field.key}
-            config={field}
-            value={value as boolean}
-            onChange={(val) => handleFieldChange(field.key, val)}
-          />
-        );
-      case 'counter':
-        return (
-          <CounterField
-            key={field.key}
-            config={field}
-            value={value as number}
-            onChange={(val) => handleFieldChange(field.key, val)}
-          />
-        );
-      default:
-        return null;
+  switch (field.type) {
+    case 'text':
+      return <TextField key={field.key} config={field} value={value as string} onChange={(val) => handleFieldChange(field.key, val)} />;
+    case 'number':
+      return <NumberField key={field.key} config={field} value={value as number} onChange={(val) => handleFieldChange(field.key, val)} />;
+    case 'dropdown':
+      return <DropdownField key={field.key} config={field} value={value as string} onChange={(val) => handleFieldChange(field.key, val)} />;
+    case 'switch':
+      return <SwitchField key={field.key} config={field} value={value as boolean} onChange={(val) => handleFieldChange(field.key, val)} />;
+    case 'counter':
+      return <CounterField key={field.key} config={field} value={value as number} onChange={(val) => handleFieldChange(field.key, val)} />;
+    default:
+      return null;
+  }
+};
+
+const renderTabContent = () => {
+  if (!config) return <div>Loading...</div>;
+
+  if (activeTab === 'PIT SCOUTING') {
+      const pitConfig: any = config['PIT SCOUTING'];
+      const fields = pitConfig?.[activePitTab] || [];
+
+      return (
+        <div className="tab-content">
+          <div className="pit-tabs">
+            {(['MECH', 'PROGRA', 'TEAM'] as PitTab[]).map(tab => (
+              <button
+                key={tab}
+                className={`pit-tab ${activePitTab === tab ? 'active' : ''}`}
+                onClick={() => setActivePitTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          <div className="fields-grid">
+            {fields.map((field: any) => renderField(field))}
+          </div>
+        </div>
+      );
     }
-  };
-
-  const renderTabContent = () => {
-    if (!config) return <div>Loading...</div>;
 
     const fields = config[activeTab];
-    
+
     return (
       <div className="tab-content">
         {activeTab === 'PREMATCH' && schedule && (
@@ -256,7 +276,7 @@ function App() {
                 )}
               </div>
             </div>
-            
+
             {scouterMatches.length > 0 && (
               <div className="match-selector">
                 <label>Select Match:</label>
@@ -281,11 +301,11 @@ function App() {
         </div>
 
         <div className="tab-actions">
-          {activeTab !== 'ENDGAME' && (
+          {activeTab !== 'ENDGAME' && activeTab !== 'SCHEDULE' && (
             <button
               className="next-button"
               onClick={() => {
-                const tabs: TabType[] = ['PREMATCH', 'AUTONOMOUS', 'TELEOP', 'ENDGAME', 'PIT SCOUTING'];
+                const tabs: TabType[] = ['PREMATCH', 'AUTONOMOUS', 'TELEOP', 'ENDGAME', 'PIT SCOUTING', 'SCHEDULE'];
                 const currentIndex = tabs.indexOf(activeTab);
                 if (currentIndex < tabs.length - 1) {
                   setActiveTab(tabs[currentIndex + 1]);
@@ -295,8 +315,8 @@ function App() {
               NEXT PERIOD →
             </button>
           )}
-          
-          {activeTab === 'ENDGAME' && (
+
+          {(activeTab === 'ENDGAME') && (
             <>
               <button className="commit-button" onClick={commitData}>
                 📊 COMMIT DATA
@@ -306,6 +326,15 @@ function App() {
               </button>
             </>
           )}
+                    {( activeTab === 'SCHEDULE') && (
+            <>
+              <button className="commit-button" onClick={commitData}>
+                📊 COMMIT DATA
+              </button>
+            </>
+          )}
+
+
         </div>
       </div>
     );
@@ -328,14 +357,9 @@ function App() {
         <div className="header-actions">
           <label className="icon-button" title="Upload Schedule">
             📅
-            <input
-              type="file"
-              accept=".txt"
-              onChange={handleScheduleUpload}
-              style={{ display: 'none' }}
-            />
+            <input type="file" accept=".txt" onChange={handleScheduleUpload} style={{ display: 'none' }} />
           </label>
-          
+
           {schedule && (
             <select
               className="scouter-selector"
@@ -352,18 +376,13 @@ function App() {
 
           <label className="icon-button" title="Load Custom Config">
             📁
-            <input
-              type="file"
-              accept=".json"
-              onChange={handleConfigUpload}
-              style={{ display: 'none' }}
-            />
+            <input type="file" accept=".json" onChange={handleConfigUpload} style={{ display: 'none' }} />
           </label>
         </div>
       </header>
 
       <div className="tabs">
-        {(['PREMATCH', 'AUTONOMOUS', 'TELEOP', 'ENDGAME', 'PIT SCOUTING'] as TabType[]).map(tab => (
+        {(['PREMATCH', 'AUTONOMOUS', 'TELEOP', 'ENDGAME', 'PIT SCOUTING', 'SCHEDULE'] as TabType[]).map(tab => (
           <button
             key={tab}
             className={`tab ${activeTab === tab ? 'active' : ''}`}
@@ -384,7 +403,14 @@ function App() {
         data={generateDataString()}
         headers={generateHeaders()}
       />
+      <QRModalSchedule
+        isOpen={qrModalOpenSchedule}
+        onClose={() => setQrModalOpenSchedule(false)}
+        data={generateScheduleDataString()}
+        headers={generateScheduleHeaders()}
+      />
     </div>
+    
   );
 }
 

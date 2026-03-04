@@ -2,8 +2,7 @@
 2. Implementar un sistema que permita generar horarios en base al archivo "sample_schedule.json"
 3. Generar un nuevo apartado llamado "Pit Scouting"
 3.1. Este apartado debe de tener secciones "Mech, Progra, Team"
-3.2. Dentro de cada sección debe de haber un questionario. (por el momento pon preguntas random, luego las pondremos bien.)
-
+3.2. Dentro de cada sección debe de haber un questionario. (por el momento pon preguntas random, luego las pondremos bien.) 20 preguntas por sección.
 
 
 NOTAS IMPORTANTES:

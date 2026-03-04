@@ -191,5 +191,158 @@
       "key": "endgame_drove_over_balls",
       "type": "switch"
     }
+  ],
+"PIT SCOUTING": {
+  "MECH": [
+    {
+      "id": "mech_1",
+      "key": "QM1",
+      "label": "¿Cuál es el peso total de robot (incluyendo la batería)?",
+      "type": "number"
+    },
+    {
+      "id": "mech_2",
+      "key": "QM2",
+      "label": "¿Qué tipo de drivetrain utilizan?",
+      "type": "dropdown",
+      "options": ["Mecanum", "Tank", "X-drive"]
+    },
+    {
+      "id": "mech_3",
+      "key": "QM3",
+      "label": "¿Qué relación de engranajes usan en el drivetrain?",
+      "type": "text"
+    },
+    {
+      "id": "mech_4",
+      "key": "QM4",
+      "label": "¿Qué materiales predominan en su estructura?",
+      "type": "dropdown",
+      "options": ["Aluminio", "Acero", "Impresión 3D"]
+    },
+    {
+      "id": "mech_5",
+      "key": "QM5",
+      "label": "¿Cuáles son los mecanismos principales de scouting?",
+      "type": "text"
+    },
+    {
+      "id": "mech_6",
+      "key": "QM6",
+      "label": "¿Qué motores utilizan en su mecanismo principal?",
+      "type": "text"
+    },
+    {
+      "id": "mech_7",
+      "key": "QM7",
+      "label": "Tienen algún sistema de monitoreo electrónico o protección de voltaje?",
+      "type": "switch"
+    }
+  ],
+  "PROGRA": [
+    {
+      "id": "prog_1",
+      "key": "QP1",
+      "label": "¿Qué sensores está usando?",
+      "type": "dropdown",
+      "options": ["IMU", "Distancia", "Color", "Cámara"]
+    },
+    {
+      "id": "prog_2",
+      "key": "QP2",
+      "label": "¿Implementan control PID? ¿En qué subsistemas?",
+      "type": "text"
+    },
+    {
+      "id": "prog_3",
+      "key": "QP3",
+      "label": "¿Utilizan Road Runner u otro sistema de control de trayectora?",
+      "type": "switch"
+    },
+    {
+      "id": "prog_4",
+      "key": "QP4",
+      "label": "¿Cuántos modos autónomos tiene y qué realizan cada uno?",
+      "type": "number"
+    },
+    {
+      "id": "prog_5",
+      "key": "QP5",
+      "label": "Su autónomo está basado en tiempo o en sensores / odometría?",
+      "type": "dropdown",
+      "options": ["Tiempo", "Sensores"]
+    },
+    {
+      "id": "prog_6",
+      "key": "QP6",
+      "label": "¿Qué tan consistente ha sido su autónomo?",
+      "type": "text"
+    },
+    {
+      "id": "prog_7",
+      "key": "QP7",
+      "label": "¿Cuentan con telemetría personalizada o diagnóstico?",
+      "type": "dropdown",
+      "options": ["Personalizada", "Diagnóstico"]
+    },
+    {
+      "id": "prog_8",
+      "key": "QP8",
+      "label": "¿Qué arquitectura de código utilizan?",
+      "type": "dropdown",
+      "options": ["Lineal", "Basada en comandos", "Modular"]
+    }
+  ],
+  "TEAM": [
+    {
+      "id": "team_1",
+      "key": "QT1",
+      "label": "¿Cuál es su rol ideal en una alizanza?",
+      "type": "dropdown",
+      "options": ["Ofensivo", "Defensivo", "Híbrido"]
+    },
+    {
+      "id": "team_2",
+      "key": "QT2",
+      "label": "¿Cuál es su ciclo promedio de puntuación?",
+      "type": "text"
+    },
+    {
+      "id": "team_3",
+      "key": "QT3",
+      "label": "¿Cuál consideran que es su principal fortaleza como robot?",
+      "type": "text"
+    },
+    {
+      "id": "team_4",
+      "key": "QT4",
+      "label": "¿Cuál es su mayor debilidad actual?",
+      "type": "text"
+    },
+    {
+      "id": "team_5",
+      "key": "QT5",
+      "label": "¿Qué estrategia específica tienen para el endgame?",
+      "type": "text"
+    }
   ]
+},
+  "SCHEDULE": [
+    {
+      "id": "Schedule_1",
+      "key": "QR1",
+      "label": "Personas",
+      "type": "number"
+    },{
+      "id": "Schedule_2",
+      "key": "QR2",
+      "label": "Partidas",
+      "type": "number"
+    },{
+      "id": "Schedule_3",
+      "key": "QR3",
+      "label": "Robots por partidas",
+      "type": "number"
+    }
+]
 }
