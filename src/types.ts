@@ -23,7 +23,7 @@ export interface PitScoutingConfig {
 
 export interface PitScoutingEntry {
   teamNumber: number;
-  questionnaire: string;
+  questionnaire: string; // 'all' for full-team entries
   answers: FormData;
   timestamp: number;
 }

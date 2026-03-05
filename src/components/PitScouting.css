@@ -411,6 +411,137 @@
   color: #616161;
 }
 
+/* Pit form container */
+.pit-form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  animation: fadeIn 0.3s ease-in;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Questionnaire section */
+.pit-section {
+  background: linear-gradient(135deg, #1e1e1e 0%, #2a2a2a 100%);
+  border: 2px solid #424242;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.pit-section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #424242;
+}
+
+.pit-section-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.pit-section-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ff9100;
+  margin: 0;
+}
+
+/* Commit button */
+.commit-button {
+  padding: clamp(0.75rem, 2vw, 1.25rem) clamp(1rem, 3vw, 2rem);
+  font-size: clamp(0.9rem, 3vw, 1.1rem);
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  min-width: 120px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  background: linear-gradient(135deg, #388e3c 0%, #2e7d32 100%);
+  color: #ffffff;
+}
+
+.commit-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(56, 142, 60, 0.4);
+}
+
+/* Commit toast */
+.commit-toast {
+  text-align: center;
+  padding: 0.75rem 1.5rem;
+  background: rgba(56, 142, 60, 0.2);
+  border: 1px solid #388e3c;
+  border-radius: 10px;
+  color: #81c784;
+  font-size: 1rem;
+  font-weight: 600;
+  animation: fadeIn 0.2s ease-in;
+}
+
+/* Bottom section */
+.bottom-section {
+  padding-top: 1.5rem;
+  border-top: 2px solid #424242;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.csv-actions-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.csv-actions-row .generate-csv-button {
+  flex: 1;
+  min-width: 140px;
+}
+
+.csv-actions-row .clear-entries-button {
+  min-width: 90px;
+  flex: 0 0 auto;
+}
+
+/* Teams done */
+.teams-done {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.teams-done-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #9e9e9e;
+  white-space: nowrap;
+  padding-top: 0.2rem;
+}
+
+.teams-done-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.team-chip {
+  padding: 0.25rem 0.65rem;
+  background: rgba(56, 142, 60, 0.2);
+  border: 1px solid #388e3c;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #81c784;
+}
+
 /* Action Buttons */
 .pit-scouting-actions {
   display: flex;
@@ -677,13 +808,21 @@
     flex-direction: column;
   }
 
-  .save-button,
+  .commit-button,
   .next-robot-button,
   .qr-failover-button,
   .generate-csv-button,
   .clear-entries-button {
     width: 100%;
     min-width: unset;
+  }
+
+  .csv-actions-row {
+    flex-direction: column;
+  }
+
+  .csv-actions-row .clear-entries-button {
+    flex: 1;
   }
 
   .modal-actions {
