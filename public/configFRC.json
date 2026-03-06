@@ -28,11 +28,6 @@
       "key": "starting_position",
       "type": "dropdown",
       "options": ["Outpost Side", "Middle", "Depot Side"]
-    },
-    {
-      "label": "Is HP True to your team?",
-      "key": "teleop_hp_true",
-      "type": "switch"
     }
   ],
   "AUTONOMOUS": [
@@ -74,11 +69,6 @@
       "label": "Pass Time",
       "key": "teleop_pass_time",
       "type": "chrono"
-    },
-    {
-      "label": "HP Scored",
-      "key": "teleop_hp_scored",
-      "type": "counter"
     },
     {
       "label": "Penalty Counter",
