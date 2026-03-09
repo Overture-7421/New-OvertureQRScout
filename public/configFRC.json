@@ -37,15 +37,10 @@
       "type": "chrono"
     },
     {
-      "label": "HP Scored",
-      "key": "auto_hp_scored",
-      "type": "counter"
-    },
-    {
       "label": "Climb Position",
       "key": "auto_climb_position",
       "type": "dropdown",
-      "options": ["Middle", "Side"]
+      "options": ["Middle", "Side", "Didn't Climb", "Failed Climb Attempt"]
     },
     {
       "label": "If climbed, Got stuck in Tower?",
