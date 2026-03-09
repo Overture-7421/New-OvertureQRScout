@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './App.css';
 import type { Config, Phase, FormData, GeneratedSchedule, ScouterTurnAssignment, RoboticsProgram } from './types';
 import { TextField, NumberField, DropdownField, SwitchField, CounterField, ChronoField } from './components/FieldComponents';
@@ -35,11 +35,26 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
   const [generatedSchedule, setGeneratedSchedule] = useState<GeneratedSchedule | null>(null);
   const [scouterTurnAssignments, setScouterTurnAssignments] = useState<ScouterTurnAssignment[]>([]);
   const [currentAssignmentIndex, setCurrentAssignmentIndex] = useState<number>(0);
+  // Ignore schedule mode & hamburger menu
+  const [ignoreScheduleMode, setIgnoreScheduleMode] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   // Flatten all assignments for easy navigation
   const allAssignments = scouterTurnAssignments.flatMap(turn =>
     turn.assignments.map(a => ({ ...a, turn: turn.turn }))
   );
+
+  // Close hamburger menu on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    if (menuOpen) document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [menuOpen]);
 
   // Update turn assignments when generated schedule or scouter changes
   useEffect(() => {
@@ -256,6 +271,20 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
   const handleNextMatch = () => {
     if (!config) return;
 
+    if (ignoreScheduleMode) {
+      const currentMatchNumber = Number(formData['match_number'] || 0);
+      const currentScouterName = formData['scouter_name'] || selectedScouterId;
+      initializeFormData(config);
+      setFormData(prev => ({
+        ...prev,
+        scouter_name: currentScouterName,
+        match_number: currentMatchNumber + 1,
+      }));
+      setHasCommittedOnce(false);
+      setActiveTab('PREMATCH');
+      return;
+    }
+
     initializeFormData(config);
 
     const nextIndex = currentAssignmentIndex + 1;
@@ -416,8 +445,11 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
         )}
 
         {activeTab === 'PREMATCH' && !generatedSchedule && (
-          <div className="no-schedule-notice">
-            <p>No schedule loaded. Click the ⚙️ button to configure a schedule or upload one.</p>
+          <div className={`no-schedule-notice${ignoreScheduleMode ? ' ignore-mode-notice' : ''}`}>
+            {ignoreScheduleMode
+              ? <p>Ignore Schedule Mode is ON — NEXT MATCH will auto-increment the match number by 1.</p>
+              : <p>No schedule loaded. Open the menu (☰) to configure or upload a schedule.</p>
+            }
           </div>
         )}
 
@@ -459,7 +491,7 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
               <button
                 className="next-match-button"
                 onClick={handleNextMatch}
-                disabled={!hasCommittedOnce || !matchInfo?.hasMoreMatches}
+                disabled={!hasCommittedOnce || (!ignoreScheduleMode && !matchInfo?.hasMoreMatches)}
               >
                 ⏭️ NEXT MATCH
               </button>
@@ -563,34 +595,6 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
             </button>
           )}
 
-          <label className="icon-button" title="Upload Config (JSON)">
-            📤
-            <input
-              type="file"
-              accept=".json"
-              onChange={handleConfigUpload}
-              style={{ display: 'none' }}
-            />
-          </label>
-
-          <button
-            className="icon-button"
-            onClick={() => setScheduleConfigModalOpen(true)}
-            title="Schedule Configuration"
-          >
-            ⚙️
-          </button>
-
-          <label className="icon-button" title="Upload Schedule (JSON)">
-            📋
-            <input
-              type="file"
-              accept=".json"
-              onChange={handleGeneratedScheduleUpload}
-              style={{ display: 'none' }}
-            />
-          </label>
-
           {generatedSchedule && (
             <select
               className="scouter-selector"
@@ -604,6 +608,88 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
               ))}
             </select>
           )}
+
+          {/* Hamburger menu */}
+          <div className="hamburger-menu" ref={menuRef}>
+            <button
+              className={`hamburger-button${ignoreScheduleMode ? ' hamburger-button--active' : ''}`}
+              onClick={() => setMenuOpen(prev => !prev)}
+              title="Settings & Tools"
+            >
+              ☰
+            </button>
+
+            {menuOpen && (
+              <div className="hamburger-dropdown">
+                {/* Ignore Schedule Mode */}
+                <div className="menu-item menu-item--toggle">
+                  <div className="menu-item-info">
+                    <span className="menu-item-label">
+                      {ignoreScheduleMode ? '🔓 Ignore Schedule: ON' : '🔒 Ignore Schedule: OFF'}
+                    </span>
+                    <span className="menu-item-desc">
+                      When ON, you can commit and generate QRs without a loaded schedule. NEXT MATCH auto-increments the match number by 1.
+                    </span>
+                  </div>
+                  <label className="menu-toggle-switch">
+                    <input
+                      type="checkbox"
+                      checked={ignoreScheduleMode}
+                      onChange={(e) => setIgnoreScheduleMode(e.target.checked)}
+                    />
+                    <span className="menu-toggle-track" />
+                  </label>
+                </div>
+
+                <div className="menu-divider" />
+
+                {/* Upload Schedule */}
+                <label className="menu-item menu-item--action">
+                  <div className="menu-item-info">
+                    <span className="menu-item-label">📋 Upload Schedule</span>
+                    <span className="menu-item-desc">
+                      Load a pre-generated schedule JSON file to auto-fill match assignments and scouter turns.
+                    </span>
+                  </div>
+                  <input
+                    type="file"
+                    accept=".json"
+                    onChange={(e) => { handleGeneratedScheduleUpload(e); setMenuOpen(false); }}
+                    style={{ display: 'none' }}
+                  />
+                </label>
+
+                {/* Configure Schedule */}
+                <button
+                  className="menu-item menu-item--action"
+                  onClick={() => { setScheduleConfigModalOpen(true); setMenuOpen(false); }}
+                >
+                  <div className="menu-item-info">
+                    <span className="menu-item-label">⚙️ Configure Schedule</span>
+                    <span className="menu-item-desc">
+                      Open the schedule builder to define the event, scouter shifts, and generate or export a schedule file.
+                    </span>
+                  </div>
+                </button>
+
+                {/* Upload Config */}
+                <label className="menu-item menu-item--action">
+                  <div className="menu-item-info">
+                    <span className="menu-item-label">📤 Upload Config</span>
+                    <span className="menu-item-desc">
+                      Replace the current form fields with a custom JSON config file. Must include <code>"category": "FTC"</code> or <code>"FRC"</code>.
+                    </span>
+                  </div>
+                  <input
+                    type="file"
+                    accept=".json"
+                    onChange={(e) => { handleConfigUpload(e); setMenuOpen(false); }}
+                    style={{ display: 'none' }}
+                  />
+                </label>
+              </div>
+            )}
+          </div>
         </div>
       </header>
 
