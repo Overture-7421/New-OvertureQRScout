@@ -438,3 +438,235 @@ export const isLastMatchOfTurn = (
 
   return { isLast: false, turnNumber: null };
 };
+
+// ============================================================
+// CSV Template Export
+// ============================================================
+
+export const exportCSVTemplate = (eventConfig: EventConfig): string => {
+  const positions = getPositions(eventConfig);
+  const headers = ['Match #', 'Lead Scouter', 'Camera', ...positions];
+  const rows = [headers.join(',')];
+  for (let i = 1; i <= eventConfig.totalMatches; i++) {
+    rows.push([i, '', '', ...positions.map(() => '')].join(','));
+  }
+  return rows.join('\n');
+};
+
+// ============================================================
+// CSV Import / Parse
+// ============================================================
+
+export interface ParseCSVResult {
+  schedule?: GeneratedSchedule;
+  error?: string;
+}
+
+export const parseScheduleCSV = (
+  csv: string,
+  eventConfig: EventConfig,
+  breakPoints: number[]
+): ParseCSVResult => {
+  const lines = csv.trim().split(/\r?\n/);
+  if (lines.length < 2) return { error: 'CSV must have a header row and at least one data row.' };
+
+  const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+  const matchCol = headers.findIndex(h => /match/i.test(h));
+  const leadCol = headers.findIndex(h => /lead/i.test(h));
+  const cameraCol = headers.findIndex(h => /camera/i.test(h));
+
+  if (matchCol === -1) return { error: 'CSV is missing a "Match #" column.' };
+
+  const positionCols: { name: string; index: number }[] = headers
+    .map((name, i) => ({ name, i }))
+    .filter(({ i }) => i !== matchCol && i !== leadCol && i !== cameraCol)
+    .map(({ name, i }) => ({ name, index: i }));
+
+  const matchSchedules: MatchSchedule[] = [];
+  const leadSet = new Set<string>();
+  const scouterSet = new Set<string>();
+  const cameraSet = new Set<string>();
+
+  for (let li = 1; li < lines.length; li++) {
+    const line = lines[li].trim();
+    if (!line) continue;
+    const cols = line.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+    const matchNumber = parseInt(cols[matchCol]);
+    if (isNaN(matchNumber)) continue;
+
+    const leadScouter = leadCol >= 0 ? (cols[leadCol] || '') : '';
+    const camera = cameraCol >= 0 ? (cols[cameraCol] || '') : '';
+
+    if (leadScouter) leadSet.add(leadScouter);
+    if (camera) cameraSet.add(camera);
+
+    const assignments = positionCols.map(({ name, index }) => {
+      const scouter = index < cols.length ? (cols[index] || '') : '';
+      if (scouter) scouterSet.add(scouter);
+      return { position: name, scouter, teamNumber: null };
+    });
+
+    matchSchedules.push({ matchNumber, leadScouter, camera, assignments });
+  }
+
+  if (matchSchedules.length === 0) return { error: 'No valid match rows found in CSV.' };
+
+  matchSchedules.sort((a, b) => a.matchNumber - b.matchNumber);
+
+  const totalMatches = matchSchedules[matchSchedules.length - 1].matchNumber;
+  const updatedEvent: EventConfig = { ...eventConfig, totalMatches };
+
+  const shiftConfig: ShiftConfig = {
+    breakPoints,
+    turns: calculateTurns(totalMatches, breakPoints)
+  };
+
+  const personnel: Personnel = {
+    leadScouters: leadSet.size > 0 ? Array.from(leadSet) : ['Lead Scouter 1'],
+    scouters: scouterSet.size > 0 ? Array.from(scouterSet) : ['Scouter 1'],
+    cameras: cameraSet.size > 0 ? Array.from(cameraSet) : ['Camera 1']
+  };
+
+  return {
+    schedule: { event: updatedEvent, personnel, shifts: shiftConfig, schedule: matchSchedules }
+  };
+};
+
+// ============================================================
+// Suggestions / Intelligence
+// ============================================================
+
+export interface ScheduleSuggestion {
+  id: string;
+  type: 'balance' | 'substitution';
+  priority: 'high' | 'medium' | 'low';
+  message: string;
+  details: string;
+  action: {
+    oldScouter: string;
+    newScouter: string;
+    turnNumber: number;
+  };
+}
+
+export const generateSuggestions = (schedule: GeneratedSchedule): ScheduleSuggestion[] => {
+  const suggestions: ScheduleSuggestion[] = [];
+  const stats = getScouterStats(schedule);
+  const turns = schedule.shifts.turns;
+
+  if (turns.length === 0) return suggestions;
+
+  // Build per-scouter turn assignment map: scouter -> turn# -> matchCount
+  const turnAssignMap = new Map<string, Map<number, number>>();
+  for (const match of schedule.schedule) {
+    const turn = turns.find(t => match.matchNumber >= t.startMatch && match.matchNumber <= t.endMatch);
+    if (!turn) continue;
+    for (const a of match.assignments) {
+      if (!a.scouter) continue;
+      if (!turnAssignMap.has(a.scouter)) turnAssignMap.set(a.scouter, new Map());
+      const m = turnAssignMap.get(a.scouter)!;
+      m.set(turn.turn, (m.get(turn.turn) || 0) + 1);
+    }
+  }
+
+  const totalCounts = Array.from(stats.entries()).map(([name, s]) => ({ name, total: s.totalMatches }));
+  if (totalCounts.length < 2) return suggestions;
+
+  const avg = totalCounts.reduce((s, e) => s + e.total, 0) / totalCounts.length;
+  const sorted = [...totalCounts].sort((a, b) => b.total - a.total);
+  const overloaded = sorted.filter(s => s.total > avg * 1.2);
+  const underloaded = sorted.filter(s => s.total < avg * 0.8).reverse();
+
+  // ── Balance suggestions ───────────────────────────────────
+  const addedPairs = new Set<string>();
+  for (const over of overloaded) {
+    for (const under of underloaded) {
+      const pairKey = `${over.name}|${under.name}`;
+      if (addedPairs.has(pairKey)) continue;
+      const overTurns = turnAssignMap.get(over.name) || new Map();
+      const underTurns = turnAssignMap.get(under.name) || new Map();
+
+      // Find best turn: over is assigned there, under is not
+      let bestTurn = -1;
+      let bestCount = 0;
+      for (const [t, cnt] of overTurns) {
+        if (!underTurns.has(t) && cnt > bestCount) { bestTurn = t; bestCount = cnt; }
+      }
+
+      if (bestTurn !== -1) {
+        const t = turns.find(x => x.turn === bestTurn)!;
+        addedPairs.add(pairKey);
+        suggestions.push({
+          id: `balance-${over.name}-${under.name}-t${bestTurn}`,
+          type: 'balance',
+          priority: over.total - under.total > avg * 0.5 ? 'high' : 'medium',
+          message: `Balance workload — replace ${over.name} with ${under.name}`,
+          details: `${over.name}: ${over.total} matches | ${under.name}: ${under.total} matches (avg ${Math.round(avg)}). Replacing Turn ${bestTurn} (M${t.startMatch}–M${t.endMatch}, ${bestCount} matches) reduces the gap by ${bestCount}.`,
+          action: { oldScouter: over.name, newScouter: under.name, turnNumber: bestTurn }
+        });
+      }
+    }
+  }
+
+  // ── Consecutive-turn fatigue suggestions ─────────────────
+  for (const [scouterName] of stats) {
+    const scouterTurns = turnAssignMap.get(scouterName) || new Map();
+    const assignedNums = Array.from(scouterTurns.keys()).sort((a, b) => a - b);
+    let streak = 1;
+    for (let i = 1; i < assignedNums.length; i++) {
+      if (assignedNums[i] === assignedNums[i - 1] + 1) {
+        streak++;
+        if (streak >= 3) {
+          const fatigueAt = assignedNums[i];
+          const t = turns.find(x => x.turn === fatigueAt)!;
+          // Best replacement: least-loaded scouter not assigned in this turn
+          const replacement = sorted
+            .slice()
+            .reverse()
+            .find(s => s.name !== scouterName && !(turnAssignMap.get(s.name) || new Map()).has(fatigueAt));
+
+          if (replacement && !suggestions.some(sg => sg.id === `fatigue-${scouterName}-t${fatigueAt}`)) {
+            suggestions.push({
+              id: `fatigue-${scouterName}-t${fatigueAt}`,
+              type: 'substitution',
+              priority: 'medium',
+              message: `Rest break for ${scouterName} — substitute with ${replacement.name}`,
+              details: `${scouterName} scouts ${streak} consecutive turns without a break. Replacing Turn ${fatigueAt} (M${t.startMatch}–M${t.endMatch}) with ${replacement.name} (${replacement.total} matches) provides a rest opportunity.`,
+              action: { oldScouter: scouterName, newScouter: replacement.name, turnNumber: fatigueAt }
+            });
+          }
+          streak = 1; // reset to avoid cascading suggestions
+        }
+      } else {
+        streak = 1;
+      }
+    }
+  }
+
+  return suggestions.slice(0, 12);
+};
+
+export const applyScheduleSuggestion = (
+  schedule: GeneratedSchedule,
+  suggestion: ScheduleSuggestion
+): GeneratedSchedule => {
+  const { oldScouter, newScouter, turnNumber } = suggestion.action;
+  const turn = schedule.shifts.turns.find(t => t.turn === turnNumber);
+  if (!turn) return schedule;
+
+  const newMatches = schedule.schedule.map(match => {
+    if (match.matchNumber < turn.startMatch || match.matchNumber > turn.endMatch) return match;
+    return {
+      ...match,
+      assignments: match.assignments.map(a =>
+        a.scouter === oldScouter ? { ...a, scouter: newScouter } : a
+      )
+    };
+  });
+
+  const newPersonnel = schedule.personnel.scouters.includes(newScouter)
+    ? schedule.personnel
+    : { ...schedule.personnel, scouters: [...schedule.personnel.scouters, newScouter] };
+
+  return { ...schedule, personnel: newPersonnel, schedule: newMatches };
+};

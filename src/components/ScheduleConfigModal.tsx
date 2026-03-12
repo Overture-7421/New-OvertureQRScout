@@ -1,15 +1,20 @@
 // src/components/ScheduleConfigModal.tsxnbbmbm /testing gitaction
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import type { EventConfig, Personnel, ShiftConfig, GeneratedSchedule, ScheduleConstraints, ScheduleValidationError } from '../types';
 import {
   calculateTurns,
   generateSchedule,
   exportToCSV,
+  exportCSVTemplate,
+  parseScheduleCSV,
   exportEventConfig,
   exportPersonnel,
   exportFullSchedule,
   getScouterStats,
-  getPositions
+  getPositions,
+  generateSuggestions,
+  applyScheduleSuggestion,
+  type ScheduleSuggestion
 } from '../utils/scheduleGenerator';
 import './ScheduleConfigModal.css';
 
@@ -20,7 +25,7 @@ interface ScheduleConfigModalProps {
   selectedProgram: 'FTC' | 'FRC' | 'custom';
 }
 
-type ConfigTab = 'event' | 'personnel' | 'shifts' | 'timetable' | 'export';
+type ConfigTab = 'event' | 'personnel' | 'shifts' | 'timetable' | 'export' | 'suggestions';
 
 const SCHEDULE_PASSWORD = 'OVT2026_schedule!';
 
@@ -82,6 +87,16 @@ export const ScheduleConfigModal: React.FC<ScheduleConfigModalProps> = ({
   // Error/warning state
   const [generationErrors, setGenerationErrors] = useState<ScheduleValidationError[]>([]);
   const [generationWarnings, setGenerationWarnings] = useState<ScheduleValidationError[]>([]);
+
+  // CSV import state
+  const csvInputRef = useRef<HTMLInputElement>(null);
+  const [csvUploadStatus, setCsvUploadStatus] = useState<{ ok: boolean; msg: string } | null>(null);
+
+  // Suggestions (derived from generatedSchedule)
+  const suggestions = useMemo<ScheduleSuggestion[]>(
+    () => (generatedSchedule ? generateSuggestions(generatedSchedule) : []),
+    [generatedSchedule]
+  );
 
   // Reset authentication when modal closes
   useEffect(() => {
@@ -180,7 +195,9 @@ export const ScheduleConfigModal: React.FC<ScheduleConfigModalProps> = ({
   };
 
   const handleDownload = (content: string, filename: string, type: string) => {
-    const blob = new Blob([content], { type });
+    // Prepend UTF-8 BOM for CSV so Excel/Sheets honour accented characters
+    const payload = type === 'text/csv' ? '\uFEFF' + content : content;
+    const blob = new Blob([payload], { type: type + ';charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -189,6 +206,54 @@ export const ScheduleConfigModal: React.FC<ScheduleConfigModalProps> = ({
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  };
+
+  const handleDownloadCSVTemplate = () => {
+    handleDownload(
+      exportCSVTemplate(eventConfig),
+      `schedule_template_${eventConfig.localLabel || 'event'}.csv`,
+      'text/csv'
+    );
+  };
+
+  const handleCSVFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const text = ev.target?.result as string;
+      const result = parseScheduleCSV(text, eventConfig, breakPoints);
+      if (result.error) {
+        setCsvUploadStatus({ ok: false, msg: result.error });
+      } else if (result.schedule) {
+        setGeneratedSchedule(result.schedule);
+        onScheduleGenerated(result.schedule);
+        setCsvUploadStatus({
+          ok: true,
+          msg: `Imported ${result.schedule.schedule.length} matches with ${result.schedule.personnel.scouters.length} scouters.`
+        });
+        setActiveTab('timetable');
+      }
+    };
+    reader.readAsText(file, 'UTF-8');
+    e.target.value = '';
+  };
+
+  const handleApplySuggestion = (suggestion: ScheduleSuggestion) => {
+    if (!generatedSchedule) return;
+    const updated = applyScheduleSuggestion(generatedSchedule, suggestion);
+    setGeneratedSchedule(updated);
+    onScheduleGenerated(updated);
+  };
+
+  const handleApplyAllSuggestions = () => {
+    if (!generatedSchedule) return;
+    let current = generatedSchedule;
+    for (const s of suggestions) {
+      current = applyScheduleSuggestion(current, s);
+    }
+    setGeneratedSchedule(current);
+    onScheduleGenerated(current);
   };
 
   const turns = calculateTurns(eventConfig.totalMatches, breakPoints);
@@ -240,17 +305,20 @@ export const ScheduleConfigModal: React.FC<ScheduleConfigModalProps> = ({
         </div>
 
         <div className="modal-tabs">
-          {(['event', 'personnel', 'shifts', 'timetable', 'export'] as ConfigTab[]).map(tab => (
+          {(['event', 'personnel', 'shifts', 'timetable', 'export', 'suggestions'] as ConfigTab[]).map(tab => (
             <button
               key={tab}
-              className={`modal-tab ${activeTab === tab ? 'active' : ''}`}
+              className={`modal-tab ${activeTab === tab ? 'active' : ''}${tab === 'suggestions' && suggestions.length > 0 ? ' has-badge' : ''}`}
               onClick={() => setActiveTab(tab)}
             >
               {tab === 'event' && 'Event'}
               {tab === 'personnel' && 'Personnel'}
               {tab === 'shifts' && 'Shifts'}
               {tab === 'timetable' && 'Timetable'}
-              {tab === 'export' && 'Export'}
+              {tab === 'export' && 'Import / Export'}
+              {tab === 'suggestions' && (
+                <>Suggestions{suggestions.length > 0 && <span className="tab-badge">{suggestions.length}</span>}</>
+              )}
             </button>
           ))}
         </div>
@@ -603,13 +671,46 @@ export const ScheduleConfigModal: React.FC<ScheduleConfigModalProps> = ({
             </div>
           )}
 
-          {/* Export Tab */}
+          {/* Import / Export Tab */}
           {activeTab === 'export' && (
             <div className="config-section">
               <div className="config-inner">
+
+                {/* ── CSV Import section ── */}
+                <h3>CSV Import</h3>
+                <p className="section-description">
+                  Download a blank template pre-filled with match numbers, fill in your scouter assignments, then upload it to generate a schedule.
+                </p>
+                <div className="csv-import-row">
+                  <button className="export-btn csv-template-btn" onClick={handleDownloadCSVTemplate}>
+                    Download CSV Template
+                  </button>
+                  <button
+                    className="export-btn csv-upload-btn"
+                    onClick={() => { setCsvUploadStatus(null); csvInputRef.current?.click(); }}
+                  >
+                    Upload Filled CSV
+                  </button>
+                  <input
+                    ref={csvInputRef}
+                    type="file"
+                    accept=".csv,text/csv"
+                    style={{ display: 'none' }}
+                    onChange={handleCSVFileChange}
+                  />
+                </div>
+                {csvUploadStatus && (
+                  <div className={`csv-status ${csvUploadStatus.ok ? 'csv-status-ok' : 'csv-status-error'}`}>
+                    {csvUploadStatus.ok ? '✓ ' : '✗ '}{csvUploadStatus.msg}
+                  </div>
+                )}
+
+                {/* ── Export section ── */}
                 <h3>Export Options</h3>
                 {!generatedSchedule ? (
-                  <div><p className="no-schedule">Generate a schedule first to enable exports.</p></div>
+                  <p className="no-schedule" style={{ minHeight: 'unset', padding: '1.5rem' }}>
+                    Generate or import a schedule first to enable exports.
+                  </p>
                 ) : (
                   <div className="export-buttons">
                     <button
@@ -657,6 +758,59 @@ export const ScheduleConfigModal: React.FC<ScheduleConfigModalProps> = ({
               </div>
             </div>
           )}
+          {/* Suggestions Tab */}
+          {activeTab === 'suggestions' && (
+            <div className="config-section">
+              <div className="config-inner">
+                <h3>Schedule Suggestions</h3>
+                {!generatedSchedule ? (
+                  <p className="no-schedule" style={{ minHeight: 'unset', padding: '1.5rem' }}>
+                    Generate or import a schedule first to see suggestions.
+                  </p>
+                ) : suggestions.length === 0 ? (
+                  <div className="suggestions-empty">
+                    <div className="suggestions-empty-icon">✓</div>
+                    <p>Schedule looks balanced — no suggestions at this time.</p>
+                  </div>
+                ) : (
+                  <>
+                    <div className="suggestions-toolbar">
+                      <p className="section-description" style={{ margin: 0 }}>
+                        Click <strong>Apply</strong> on individual suggestions, or apply all at once.
+                        Suggestions re-evaluate automatically after each change.
+                      </p>
+                      <button className="apply-all-btn" onClick={handleApplyAllSuggestions}>
+                        Apply All ({suggestions.length})
+                      </button>
+                    </div>
+                    <div className="suggestions-list">
+                      {suggestions.map(s => (
+                        <div key={s.id} className={`suggestion-card suggestion-${s.type} priority-${s.priority}`}>
+                          <div className="suggestion-header">
+                            <span className={`suggestion-badge badge-${s.type}`}>
+                              {s.type === 'balance' ? 'Workload' : 'Substitution'}
+                            </span>
+                            <span className={`priority-badge priority-${s.priority}`}>
+                              {s.priority.toUpperCase()}
+                            </span>
+                          </div>
+                          <div className="suggestion-message">{s.message}</div>
+                          <div className="suggestion-details">{s.details}</div>
+                          <button
+                            className="suggestion-apply-btn"
+                            onClick={() => handleApplySuggestion(s)}
+                          >
+                            Apply
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+
         </div>
       </div>
     </div>
