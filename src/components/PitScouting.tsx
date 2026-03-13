@@ -195,20 +195,37 @@ export const PitScouting: React.FC<PitScoutingProps> = ({ onBack, selectedProgra
     setTimeout(() => setCommitMessage(null), 2500);
   };
 
+  const escapeCSVValue = (value: string): string => {
+    if (value.includes(',') || value.includes('"') || value.includes('\n') || value.includes('\r')) {
+      return `"${value.replace(/"/g, '""')}"`;
+    }
+    return value;
+  };
+
   const generateCSV = (): string => {
     if (savedEntries.length === 0) return '';
-    const allKeys = new Set<string>();
+    // Anchor key order on the first entry, then append any keys from later entries
+    const orderedKeys: string[] = [];
+    const seenKeys = new Set<string>();
     savedEntries.forEach(entry => {
       Object.keys(entry.answers).forEach(key => {
-        if (key !== 'questionnaire') allKeys.add(key);
+        if (key !== 'questionnaire' && !seenKeys.has(key)) {
+          orderedKeys.push(key);
+          seenKeys.add(key);
+        }
       });
     });
-    const headers = ['Team Number', 'Timestamp', ...Array.from(allKeys)];
+    const headers = ['Team Number', 'Timestamp', ...orderedKeys].map(escapeCSVValue);
     const rows = savedEntries.map(entry => {
-      const row: string[] = [String(entry.teamNumber), new Date(entry.timestamp).toISOString()];
-      allKeys.forEach(key => {
+      const row: string[] = [
+        escapeCSVValue(String(entry.teamNumber)),
+        escapeCSVValue(new Date(entry.timestamp).toISOString()),
+      ];
+      orderedKeys.forEach(key => {
         const value = entry.answers[key];
-        row.push(typeof value === 'boolean' ? (value ? 'Yes' : 'No') : String(value ?? ''));
+        row.push(escapeCSVValue(
+          typeof value === 'boolean' ? (value ? 'Yes' : 'No') : String(value ?? '')
+        ));
       });
       return row.join(',');
     });
