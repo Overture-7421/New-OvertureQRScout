@@ -5,6 +5,8 @@ export interface FieldConfig {
   key: string;
   type: FieldType;
   options?: string[];
+  required?: boolean;
+  allowZero?: boolean;
 }
 
 // Pit Scouting Types

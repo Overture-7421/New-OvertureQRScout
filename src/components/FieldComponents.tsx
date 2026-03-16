@@ -2,6 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import type { FieldConfig } from '../types';
 import './FieldComponents.css';
 
+const getFieldLabel = (config: FieldConfig): string => (
+  config.required ? `${config.label} *` : config.label
+);
+
 interface TextFieldProps {
   config: FieldConfig;
   value: string;
@@ -11,13 +15,14 @@ interface TextFieldProps {
 export const TextField: React.FC<TextFieldProps> = ({ config, value, onChange }) => {
   return (
     <div className="field-container">
-      <label className="field-label">{config.label}</label>
+      <label className="field-label">{getFieldLabel(config)}</label>
       <input
         type="text"
         className="text-input"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={config.label}
+        required={Boolean(config.required)}
       />
     </div>
   );
@@ -32,13 +37,14 @@ interface NumberFieldProps {
 export const NumberField: React.FC<NumberFieldProps> = ({ config, value, onChange }) => {
   return (
     <div className="field-container">
-      <label className="field-label">{config.label}</label>
+      <label className="field-label">{getFieldLabel(config)}</label>
       <input
         type="number"
         className="number-input"
         value={value || ''}
         onChange={(e) => onChange(Number(e.target.value))}
         placeholder={config.label}
+        required={Boolean(config.required)}
       />
     </div>
   );
@@ -53,11 +59,12 @@ interface DropdownFieldProps {
 export const DropdownField: React.FC<DropdownFieldProps> = ({ config, value, onChange }) => {
   return (
     <div className="field-container">
-      <label className="field-label">{config.label}</label>
+      <label className="field-label">{getFieldLabel(config)}</label>
       <select
         className="dropdown-select"
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        required={Boolean(config.required)}
       >
         <option value="">Select...</option>
         {config.options?.map((option) => (
