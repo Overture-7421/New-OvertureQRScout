@@ -1,6 +1,6 @@
 {
   "category": "FRC",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "questionnaires": {
     "Mech": {
       "label": "Mecánica",
@@ -28,6 +28,12 @@
           "key": "mech_problem_mechanism",
           "type": "dropdown",
           "options": ["Intake", "Shooter", "Climber", "Indexer", "Chasis"]
+        },
+        {
+          "label": "¿Que tipo de chasis usan?",
+          "key": "mech_chassis_type",
+          "type": "dropdown",
+          "options": ["Tank", "Mecanum", "Swerve"]
         },
         {
           "label": "¿Cuántas pelotas le caben al robot?",

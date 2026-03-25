@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, type ChangeEvent } from 'react';
 import './App.css';
-import type { Config, Phase, FormData, GeneratedSchedule, ScouterTurnAssignment, RoboticsProgram } from './types';
+import type { Config, Phase, FormData, FieldConfig, GeneratedSchedule, ScouterTurnAssignment, RoboticsProgram } from './types';
 import { TextField, NumberField, DropdownField, SwitchField, CounterField, ChronoField } from './components/FieldComponents';
 import { QRModal } from './components/QRModal';
 import { ScheduleConfigModal } from './components/ScheduleConfigModal';
@@ -13,6 +13,7 @@ import {
 } from './utils/scheduleGenerator';
 
 type TabType = Phase;
+const PHASES: Phase[] = ['PREMATCH', 'AUTONOMOUS', 'TELEOP', 'ENDGAME'];
 
 interface AppProps {
   onNavigateToPitScouting?: () => void;
@@ -41,8 +42,8 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
   const menuRef = useRef<HTMLDivElement>(null);
 
   // Flatten all assignments for easy navigation
-  const allAssignments = scouterTurnAssignments.flatMap(turn =>
-    turn.assignments.map(a => ({ ...a, turn: turn.turn }))
+  const allAssignments = scouterTurnAssignments.flatMap((turn: ScouterTurnAssignment) =>
+    turn.assignments.map((a: ScouterTurnAssignment['assignments'][0]) => ({ ...a, turn: turn.turn }))
   );
 
   // Close hamburger menu on outside click
@@ -103,7 +104,7 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
     onProgramSelected?.(category);
   };
 
-  const handleStartupConfigUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleStartupConfigUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
@@ -134,7 +135,7 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
     setShowConfigPrompt(false);
   };
 
-  const handleConfigUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleConfigUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
@@ -177,7 +178,7 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
     assignment: ScouterTurnAssignment['assignments'][0],
     scouterName: string
   ) => {
-    setFormData(prev => ({
+    setFormData((prev: FormData) => ({
       ...prev,
       scouter_name: scouterName,
       match_number: assignment.matchNumber,
@@ -187,7 +188,7 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
     }));
   };
 
-  const handleGeneratedScheduleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleGeneratedScheduleUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
@@ -219,7 +220,7 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
   };
 
   const handleFieldChange = (key: string, value: string | number | boolean) => {
-    setFormData(prev => ({
+    setFormData((prev: FormData) => ({
       ...prev,
       [key]: value
     }));
@@ -227,6 +228,39 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
 
   const switchToTab = (tab: TabType) => {
     setActiveTab(tab);
+  };
+
+  const hasMissingRequiredValue = (field: FieldConfig): boolean => {
+    if (!field.required) return false;
+
+    const value = formData[field.key];
+
+    if (field.type === 'text' || field.type === 'dropdown') {
+      return String(value ?? '').trim().length === 0;
+    }
+
+    if (field.type === 'number') {
+      if (typeof value !== 'number' || Number.isNaN(value)) return true;
+      return field.allowZero ? false : value === 0;
+    }
+
+    return false;
+  };
+
+  const getMissingRequiredFields = (): { phase: Phase; label: string }[] => {
+    if (!config) return [];
+
+    const missing: { phase: Phase; label: string }[] = [];
+
+    PHASES.forEach((phase) => {
+      config[phase].forEach((field: FieldConfig) => {
+        if (hasMissingRequiredValue(field)) {
+          missing.push({ phase, label: field.label });
+        }
+      });
+    });
+
+    return missing;
   };
 
   const generateDataString = (): string => {
@@ -237,14 +271,21 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
       const value = formData[field.key];
       if (typeof value === 'boolean') return value ? 'Yes' : 'No';
       if (typeof value === 'number') return String(value);
-      return String(value || '');
+
+      // Keep QR columns stable by replacing missing values and removing
+      // delimiter-breaking characters from free-text inputs.
+      const normalized = String(value ?? '')
+        .replace(/[\t\r\n]+/g, ' ')
+        .trim();
+
+      return normalized.length > 0 ? normalized : 'None Value';
     };
 
     (['PREMATCH', 'AUTONOMOUS', 'TELEOP'] as Phase[]).forEach(phase => {
-      config[phase].forEach(field => values.push(serializeField(field)));
+      config[phase].forEach((field: FieldConfig) => values.push(serializeField(field)));
     });
 
-    config.ENDGAME.forEach(field => values.push(serializeField(field)));
+    config.ENDGAME.forEach((field: FieldConfig) => values.push(serializeField(field)));
 
     return values.join('\t');
   };
@@ -255,15 +296,31 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
     const headers: string[] = [];
 
     (['PREMATCH', 'AUTONOMOUS', 'TELEOP'] as Phase[]).forEach(phase => {
-      config[phase].forEach(field => headers.push(field.label));
+      config[phase].forEach((field: FieldConfig) => headers.push(field.label));
     });
 
-    config.ENDGAME.forEach(field => headers.push(field.label));
+    config.ENDGAME.forEach((field: FieldConfig) => headers.push(field.label));
 
     return headers.join(',');
   };
 
   const commitData = () => {
+    const missingRequiredFields = getMissingRequiredFields();
+
+    if (missingRequiredFields.length > 0) {
+      const firstMissing = missingRequiredFields[0];
+      setActiveTab(firstMissing.phase);
+
+      const fieldsList = missingRequiredFields
+        .map((item) => `${item.phase}: ${item.label}`)
+        .join('\n');
+
+      alert(
+        `Please fill all required fields before committing data:\n\n${fieldsList}`
+      );
+      return;
+    }
+
     setHasCommittedOnce(true);
     setQrModalOpen(true);
   };
@@ -275,7 +332,7 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
       const currentMatchNumber = Number(formData['match_number'] || 0);
       const currentScouterName = formData['scouter_name'] || selectedScouterId;
       initializeFormData(config);
-      setFormData(prev => ({
+      setFormData((prev: FormData) => ({
         ...prev,
         scouter_name: currentScouterName,
         match_number: currentMatchNumber + 1,
@@ -292,7 +349,7 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
       setCurrentAssignmentIndex(nextIndex);
       autoFillFromTurnAssignment(allAssignments[nextIndex], selectedScouterId);
     } else {
-      setFormData(prev => ({
+      setFormData((prev: FormData) => ({
         ...prev,
         scouter_name: selectedScouterId
       }));
@@ -327,7 +384,7 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
     };
   };
 
-  const renderField = (field: any) => {
+  const renderField = (field: FieldConfig) => {
     const value = formData[field.key];
 
     switch (field.type) {
@@ -462,10 +519,9 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
             <button
               className="next-button"
               onClick={() => {
-                const tabs: TabType[] = ['PREMATCH', 'AUTONOMOUS', 'TELEOP', 'ENDGAME'];
-                const currentIndex = tabs.indexOf(activeTab);
-                if (currentIndex < tabs.length - 1) {
-                  switchToTab(tabs[currentIndex + 1]);
+                const currentIndex = PHASES.indexOf(activeTab);
+                if (currentIndex < PHASES.length - 1) {
+                  switchToTab(PHASES[currentIndex + 1]);
                 }
               }}
             >
@@ -694,7 +750,7 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
       </header>
 
       <div className="tabs">
-        {(['PREMATCH', 'AUTONOMOUS', 'TELEOP', 'ENDGAME'] as TabType[]).map(tab => (
+        {PHASES.map(tab => (
           <button
             key={tab}
             className={`tab ${activeTab === tab ? 'active' : ''}`}
