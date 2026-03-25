@@ -87,14 +87,14 @@
       "label": "Shoot amount",
       "key": "teleop_shoot_amount",
       "type": "dropdown",
-      "options": ["None", "Too little (Less than 15)", "Some (15-30)", "Many (30-60)", "Too many (More than 60)"],
+      "options": ["None", "Too little (Less than 35)", "Some (35-60)", "Many (60-90)", "Too many (90-130)", "Capitan (More than 130)"],
       "required": true
     },
     {
       "label": "Pass amount",
       "key": "teleop_pass_amount",
       "type": "dropdown",
-      "options": ["None", "Too little (Less than 15)", "Some (15-30)", "Many (30-60)", "Too many (More than 60)"]
+      "options": ["None", "Too little (Less than 35)", "Some (35-60)", "Many (60-90)", "Too many (90-130)", "Support (More than 130)"]
     },
     {
       "label": "Penalty Counter",
