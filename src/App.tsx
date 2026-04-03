@@ -442,6 +442,19 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
             onChange={(val) => handleFieldChange(field.key, val)}
           />
         );
+      case 'textarea':
+        return (
+          <div key={field.key} className="field-container textarea-container">
+            <label className="field-label">{field.label}</label>
+            <textarea
+              className="textarea-input"
+              value={value as string}
+              onChange={(e) => handleFieldChange(field.key, e.target.value)}
+              placeholder={field.label}
+              rows={3}
+            />
+          </div>
+        );
       default:
         return null;
     }

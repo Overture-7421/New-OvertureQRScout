@@ -1,6 +1,6 @@
 {
   "category": "FRC",
-  "version": "2.0.1",
+  "version": "2.2.0",
   "questionnaires": {
     "Mech": {
       "label": "Mecánica",
@@ -39,6 +39,11 @@
           "label": "¿Cuántas pelotas le caben al robot?",
           "key": "mech_ball_capacity",
           "type": "number"
+        },
+        {
+          "label": "Pelotas por Segundo Aproximado",
+          "key": "ballspersecond_number",
+          "type": "text"
         }
       ]
     },

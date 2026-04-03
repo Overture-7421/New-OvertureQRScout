@@ -1,6 +1,6 @@
 {
   "category": "FRC",
-  "version": "0.1.1",
+  "version": "2.0.0",
   "PREMATCH": [
     {
       "label": "Scouter Name",
@@ -38,6 +38,11 @@
     }
   ],
   "AUTONOMOUS": [
+    {
+      "label": "Shoot Time",
+      "key": "auton_shoot_time",
+      "type": "chrono"
+    },
     {
       "label": "Shoot amount",
       "key": "auto_shoot_amount",
@@ -83,6 +88,16 @@
     }
   ],
   "TELEOP": [
+    {
+      "label": "Shoot Time",
+      "key": "teleop_shoot_time",
+      "type": "chrono"
+    },
+    {
+      "label": "Pass Time",
+      "key": "teleop_pass_time",
+      "type": "chrono"
+    },
     {
       "label": "Shoot amount",
       "key": "teleop_shoot_amount",
@@ -157,7 +172,7 @@
     {
       "label": "Comments? (Keep it short, only relevant info)",
       "key": "endgame_comments",
-      "type": "text"
+      "type": "textarea"
     }
   ]
 }

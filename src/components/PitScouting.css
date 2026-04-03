@@ -84,6 +84,16 @@
   color: #64b5f6;
 }
 
+.pit-version-badge {
+  background: rgba(156, 39, 176, 0.25);
+  border: 1px solid #9c27b0;
+  color: #ce93d8;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
 .entries-count {
   background: rgba(255, 111, 0, 0.3);
   border: 1px solid #ff6f00;

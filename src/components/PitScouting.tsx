@@ -28,6 +28,7 @@ export const PitScouting: React.FC<PitScoutingProps> = ({ onBack, selectedProgra
   const [configError, setConfigError] = useState<string | null>(null);
   const [isLoadingConfig, setIsLoadingConfig] = useState(false);
   const [commitMessage, setCommitMessage] = useState<string | null>(null);
+  const [configVersion, setConfigVersion] = useState<string | null>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem('pitScoutingEntries');
@@ -86,6 +87,7 @@ export const PitScouting: React.FC<PitScoutingProps> = ({ onBack, selectedProgra
       if (!response.ok) response = await fetch(genericUrl);
       if (!response.ok) throw new Error('Failed to load pit scouting config');
       const data = await response.json();
+      if (data.version) setConfigVersion(data.version);
       setConfig(data);
       setShowConfigPrompt(false);
     } catch (error) {
@@ -108,6 +110,7 @@ export const PitScouting: React.FC<PitScoutingProps> = ({ onBack, selectedProgra
             setConfigError('Invalid config: missing "questionnaires" field.');
             return;
           }
+          if (configData.version) setConfigVersion(configData.version);
           setConfig(configData);
           setShowConfigPrompt(false);
           setConfigError(null);
@@ -196,10 +199,12 @@ export const PitScouting: React.FC<PitScoutingProps> = ({ onBack, selectedProgra
   };
 
   const escapeCSVValue = (value: string): string => {
-    if (value.includes(',') || value.includes('"') || value.includes('\n') || value.includes('\r')) {
-      return `"${value.replace(/"/g, '""')}"`;
+    // Replace newlines with spaces so every value stays in a single CSV cell
+    const normalized = value.replace(/[\r\n]+/g, ' ').trim();
+    if (normalized.includes(',') || normalized.includes('"')) {
+      return `"${normalized.replace(/"/g, '""')}"`;
     }
-    return value;
+    return normalized;
   };
 
   const generateCSV = (): string => {
@@ -340,6 +345,9 @@ export const PitScouting: React.FC<PitScoutingProps> = ({ onBack, selectedProgra
           <span className={`pit-program-badge pit-program-badge-${selectedProgram.toLowerCase()}`}>
             {selectedProgram}
           </span>
+          {configVersion && (
+            <span className="pit-version-badge">v{configVersion}</span>
+          )}
         </div>
         <div className="header-right">
           <span className="entries-count">{savedEntries.length} saved</span>
