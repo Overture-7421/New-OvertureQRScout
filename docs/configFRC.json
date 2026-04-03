@@ -1,6 +1,6 @@
 {
   "category": "FRC",
-  "version": "0.1.1",
+  "version": "2.0.0",
   "PREMATCH": [
     {
       "label": "Scouter Name",
@@ -40,13 +40,21 @@
   "AUTONOMOUS": [
     {
       "label": "Shoot Time",
-      "key": "auto_shoot_time",
+      "key": "auton_shoot_time",
       "type": "chrono"
     },
     {
-      "label": "Pass Time",
-      "key": "auto_pass_time",
-      "type": "chrono"
+      "label": "Shoot amount",
+      "key": "auto_shoot_amount",
+      "type": "dropdown",
+      "options": ["None", "Too little (Less than 15)", "Some (15-30)", "Many (30-60)", "Too many (More than 60)"],
+      "required": true
+    },
+    {
+      "label": "Pass amount",
+      "key": "auto_pass_amount",
+      "type": "dropdown",
+      "options": ["None", "Too little (Less than 15)", "Some (15-30)", "Many (30-60)", "Too many (More than 60)"]
     },
     {
       "label": "Climb Position",
@@ -91,6 +99,19 @@
       "type": "chrono"
     },
     {
+      "label": "Shoot amount",
+      "key": "teleop_shoot_amount",
+      "type": "dropdown",
+      "options": ["None", "Too little (Less than 35)", "Some (35-60)", "Many (60-90)", "Too many (90-130)", "Capitan (More than 130)"],
+      "required": true
+    },
+    {
+      "label": "Pass amount",
+      "key": "teleop_pass_amount",
+      "type": "dropdown",
+      "options": ["None", "Too little (Less than 35)", "Some (35-60)", "Many (60-90)", "Too many (90-130)", "Support (More than 130)"]
+    },
+    {
       "label": "Penalty Counter",
       "key": "teleop_penalty",
       "type": "counter"
@@ -105,7 +126,7 @@
       "label": "Quality Chasis/Driver Movement",
       "key": "teleop_chassis_movement",
       "type": "dropdown",
-      "options": ["None", "Bad", "Mid", "High"],
+      "options": ["None", "Bad", "Mid", "Good", "BestOfEvent"],
       "required": true
     }
   ],
@@ -126,21 +147,22 @@
       "label": "Bulldozing?",
       "key": "endgame_bulldozing",
       "type": "dropdown",
-      "options": ["None", "Bad", "Mid", "High", "BestOfEvent"],
+      "options": ["None", "Bad", "Mid", "Good", "BestOfEvent"],
       "required": true
     },
     {
       "label": "Defended?",
       "key": "endgame_defended",
       "type": "dropdown",
-      "options": ["None", "Bad", "Mid", "High", "BestOfEvent", "Trobots(PreguntaAntesDePoner)"],
+      "options": ["None", "Bad", "Mid", "Good", "BestOfEvent", "Trobots(PreguntaAntesDePoner)"],
       "required": true
     },
     {
       "label": "Chasis Type",
       "key": "endgame_chassis_type",
       "type": "dropdown",
-      "options": ["Tank", "Mecanum", "Swerve"]
+      "options": ["Tank", "Mecanum", "Swerve"],
+      "required": true
     },
     {
       "label": "Died",
@@ -148,9 +170,9 @@
       "type": "switch"
     },
     {
-      "label": "Comments? (Keep it short)",
+      "label": "Comments? (Keep it short, only relevant info)",
       "key": "endgame_comments",
-      "type": "text"
+      "type": "textarea"
     }
   ]
 }
