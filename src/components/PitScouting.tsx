@@ -176,7 +176,8 @@ export const PitScouting: React.FC<PitScoutingProps> = ({ onBack, selectedProgra
       });
     });
     values.push(String(formData.examiner_feeling || ''));
-    return values.join('\t');
+    // UTF-8 BOM prefix so QR scanners that don't auto-detect UTF-8 still decode Spanish correctly
+    return '\uFEFF' + values.join('\t');
   };
 
   const handleGenerateQR = () => {
@@ -239,7 +240,8 @@ export const PitScouting: React.FC<PitScoutingProps> = ({ onBack, selectedProgra
 
   const downloadCSV = () => {
     const csv = generateCSV();
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    // '\uFEFF' is the UTF-8 BOM — tells Excel/Sheets to decode as UTF-8 (handles ñ, acentos, etc.)
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);

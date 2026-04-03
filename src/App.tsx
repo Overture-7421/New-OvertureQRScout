@@ -287,7 +287,8 @@ function App({ onNavigateToPitScouting, onProgramSelected }: AppProps = {}) {
 
     config.ENDGAME.forEach((field: FieldConfig) => values.push(serializeField(field)));
 
-    return values.join('\t');
+    // UTF-8 BOM prefix so QR scanners that don't auto-detect UTF-8 still decode Spanish correctly
+    return '\uFEFF' + values.join('\t');
   };
 
   const generateHeaders = (): string => {
