@@ -3,7 +3,7 @@
 3. Generar un nuevo apartado llamado "Pit Scouting"
 3.1. Este apartado debe de tener secciones "Mech, Progra, Team"
 3.2. Dentro de cada sección debe de haber un questionario. (por el momento pon preguntas random, luego las pondremos bien.) 20 preguntas por sección.
-
+4. Crear botones que generen códigos QR en PitScouting (MECH, PROGRA, y TEAM)
 
 NOTAS IMPORTANTES:
 npm run dev          -> Comando para correr el servidor en un navegador
