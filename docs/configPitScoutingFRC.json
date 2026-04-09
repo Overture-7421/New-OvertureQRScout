@@ -12,12 +12,6 @@
           "options": ["Si", "No"]
         },
         {
-          "label": "¿Tipo de chassis?",
-          "key": "mech_chassis_type",
-          "type": "dropdown",
-          "options": ["Meccanum", "Tank", "Swerve"]
-        },
-        {
           "label": "¿Cuentan con repuestos de sus mecanismos?",
           "key": "mech_spare_parts",
           "type": "dropdown",
