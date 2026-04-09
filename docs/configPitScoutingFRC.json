@@ -1,6 +1,6 @@
 {
   "category": "FRC",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "questionnaires": {
     "Mech": {
       "label": "Mecánica",
@@ -10,6 +10,12 @@
           "key": "mech_checklist",
           "type": "dropdown",
           "options": ["Si", "No"]
+        },
+        {
+          "label": "¿Tipo de chassis?",
+          "key": "mech_chassis_type",
+          "type": "dropdown",
+          "options": ["Meccanum", "Tank", "Swerve"]
         },
         {
           "label": "¿Cuentan con repuestos de sus mecanismos?",
@@ -112,6 +118,12 @@
         {
           "label": "¿Cuentan con Battery Peak?",
           "key": "elec_battery_peak",
+          "type": "dropdown",
+          "options": ["Si", "No"]
+        },
+        {
+          "label": "¿Es accessible?",
+          "key": "elec_accessible",
           "type": "dropdown",
           "options": ["Si", "No"]
         }
