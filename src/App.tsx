@@ -186,7 +186,6 @@ function App() {
     }
   };
 
-
   const resetForm = () => {
     if (!config) return;
 
@@ -331,9 +330,11 @@ const renderTabContent = () => {
               <button className="commit-button" onClick={commitData}>
                 📊 COMMIT DATA
               </button>
+              <button className="reset-button" onClick={resetFormSchedule}>
+                RESET
+              </button>
             </>
           )}
-
 
         </div>
       </div>
