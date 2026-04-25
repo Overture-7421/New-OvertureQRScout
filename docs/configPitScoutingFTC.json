@@ -1,29 +1,24 @@
 {
   "category": "FTC",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "questionnaires": {
     "Mech": {
       "label": "Mechanical",
       "fields": [
-        {
-          "label": "Drivetrain type",
-          "key": "mech_drivetrain",
-          "type": "dropdown",
-          "options": ["Tank / West Coast", "Mecanum", "Holonomic / X-Drive", "Differential Swerve", "Other"]
-        },
         {
           "label": "Number of drive motors",
           "key": "mech_drive_motors",
           "type": "number"
         },
         {
-          "label": "Has intake mechanism",
-          "key": "mech_has_intake",
-          "type": "switch"
+          "label": "Shooter type",
+          "key": "mech_shooter_type",
+          "type": "dropdown",
+          "options": ["Turret", "Fixed", "More than one", "None"]
         },
         {
-          "label": "Has scoring / outtake mechanism",
-          "key": "mech_has_outtake",
+          "label": "Has indexer",
+          "key": "mech_indexer",
           "type": "switch"
         },
         {
@@ -32,16 +27,10 @@
           "type": "switch"
         },
         {
-          "label": "Primary frame material",
-          "key": "mech_material",
+          "label": "Climb / park time",
+          "key": "mech_climb_time",
           "type": "dropdown",
-          "options": ["Aluminum extrusion", "Polycarbonate / Acrylic", "3D Printed", "Sheet metal", "Mixed", "Other"]
-        },
-        {
-          "label": "Time to swap battery",
-          "key": "mech_battery_swap",
-          "type": "dropdown",
-          "options": ["< 1 min", "1–2 min", "2–5 min", "> 5 min"]
+          "options": ["< 5 sec", "5–10 sec", "10–20 sec", "> 20 sec", "Does not climb/park"]
         },
         {
           "label": "Has pre-match robot checklist",
@@ -112,10 +101,9 @@
           "type": "switch"
         },
         {
-          "label": "Drive control orientation",
-          "key": "prog_drive_orient",
-          "type": "dropdown",
-          "options": ["Robot oriented", "Field oriented", "Both available"]
+          "label": "Has dedicated processor (coprocessor)",
+          "key": "prog_processor",
+          "type": "switch"
         }
       ]
     },
@@ -129,11 +117,6 @@
           "options": ["REV Control Hub", "Android Phone", "Control Hub + Phone", "Other"]
         },
         {
-          "label": "Uses REV Expansion Hub",
-          "key": "elec_expansion_hub",
-          "type": "switch"
-        },
-        {
           "label": "Total number of motors",
           "key": "elec_motor_count",
           "type": "number"
@@ -142,6 +125,16 @@
           "label": "Total number of servos",
           "key": "elec_servo_count",
           "type": "number"
+        },
+        {
+          "label": "Has extra motors available",
+          "key": "elec_extra_motors",
+          "type": "switch"
+        },
+        {
+          "label": "Has extra cables available",
+          "key": "elec_extra_cables",
+          "type": "switch"
         },
         {
           "label": "Good cable management",
@@ -199,6 +192,11 @@
         {
           "label": "Drive team is entirely students",
           "key": "comp_student_drive",
+          "type": "switch"
+        },
+        {
+          "label": "Uses human player effectively",
+          "key": "comp_human_player",
           "type": "switch"
         },
         {
