@@ -6,6 +6,18 @@
       "label": "Mecánica",
       "fields": [
         {
+          "label": "¿Es un chassis?",
+          "key": "is_robot_chassis",
+          "type": "dropdown",
+          "options": ["Si", "No"]
+        },
+        {
+          "label": "¿Pasa por debajo del Trench?",
+          "key": "goes_under_trench",
+          "type": "dropdown",
+          "options": ["Si", "No"]
+        },
+        {
           "label": "¿Cuentan con una checklist para antes de la partida?",
           "key": "mech_checklist",
           "type": "dropdown",
@@ -126,6 +138,12 @@
     "Competences": {
       "label": "Competencias",
       "fields": [
+        {
+          "label": "Robot Specialization",
+          "key": "robot_specialization",
+          "type": "dropdown",
+          "options": ["Score", "Feed", "Steal", "Defend", "Overall"]
+        },
         {
           "label": "¿Con cuántas pilas cuenta el equipo?",
           "key": "comp_batteries",
